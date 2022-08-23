@@ -65,7 +65,7 @@ map.on('click', function(e){
             color:'blue',
             fillColor:'blue',
             fillOpacity:0.2
-        }).addTo(map).bindPopup(' I am a polygon')
+        }).addTo(map)
         console.log("berhasil");
     }
     else{
@@ -76,7 +76,7 @@ map.on('click', function(e){
             color:'blue',
             fillColor:'blue',
             fillOpacity:0.2
-        }).addTo(map).bindPopup(' I am a polygon')
+        }).addTo(map)
         console.log("berhasil");
     }
     
