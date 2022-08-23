@@ -20,12 +20,30 @@
 		width: auto;
 		height: 100%;
 		}
+		#refreshButton {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		padding: 10px;
+		z-index: 400;
+		}
     </style>
 
 </head>
 <body>
     
     <div id="map"></div>
+	<div id="refreshButton" data-toggle="buttons">
+		<label class="btn btn-secondary active">
+			<input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+		</label>
+		<label class="btn btn-secondary">
+			<input type="radio" name="options" id="option2" autocomplete="off"> Radio
+		</label>
+		<label class="btn btn-secondary">
+			<input type="radio" name="options" id="option3" autocomplete="off"> Radio
+		</label>
+	</div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script type ='module' src='assets/Main.js'></script>
