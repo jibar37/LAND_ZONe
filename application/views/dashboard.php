@@ -20,7 +20,7 @@
 		width: auto;
 		height: 100%;
 		}
-		#refreshButton {
+		#changeMap {
 		position: absolute;
 		top: 20px;
 		right: 20px;
@@ -33,15 +33,15 @@
 <body>
     
     <div id="map"></div>
-	<div id="refreshButton" data-toggle="buttons">
+	<div id="changeMap" data-toggle="buttons">
 		<label class="btn btn-secondary active">
-			<input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+			<input type="radio" name="options" id="streets-v11" autocomplete="off" checked> STREET
 		</label>
 		<label class="btn btn-secondary">
-			<input type="radio" name="options" id="option2" autocomplete="off"> Radio
+			<input type="radio" name="options" id="satellite-v9" autocomplete="off"> SATELITE
 		</label>
 		<label class="btn btn-secondary">
-			<input type="radio" name="options" id="option3" autocomplete="off"> Radio
+			<input type="radio" name="options" id="outdoors-v11" autocomplete="off"> OURDOORS
 		</label>
 	</div>
 

@@ -23,11 +23,11 @@ let lng;
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     maxZoom: 18,
-    // id: 'mapbox/streets-v11',
-     id: 'mapbox/satellite-v9',
+     id: 'mapbox/streets-v11',
+    // id: 'mapbox/satellite-v9',
     // id: 'mapbox/light-v10',
     // id: 'mapbox/dark-v10',
-    // id: 'mapbox/mapbox/satellite-streets-v11',
+    // id: 'mapbox/satellite-streets-v11',
     // id: 'mapbox/navigation-day-v1',
     // id: 'mapbox/navigation-night-v1',
     // id: 'mapbox/outdoors-v11',
