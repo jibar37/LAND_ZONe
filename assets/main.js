@@ -23,7 +23,14 @@ let lng;
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     maxZoom: 18,
-    id: 'mapbox/streets-v11',
+    // id: 'mapbox/streets-v11',
+     id: 'mapbox/satellite-v9',
+    // id: 'mapbox/light-v10',
+    // id: 'mapbox/dark-v10',
+    // id: 'mapbox/mapbox/satellite-streets-v11',
+    // id: 'mapbox/navigation-day-v1',
+    // id: 'mapbox/navigation-night-v1',
+    // id: 'mapbox/outdoors-v11',
     tileSize: 512,
     zoomOffset: -1,
     accessToken: apiKey
@@ -56,11 +63,6 @@ map.on('click', function(e){
     if(polygon==null){
         polygon = L.polygon([
               cord1
-            // [-8.517703013508216, 116.1163902282715],
-            // [-8.54079076107667, 116.1383628845215], 
-            // [-8.572873619039283, 116.10214233398439],
-            // [-8.517872781447666, 116.09596252441408],
-            // [-8.50870520494638, 116.09939575195314]
         ],{
             color:'blue',
             fillColor:'blue',
