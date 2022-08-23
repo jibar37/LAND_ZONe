@@ -36,6 +36,7 @@ function Coord(){
 
 }
 let cord1;
+let polygon=null;
 map.on('click', function(e){
     cord = e.latlng;
     lat = cord.lat;
@@ -46,23 +47,41 @@ map.on('click', function(e){
     utils.show();
     let temp=utils.head;
 // make polygon
-    cord1=[[temp.lat, temp.long],[2,1]];
+    cord1=[[temp.lat, temp.long]];
     while(temp.next!=null){
-        cord1 = cord1.push([temp.lat, temp.long]);
+        temp=temp.next;
+        cord1.push([temp.lat, temp.long]);
     }
     console.log(cord1);
-    const polygon = L.polygon([
-        
-        // [40.73618, -73.97545],
-        // [40.731497, -73.974342],
-        // [40.729324, -73.972234],
-        // [40.732368, -73.981293],
-    ], {
-        color:'blue',
-        fillColor:'blue',
-        fillOpacity:0.2
-    }).addTo(map).bindPopup(' I am a polygon')
-    });
+    if(polygon==null){
+        polygon = L.polygon([
+              cord1
+            // [-8.517703013508216, 116.1163902282715],
+            // [-8.54079076107667, 116.1383628845215], 
+            // [-8.572873619039283, 116.10214233398439],
+            // [-8.517872781447666, 116.09596252441408],
+            // [-8.50870520494638, 116.09939575195314]
+        ],{
+            color:'blue',
+            fillColor:'blue',
+            fillOpacity:0.2
+        }).addTo(map).bindPopup(' I am a polygon')
+        console.log("berhasil");
+    }
+    else{
+        polygon.remove();
+        polygon = L.polygon([
+            cord1
+        ], {
+            color:'blue',
+            fillColor:'blue',
+            fillOpacity:0.2
+        }).addTo(map).bindPopup(' I am a polygon')
+        console.log("berhasil");
+    }
+    
+    
+});
 //add marker
 
 // Adding Marker
