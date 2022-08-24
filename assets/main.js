@@ -18,7 +18,7 @@ var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
 let cord;
 let lat;
 let lng;
-
+let head;
 
 
 //change map style
@@ -71,7 +71,8 @@ map.on('click', function(e){
     console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
     utils.input(lat,lng);
     utils.show();
-    let temp=utils.head;
+    head=utils.head;
+    let temp=head;
 // make polygon
     cord1=[[temp.lat, temp.long]];
     while(temp.next!=null){
@@ -103,6 +104,35 @@ map.on('click', function(e){
     
     
 });
+
+// Add event listener on keydown
+document.addEventListener('keydown', (event) => {
+    let name = event.key;
+    let code = event.code;
+    if (name === 'Control') {
+      // Do nothing.
+      return;
+    }
+    if (event.ctrlKey) {
+      //alert(`Combination of ctrlKey + ${name} \n Key code Value: ${code}`);
+      if(head!=null){
+        if(code=='KeyZ'){
+            alert(`Combination of ctrlKey + ${name} \n Key code Value: ${code}`);
+        }
+      }
+      
+    } 
+    // else {
+    //   alert(`Key pressed ${name} \n Key code Value: ${code}`);
+    // }
+  }, false);
+  // Add event listener on keyup
+//   document.addEventListener('keyup', (event) => {
+//     var name = event.key;
+//     if (name === 'Control') {
+//       alert('Control key released');
+//     }
+//   }, false);
 //add marker
 
 // Adding Marker

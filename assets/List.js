@@ -34,7 +34,6 @@ class Coordinate{
 }
 function input(Lat, Long){
 	let temp=null;
-	let add=null;
 	let lat = Lat;
 	let long = Long;
 	let no = null;

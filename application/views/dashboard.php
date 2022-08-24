@@ -24,6 +24,7 @@
 		position: absolute;
 		top: 20px;
 		right: 20px;
+		width:auto;
 		padding: 10px;
 		z-index: 400;
 		}
@@ -49,7 +50,7 @@
     <script type ='module' src='assets/Main.js'></script>
 
     <script type="module">
-	  import {mapStyle} from '/jibar3773.github.io/assets/Main.js';
+	  import {mapStyle} from "<?php echo base_url(); ?>assets/Main.js";
 		  document.getElementById("satellite-v9").onclick = function(){	  			 
 		  			 mapStyle('satellite-v9');
 		  		 
