@@ -31,21 +31,40 @@
 
 </head>
 <body>
-    
+
     <div id="map"></div>
 	<div id="changeMap" data-toggle="buttons">
-		<label class="btn btn-secondary active">
-			<input type="radio" name="options" id="streets-v11" autocomplete="off" checked> STREET
+		<label id="streets-v11" class="btn btn-secondary active">
+			<input  type="radio" name="options" id="streets-v11" autocomplete="off" checked> STREET
 		</label>
-		<label class="btn btn-secondary">
-			<input type="radio" name="options" id="satellite-v9" autocomplete="off"> SATELITE
+		<label id="satellite-v9" class="btn btn-secondary">
+			<input  type="radio" name="options" id="satellite-v9" autocomplete="off"> SATELITE
 		</label>
-		<label class="btn btn-secondary">
-			<input type="radio" name="options" id="outdoors-v11" autocomplete="off"> OURDOORS
+		<label id="outdoors-v11" class="btn btn-secondary">
+			<input  type="radio" name="options" id="outdoors-v11" autocomplete="off"> OURDOORS
 		</label>
 	</div>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script type ='module' src='assets/Main.js'></script>
+
+    <script type="module">
+	  import {mapStyle} from '/jibar3773.github.io/assets/Main.js';
+		  document.getElementById("satellite-v9").onclick = function(){	  			 
+		  			 mapStyle('satellite-v9');
+		  		 
+		  		};
+		  document.getElementById("streets-v11").onclick = function(){
+		  			 mapStyle('streets-v11');
+		  		 
+		  		};
+		  document.getElementById("outdoors-v11").onclick = function(){	  			
+		  			 mapStyle('outdoors-v11');
+		  		 
+		  		};		
+	  	
+	  
+	  
+	</script>
 </body>
 </html>

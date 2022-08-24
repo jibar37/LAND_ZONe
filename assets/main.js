@@ -1,15 +1,16 @@
 // document.writeln("<script type='text/javascript' src='https://code.jquery.com/jquery-3.5.1.min.js'></script>");
 const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkIn0.wEvaABwReIIPwPB4fhW1Ow';
-function include(file) {
+// function include(file) {
   
-    var script  = document.createElement('script');
-    script.src  = file;
-    script.type = 'text/javascript';
-    script.defer = true;
+//     var script  = document.createElement('script');
+//     script.src  = file;
+//     script.type = 'text/javascript';
+//     script.defer = true;
     
-    document.getElementsByTagName('head').item(0).appendChild(script);
+//     document.getElementsByTagName('head').item(0).appendChild(script);
     
-  }
+//   }
+
    import * as utils from './List.js';
    
 var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
@@ -20,7 +21,24 @@ let lng;
 
 
 
-
+//change map style
+export function mapStyle(id1){
+    
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        maxZoom: 18,
+        // id: 'mapbox/streets-v11',
+         id: 'mapbox/'.concat(id1),
+        // id: 'mapbox/light-v10',
+        // id: 'mapbox/dark-v10',
+        // id: 'mapbox/satellite-streets-v11',
+        // id: 'mapbox/navigation-day-v1',
+        // id: 'mapbox/navigation-night-v1',
+        // id: 'mapbox/outdoors-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: apiKey
+    }).addTo(map);
+}
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     maxZoom: 18,
      id: 'mapbox/streets-v11',
@@ -35,6 +53,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: apiKey
 }).addTo(map);
+
 
 //coordinate
 
