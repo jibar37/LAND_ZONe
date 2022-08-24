@@ -53,6 +53,25 @@ function input(Lat, Long){
 		temp.next = baru;
 	}
 }
+function undo(){
+	let temp;
+	let temp1;
+	if(head!=null){
+		if(head.next==null){
+			head=null;
+		}
+		else{
+			temp=head;
+			while(temp.next!=null){
+				temp1=temp;
+				temp=temp.next;
+			}
+			temp1.next=null;
+			console.log('masuk');
+		}
+		
+	}
+}
 function show(){
 	let temp = head;
 	let lengkap;
@@ -106,4 +125,4 @@ function show(){
 
 
 
-export {Coordinate, input, show, head};
+export {Coordinate, input, show, head,undo};

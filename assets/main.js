@@ -15,9 +15,6 @@ const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkI
    
 var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
 //  Create a new map with a fullscreen button:
-let cord;
-let lat;
-let lng;
 let head;
 
 
@@ -26,14 +23,7 @@ export function mapStyle(id1){
     
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         maxZoom: 18,
-        // id: 'mapbox/streets-v11',
          id: 'mapbox/'.concat(id1),
-        // id: 'mapbox/light-v10',
-        // id: 'mapbox/dark-v10',
-        // id: 'mapbox/satellite-streets-v11',
-        // id: 'mapbox/navigation-day-v1',
-        // id: 'mapbox/navigation-night-v1',
-        // id: 'mapbox/outdoors-v11',
         tileSize: 512,
         zoomOffset: -1,
         accessToken: apiKey
@@ -57,17 +47,16 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 //coordinate
 
-
-function Coord(){
-
-}
 let cord1;
+let cord;
+let lat;
+let lng;
 let polygon=null;
+
 map.on('click', function(e){
     cord = e.latlng;
     lat = cord.lat;
     lng = cord.lng;
-    let lengkap;
     console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
     utils.input(lat,lng);
     utils.show();
@@ -80,30 +69,33 @@ map.on('click', function(e){
         cord1.push([temp.lat, temp.long]);
     }
     console.log(cord1);
+    showPolygon(cord1,polygon);  
+});
+
+function showPolygon(cord1,polygon1){
+    polygon=polygon1;
     if(polygon==null){
         polygon = L.polygon([
-              cord1
-        ],{
-            color:'blue',
-            fillColor:'blue',
-            fillOpacity:0.2
-        }).addTo(map)
-        console.log("berhasil");
-    }
-    else{
-        polygon.remove();
-        polygon = L.polygon([
             cord1
-        ], {
-            color:'blue',
-            fillColor:'blue',
-            fillOpacity:0.2
-        }).addTo(map)
-        console.log("berhasil");
-    }
-    
-    
-});
+      ],{
+          color:'blue',
+          fillColor:'blue',
+          fillOpacity:0.2
+      }).addTo(map)
+      console.log("berhasil");
+  }
+  else{
+      polygon.remove();
+      polygon = L.polygon([
+          cord1
+      ], {
+          color:'blue',
+          fillColor:'blue',
+          fillOpacity:0.2
+      }).addTo(map)
+      console.log("berhasil");
+  }
+}
 
 // Add event listener on keydown
 document.addEventListener('keydown', (event) => {
@@ -117,10 +109,14 @@ document.addEventListener('keydown', (event) => {
       //alert(`Combination of ctrlKey + ${name} \n Key code Value: ${code}`);
       if(head!=null){
         if(code=='KeyZ'){
-            alert(`Combination of ctrlKey + ${name} \n Key code Value: ${code}`);
+            utils.undo();
+            utils.show();
+            cord1.pop();
+            head=utils.head;
+            showPolygon(cord1, polygon);
+            console.log(cord1)
         }
       }
-      
     } 
     // else {
     //   alert(`Key pressed ${name} \n Key code Value: ${code}`);
