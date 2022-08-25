@@ -1,6 +1,7 @@
 class Coordinate {
 	head = null;
 	polygon = null;
+	cord = [];
 	constructor() {
 		this.head = null;
 		this.head = null;
@@ -15,6 +16,7 @@ class Coordinate {
 			no = 0;
 			baru = new Node(lat, long, no);
 			this.head = baru;
+			this.cord = [[lat, long]];
 			// console.log(this.head.lat);
 
 
@@ -26,6 +28,7 @@ class Coordinate {
 			}
 			no = temp.no + 1;
 			baru = new Node(lat, long, no);
+			this.cord.push([lat, long]);
 			temp.next = baru;
 		}
 		//console.log(head.lat);
@@ -38,6 +41,27 @@ class Coordinate {
 			console.log('lat = ', temp.lat, ', long = ', temp.long, ', no = ', temp.no);
 			lengkap = [temp.lat, temp.long]
 			temp = temp.next;
+		}
+	}
+	undo() {
+		let temp;
+		let temp1;
+		if (this.head != null) {
+			if (this.head.next == null) {
+				this.head = null;
+				this.cord = [];
+			}
+			else {
+				temp = this.head;
+				while (temp.next != null) {
+					temp1 = temp;
+					temp = temp.next;
+				}
+				this.cord.pop();
+				temp1.next = null;
+				console.log('masuk');
+			}
+
 		}
 	}
 }
@@ -96,25 +120,7 @@ class Node {
 // 		temp.next = baru;
 // 	}
 // }
-// function undo() {
-// 	let temp;
-// 	let temp1;
-// 	if (head != null) {
-// 		if (head.next == null) {
-// 			head = null;
-// 		}
-// 		else {
-// 			temp = head;
-// 			while (temp.next != null) {
-// 				temp1 = temp;
-// 				temp = temp.next;
-// 			}
-// 			temp1.next = null;
-// 			console.log('masuk');
-// 		}
 
-// 	}
-// }
 // function show() {
 // 	let temp = head;
 // 	let lengkap;

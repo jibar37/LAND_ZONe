@@ -1,5 +1,5 @@
 // document.writeln("<script type='text/javascript' src='https://code.jquery.com/jquery-3.5.1.min.js'></script>");
-const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkIn0.wEvaABwReIIPwPB4fhW1Ow';
+
 // function include(file) {
 
 //     var script  = document.createElement('script');
@@ -13,55 +13,19 @@ const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkI
 
 import * as utils from './List.js';
 
-var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
-//  Create a new map with a fullscreen button:
-
-let test=[];
-let mapStatus=true;
-let isEdit=false;
+let test = [];
+let mapStatus = true;
+let isEdit = false;
 let noEdit;
-//tambah polygon
-export function tambah() {
-    let l;
-    l = test.length;
-    if(l==0){
-        test[l] = new utils.Coordinate();
-    }
-    else{
-        if(test[l-1].head==null){
-            test.pop();
-        }
-        else{
-            test[l] = new utils.Coordinate();
-        }
-    }
-    console.log(l)
-    if(!mapStatus || l==0){
-        onClick();
-    }
-    
-}
-export function edit(){
-    isEdit = !isEdit;
-    onClick();
-    if(!isEdit){
-        // map.off();
-        mapStatus=false;
-    }
-}
+let cord1;
 
+//api key mapbox
+const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkIn0.wEvaABwReIIPwPB4fhW1Ow';
 
-//change map style
-export function mapStyle(id1) {
+// Define map
+var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
 
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        maxZoom: 18,
-        id: 'mapbox/'.concat(id1),
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: apiKey
-    }).addTo(map);
-}
+//  Create a new map 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     maxZoom: 18,
     id: 'mapbox/streets-v11',
@@ -77,33 +41,85 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: apiKey
 }).addTo(map);
 
+
+//tambah polygon
+export function tambah() {
+    let l;
+    l = test.length;
+    if (l == 0) {
+        test[l] = new utils.Coordinate();
+    }
+    else {
+        if (test[l - 1].head == null) {
+            test.pop();
+        }
+        else {
+            test[l] = new utils.Coordinate();
+        }
+    }
+    console.log(l)
+    if (!mapStatus || l == 0) {
+        onClick();
+        mapStatus = true;
+    }
+
+}
+
+//edit polygon
+export function edit() {
+    isEdit = !isEdit;
+    onClick();
+    if (!isEdit) {
+        map.off('click');
+        mapStatus = false;
+        polygonOnClick(noEdit);
+    }
+
+}
+
+//change map style
+export function mapStyle(id1) {
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        maxZoom: 18,
+        id: 'mapbox/'.concat(id1),
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: apiKey
+    }).addTo(map);
+}
+
+
 //polygon click event
-function polygonOnClick(){
-    let l = test.length-1;
+function polygonOnClick(l) {
     test[l].polygon.on('click', function () {
         console.log("ini polygon ke ", l);
-        map.off();
+        map.off('click');
         mapStatus = false;
-        noEdit=l;
+        noEdit = l;
     });
-    
+
 }
 
 //coordinate
-function onClick(){
-    let l;
+function onClick() {
     map.on('click', function (e) {
-        if(test.length!=0){
-            let cord = e.latlng;
-            let lat = cord.lat;
-            let lng = cord.lng;
-            let cord1=null;
-            let head;
-            if(!isEdit){
-                l = test.length-1;
+        let l;
+        let cord;
+        let lat;
+        let lng;
+        let head;
+        if (test.length != 0) {
+            cord = e.latlng;
+            lat = cord.lat;
+            lng = cord.lng;
+            cord1 = null;
+            head;
+            if (!isEdit) {
+                l = test.length - 1;
             }
-            else{
-                l=noEdit;
+            else {
+                l = noEdit;
             }
             console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
             test[l].input(lat, lng);
@@ -112,51 +128,90 @@ function onClick(){
             console.log(head.lat);
             let temp = head;
             //cord1 = [[temp.lat, temp.long]];
-            
+
 
             // make polygon
-            cord1 = [[temp.lat, temp.long]];
-            while (temp.next != null) {
-                temp = temp.next;
-                cord1.push([temp.lat, temp.long]);
+            // cord1 = [[temp.lat, temp.long]];
+            // while (temp.next != null) {
+            //     temp = temp.next;
+            //     cord1.push([temp.lat, temp.long]);
+            // }
+            console.log(test[l].cord)
+
+
+            showPolygon(test[l].cord, test[l].polygon, l);
+            if (!isEdit) {
+                polygonOnClick(l);
             }
-            console.log(cord1)
-          
-            
-            showPolygon(cord1, test[l].polygon, l);
-            if(!isEdit){
-                polygonOnClick();
-            }
-            
-        }   
-    
+        }
 
     });
 }
-function showPolygon(cord1, polygon1, l) {
-        let polygon = polygon1;
-        if (polygon == null) {
-            polygon = L.polygon([
-                cord1
-            ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
-            }).addTo(map)
-            console.log("berhasil");
+
+// Add event listener on keydown
+document.addEventListener('keydown', (event) => {
+    let name = event.key;
+    let code = event.code;
+    let l;
+    if (name === 'Control') {
+        // Do nothing.
+        return;
+    }
+    if (event.ctrlKey) {
+        //alert(`Combination of ctrlKey + ${name} \n Key code Value: ${code}`);
+        if (isEdit) {
+            l = noEdit;
         }
         else {
-            polygon.remove();
-            polygon = L.polygon([
-                cord1
-            ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
-            }).addTo(map)
-            console.log("berhasil");
+            l = test.length - 1;
         }
-            test[l].polygon=polygon;
+        if (test[l].head != null) {
+            if (code == 'KeyZ') {
+                test[l].undo();
+                console.log(l);
+                //test[l].show();
+                showPolygon(test[l].cord, test[l].polygon, l);
+                console.log("berhasil undo")
+            }
+        }
+    }
+    // else {
+    //   alert(`Key pressed ${name} \n Key code Value: ${code}`);
+    // }
+}, true);
+// Add event listener on keyup
+//   document.addEventListener('keyup', (event) => {
+//     var name = event.key;
+//     if (name === 'Control') {
+//       alert('Control key released');
+//     }
+//   }, false);
+
+//add polygon to map
+function showPolygon(cord1, polygon1, l) {
+    let polygon = polygon1;
+    if (polygon == null) {
+        polygon = L.polygon([
+            cord1
+        ], {
+            color: 'blue',
+            fillColor: 'blue',
+            fillOpacity: 0.2
+        }).addTo(map)
+        console.log("berhasil");
+    }
+    else {
+        polygon.remove();
+        polygon = L.polygon([
+            cord1
+        ], {
+            color: 'blue',
+            fillColor: 'blue',
+            fillOpacity: 0.2
+        }).addTo(map)
+        console.log("berhasil");
+    }
+    test[l].polygon = polygon;
     // polygon = polygon1;
     // if (polygon == null) {
     //     polygon = L.polygon([
@@ -181,40 +236,6 @@ function showPolygon(cord1, polygon1, l) {
     // }
 }
 
-
-
-// Add event listener on keydown
-// document.addEventListener('keydown', (event) => {
-//     let name = event.key;
-//     let code = event.code;
-//     if (name === 'Control') {
-//         // Do nothing.
-//         return;
-//     }
-//     if (event.ctrlKey) {
-//         //alert(`Combination of ctrlKey + ${name} \n Key code Value: ${code}`);
-//         if (head != null) {
-//             if (code == 'KeyZ') {
-//                 utils.undo();
-//                 utils.show();
-//                 cord1.pop();
-//                 head = utils.head;
-//                 showPolygon(cord1, polygon);
-//                 console.log(cord1)
-//             }
-//         }
-//     }
-//     // else {
-//     //   alert(`Key pressed ${name} \n Key code Value: ${code}`);
-//     // }
-// }, false);
-  // Add event listener on keyup
-//   document.addEventListener('keyup', (event) => {
-//     var name = event.key;
-//     if (name === 'Control') {
-//       alert('Control key released');
-//     }
-//   }, false);
 //add marker
 
 // Adding Marker
