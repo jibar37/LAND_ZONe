@@ -51,10 +51,10 @@
 			<input type="radio" name="options" id="satellite-v9" autocomplete="off"> SATELITE
 		</label>
 		<label id="outdoors-v11" class="btn btn-secondary">
-			<input type="radio" name="options" id="outdoors-v11" autocomplete="off"> OURDOORS
+			<input type="radio" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
 		</label>
-		<label id="test" class="btn btn-secondary">
-			<input type="radio" name="options" id="test" autocomplete="off"> test
+		<label id="tambah" class="btn btn-secondary">
+			<input type="radio" name="options" id="tambah" autocomplete="off"> TAMBAH
 		</label>
 	</div>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -64,7 +64,7 @@
 	<script type="module">
 		import {
 			mapStyle,
-			tes
+			tambah
 		} from "<?php echo base_url(); ?>assets/Main.js";
 		document.getElementById("satellite-v9").onclick = function() {
 			mapStyle('satellite-v9');
@@ -78,9 +78,9 @@
 			mapStyle('outdoors-v11');
 
 		};
-		document.getElementById("test").onclick = function() {
+		document.getElementById("tambah").onclick = function() {
 			//mapStyle('outdoors-v11');
-			tes();
+			tambah();
 
 
 		};

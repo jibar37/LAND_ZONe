@@ -32,7 +32,7 @@ class Coordinate {
 	}
 
 	show() {
-		let temp = Coordinate.head;
+		let temp = this.head;
 		let lengkap;
 		while (temp != null) {
 			console.log('lat = ', temp.lat, ', long = ', temp.long, ', no = ', temp.no);

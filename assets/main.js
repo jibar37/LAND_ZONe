@@ -15,7 +15,31 @@ import * as utils from './List.js';
 
 var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
 //  Create a new map with a fullscreen button:
-let head;
+
+let test=[];
+let mapStatus;
+//tambah polygon
+export function tambah() {
+    let l;
+    l = test.length;
+    if(l==0){
+        test[l] = new utils.Coordinate();
+    }
+    else{
+        if(test[l-1].head==null){
+            test.pop();
+        }
+        else{
+            test[l] = new utils.Coordinate();
+        }
+    }
+    console.log(l)
+    if(mapStatus==0 || l==0){
+        onClick();
+    }
+    
+}
+
 
 
 //change map style
@@ -43,58 +67,60 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: apiKey
 }).addTo(map);
-export function tes() {
-    let l;
-    x = 2;
-    if(test==null){
-        test[0]= new utils.Coordinate();
-    }
-    l = test.length;
-    test[l] = new utils.Coordinate();
-    
-    console.log(l);
-}
 
+//polygon click event
+function polygonOnClick(){
+    let l = test.length-1;
+    test[l].polygon.on('click', function () {
+        console.log("ini polygon ke ", l);
+        map.off();
+        mapStatus = 0;
+    });
+    
+}
+// test[0].polygon.on('click', function () {
+//     //mymap.fitBounds(polygon.getBounds());
+//     // mymap.fitBounds(this.getBounds());
+//     console.log("ini polygon ke ", 0)
+//     // getChilds(this.options.id);
+// });
 
 //coordinate
-let test=[];
-let x = 1;
-let cord1;
-let cord;
-let lat;
-let lng;
-
-map.on('click', function (e) {
-    if(test.length!=0){
-
-    
-        cord = e.latlng;
-        lat = cord.lat;
-        lng = cord.lng;
-        let l = test.length-1;
-    
-        console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
-        test[l].input(lat, lng);
-        test[l].show();
-        head = test[l].head;
-        console.log(test[l].head.lat);
-        let temp = head;
-
-
-        // make polygon
-        cord1 = [[temp.lat, temp.long]];
-        while (temp.next != null) {
-            temp = temp.next;
-            cord1.push([temp.lat, temp.long]);
-        }
-        console.log(cord1);
+function onClick(){
+    map.on('click', function (e) {
+        if(test.length!=0){
+            let cord = e.latlng;
+            let lat = cord.lat;
+            let lng = cord.lng;
+            let l = test.length-1;
+            let cord1=null;
+            let head;
         
-        showPolygon(cord1, test[l].polygon, l);
-    }   
-   
+            console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+            test[l].input(lat, lng);
+            test[l].show();
+            head = test[l].head;
+            console.log(head.lat);
+            let temp = head;
+            //cord1 = [[temp.lat, temp.long]];
+            
 
-});
+            // make polygon
+            cord1 = [[temp.lat, temp.long]];
+            while (temp.next != null) {
+                temp = temp.next;
+                cord1.push([temp.lat, temp.long]);
+            }
+            console.log(cord1)
+          
+            
+            showPolygon(cord1, test[l].polygon, l);
+            polygonOnClick();
+        }   
+    
 
+    });
+}
 function showPolygon(cord1, polygon1, l) {
         let polygon = polygon1;
         if (polygon == null) {
