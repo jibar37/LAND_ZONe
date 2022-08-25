@@ -42,10 +42,10 @@ export function tambah() {
     
 }
 export function edit(){
-    onClick();
     isEdit = !isEdit;
+    onClick();
     if(!isEdit){
-        map.off();
+        // map.off();
         mapStatus=false;
     }
 }
