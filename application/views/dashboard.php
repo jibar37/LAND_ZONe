@@ -56,6 +56,9 @@
 		<label id="tambah" class="btn btn-secondary">
 			<input type="radio" name="options" id="tambah" autocomplete="off"> TAMBAH
 		</label>
+		<label id="edit" class="btn btn-secondary">
+			<input type="radio" name="options" id="edit" autocomplete="off"> EDIT
+		</label>
 	</div>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
@@ -64,7 +67,8 @@
 	<script type="module">
 		import {
 			mapStyle,
-			tambah
+			tambah,
+			edit
 		} from "<?php echo base_url(); ?>assets/Main.js";
 		document.getElementById("satellite-v9").onclick = function() {
 			mapStyle('satellite-v9');
@@ -81,8 +85,10 @@
 		document.getElementById("tambah").onclick = function() {
 			//mapStyle('outdoors-v11');
 			tambah();
-
-
+		};
+		document.getElementById("edit").onclick = function() {
+			//mapStyle('outdoors-v11');
+			edit();
 		};
 	</script>
 </body>

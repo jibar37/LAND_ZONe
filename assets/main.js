@@ -17,7 +17,9 @@ var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
 //  Create a new map with a fullscreen button:
 
 let test=[];
-let mapStatus;
+let mapStatus=true;
+let isEdit=false;
+let noEdit;
 //tambah polygon
 export function tambah() {
     let l;
@@ -34,12 +36,19 @@ export function tambah() {
         }
     }
     console.log(l)
-    if(mapStatus==0 || l==0){
+    if(!mapStatus || l==0){
         onClick();
     }
     
 }
-
+export function edit(){
+    onClick();
+    isEdit = !isEdit;
+    if(!isEdit){
+        map.off();
+        mapStatus=false;
+    }
+}
 
 
 //change map style
@@ -74,28 +83,28 @@ function polygonOnClick(){
     test[l].polygon.on('click', function () {
         console.log("ini polygon ke ", l);
         map.off();
-        mapStatus = 0;
+        mapStatus = false;
+        noEdit=l;
     });
     
 }
-// test[0].polygon.on('click', function () {
-//     //mymap.fitBounds(polygon.getBounds());
-//     // mymap.fitBounds(this.getBounds());
-//     console.log("ini polygon ke ", 0)
-//     // getChilds(this.options.id);
-// });
 
 //coordinate
 function onClick(){
+    let l;
     map.on('click', function (e) {
         if(test.length!=0){
             let cord = e.latlng;
             let lat = cord.lat;
             let lng = cord.lng;
-            let l = test.length-1;
             let cord1=null;
             let head;
-        
+            if(!isEdit){
+                l = test.length-1;
+            }
+            else{
+                l=noEdit;
+            }
             console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
             test[l].input(lat, lng);
             test[l].show();
@@ -115,7 +124,10 @@ function onClick(){
           
             
             showPolygon(cord1, test[l].polygon, l);
-            polygonOnClick();
+            if(!isEdit){
+                polygonOnClick();
+            }
+            
         }   
     
 
@@ -168,6 +180,8 @@ function showPolygon(cord1, polygon1, l) {
     //     console.log("berhasil");
     // }
 }
+
+
 
 // Add event listener on keydown
 // document.addEventListener('keydown', (event) => {
