@@ -1,86 +1,127 @@
-let head=null;
-class Coordinate{
+class Coordinate {
+	head = null;
+	constructor() {
+		this.head = null;
+	}
+	input(Lat, Long) {
+		let temp = null;
+		let lat = Lat;
+		let long = Long;
+		let no = null;
+		let baru = null;
+		if (this.head == null) {
+			no = 0;
+			baru = new Node(lat, long, no);
+			this.head = baru;
+			// console.log(this.head.lat);
+
+
+		}
+		else {
+			temp = this.head;
+			while (temp.next != null) {
+				temp = temp.next;
+			}
+			no = temp.no + 1;
+			baru = new Node(lat, long, no);
+			temp.next = baru;
+		}
+		//console.log(head.lat);
+	}
+
+	show() {
+		let temp = Coordinate.head;
+		let lengkap;
+		while (temp != null) {
+			console.log('lat = ', temp.lat, ', long = ', temp.long, ', no = ', temp.no);
+			lengkap = [temp.lat, temp.long]
+			temp = temp.next;
+		}
+	}
+}
+class Node {
 	lat = null;
 	long = null;
 	next = null;
 	no = null;
-	constructor(lat,long,no){
+
+	constructor(lat, long, no) {
 		this.lat = lat;
 		this.long = long;
 		this.no = no;
 	}
-	setLat(lat){
+	setLat(lat) {
 		this.lat = lat;
 	}
-	getLat(){
+	getLat() {
 		return lat;
 	}
-	setLong(long){
+	setLong(long) {
 		this.long = long;
 	}
-	getLong(){
+	getLong() {
 		return long;
 	}
-	setNo(no){
+	setNo(no) {
 		this.no = no;
 	}
-	getNo(){
+	getNo() {
 		return no;
 	}
-	
-	Print(){
-		console.log('Berhasil buat objek baru');	
+
+	Print() {
+		console.log('Berhasil buat objek baru');
 	}
 }
-function input(Lat, Long){
-	let temp=null;
-	let lat = Lat;
-	let long = Long;
-	let no = null;
-	let baru = null;
-	if (head==null){
-		no = 0;
-		baru = new Coordinate(lat, long, no);
-		head=baru;
-	}
-	else{
-		temp=head;
-		while(temp.next!=null){
-			temp=temp.next;
-		}
-		no = temp.no+1;
-		baru = new Coordinate(lat, long, no);
-		temp.next = baru;
-	}
-}
-function undo(){
-	let temp;
-	let temp1;
-	if(head!=null){
-		if(head.next==null){
-			head=null;
-		}
-		else{
-			temp=head;
-			while(temp.next!=null){
-				temp1=temp;
-				temp=temp.next;
-			}
-			temp1.next=null;
-			console.log('masuk');
-		}
-		
-	}
-}
-function show(){
-	let temp = head;
-	let lengkap;
-	while(temp!=null){
-		console.log('lat = ',temp.lat, ', long = ', temp.long, ', no = ',temp.no);
-		lengkap =[temp.lat, temp.long]
-		temp = temp.next;
-	}
-}
+// function input(Lat, Long) {
+// 	let temp = null;
+// 	let lat = Lat;
+// 	let long = Long;
+// 	let no = null;
+// 	let baru = null;
+// 	if (head == null) {
+// 		no = 0;
+// 		baru = new Node(lat, long, no);
+// 		head = baru;
+// 	}
+// 	else {
+// 		temp = head;
+// 		while (temp.next != null) {
+// 			temp = temp.next;
+// 		}
+// 		no = temp.no + 1;
+// 		baru = new Node(lat, long, no);
+// 		temp.next = baru;
+// 	}
+// }
+// function undo() {
+// 	let temp;
+// 	let temp1;
+// 	if (head != null) {
+// 		if (head.next == null) {
+// 			head = null;
+// 		}
+// 		else {
+// 			temp = head;
+// 			while (temp.next != null) {
+// 				temp1 = temp;
+// 				temp = temp.next;
+// 			}
+// 			temp1.next = null;
+// 			console.log('masuk');
+// 		}
+
+// 	}
+// }
+// function show() {
+// 	let temp = head;
+// 	let lengkap;
+// 	while (temp != null) {
+// 		console.log('lat = ', temp.lat, ', long = ', temp.long, ', no = ', temp.no);
+// 		lengkap = [temp.lat, temp.long]
+// 		temp = temp.next;
+// 	}
+// }
 // function deleteNama(nama){
 // 	let temp=null;
 // 	if(nama==head.name){
@@ -106,7 +147,7 @@ function show(){
 // 	}
 // }
 // function inputAfter(nama){
-	
+
 // 	let temp=head;
 // 	let add;
 // 	while(temp.name!=nama[0]){
@@ -125,4 +166,4 @@ function show(){
 
 
 
-export {Coordinate, input, show, head,undo};
+export { Node, Coordinate };
