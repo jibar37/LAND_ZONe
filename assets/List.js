@@ -1,6 +1,8 @@
 class Coordinate {
 	head = null;
+	polygon = null;
 	constructor() {
+		this.head = null;
 		this.head = null;
 	}
 	input(Lat, Long) {

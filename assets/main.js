@@ -44,63 +44,59 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: apiKey
 }).addTo(map);
 export function tes() {
+    let l;
     x = 2;
+    if(test==null){
+        test[0]= new utils.Coordinate();
+    }
+    l = test.length;
+    test[l] = new utils.Coordinate();
+    
+    console.log(l);
 }
 
 
 //coordinate
+let test=[];
 let x = 1;
 let cord1;
 let cord;
 let lat;
 let lng;
-let polygon = null;
-let polygon2 = null;
-let test;
-let test1;
-test = new utils.Coordinate();
-test1 = new utils.Coordinate();
 
 map.on('click', function (e) {
-    cord = e.latlng;
-    lat = cord.lat;
-    lng = cord.lng;
-    if (x == 1) {
+    if(test.length!=0){
+
+    
+        cord = e.latlng;
+        lat = cord.lat;
+        lng = cord.lng;
+        let l = test.length-1;
+    
         console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
-        test.input(lat, lng);
-        test.show();
-        head = test.head;
-        console.log(test.head.lat);
-
-    } else {
-        console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
-        test1.input(lat, lng);
-        test1.show();
-        head = test1.head;
-        console.log(test1.head.lat);
-
-    }
-    let temp = head;
+        test[l].input(lat, lng);
+        test[l].show();
+        head = test[l].head;
+        console.log(test[l].head.lat);
+        let temp = head;
 
 
-    // make polygon
-    cord1 = [[temp.lat, temp.long]];
-    while (temp.next != null) {
-        temp = temp.next;
-        cord1.push([temp.lat, temp.long]);
-    }
-    console.log(cord1);
-    if (x == 1) {
-        showPolygon(cord1, polygon);
-    } else {
-        showPolygon(cord1, polygon2);
-    }
+        // make polygon
+        cord1 = [[temp.lat, temp.long]];
+        while (temp.next != null) {
+            temp = temp.next;
+            cord1.push([temp.lat, temp.long]);
+        }
+        console.log(cord1);
+        
+        showPolygon(cord1, test[l].polygon, l);
+    }   
+   
 
 });
 
-function showPolygon(cord1, polygon1) {
-    if (x == 1) {
-        polygon = polygon1;
+function showPolygon(cord1, polygon1, l) {
+        let polygon = polygon1;
         if (polygon == null) {
             polygon = L.polygon([
                 cord1
@@ -122,30 +118,7 @@ function showPolygon(cord1, polygon1) {
             }).addTo(map)
             console.log("berhasil");
         }
-    } else {
-        polygon2 = polygon1;
-        if (polygon2 == null) {
-            polygon2 = L.polygon([
-                cord1
-            ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
-            }).addTo(map)
-            console.log("berhasil");
-        }
-        else {
-            polygon2.remove();
-            polygon2 = L.polygon([
-                cord1
-            ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
-            }).addTo(map)
-            console.log("berhasil");
-        }
-    }
+            test[l].polygon=polygon;
     // polygon = polygon1;
     // if (polygon == null) {
     //     polygon = L.polygon([
