@@ -25,14 +25,9 @@ let line = null;
 let headToNew = null;
 let x = 1;
 let z = null;
-// let nomor = [1, 2, 3, 4, 5, 6];
-// console.log(nomor);
-// nomor.splice(3);
-// console.log(nomor);
-// nomor.shift();
-// console.log(nomor);
-// nomor.unshift(3);
-// console.log(nomor);
+let popUpOpen;
+let popUpClose;
+
 //api key mapbox
 const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkIn0.wEvaABwReIIPwPB4fhW1Ow';
 
@@ -194,10 +189,9 @@ function makeLine(l, i) {
             // garis.setLatLngs([-8.53161227416715, 116.09558080792861], e.latlng);
             // while (x == 1) {
             if (isAddAfter) {
-                line.setLatLngs([test[l].cord[i], e.latlng, test[l].cord[i + 1]]);
+                line.setLatLngs([test[l].cord[i], e.latlng, test[l].cord[i]]);
             } else {
                 line.setLatLngs([test[l].cord[0], e.latlng, test[l].cord[index]]);
-
             }
             // }
             //map.off('mouseover');
@@ -307,16 +301,6 @@ function addMarker(i, l, latlng) {
                 clickable: true,
                 dragabble: true
             });
-        let btn = document.createElement('button');
-        // let link = document.createElement('div');
-        // link = document.getElementById(i);
-        // link.onclick = function () {
-        //     console.log('ini bagus ke' + i);
-        // }
-        // link.append(btn);
-
-
-        // Add popup message
         let template = `
         <label id="edit" class="btn btn-primary">
             <input class="popUp" type="radio" name="options" id=`+ i + "addAfter" + `  autocomplete="off" ' > ADD AFTER
@@ -365,29 +349,83 @@ function addMarker(i, l, latlng) {
         // });
     }
     showMarker(i);
-    marker[i].on('click', function (e) {
-        // let link = document.getElementById(i + "addAfter");
-        map.on('popupopen', function () {
-            let link = document.getElementById(i + "addAfter");
-            console.log(link)
+    let link;
 
-            link.addEventListener('click', function (e) {
-                //addAfter(l, i);
-                console.log('pop up listener');
-                console.log(link.id);
-            })
-        });
-        map.on('popupclose', function () {
-            document.getElementById(i + "addAfter").removeEventListener('click', function (e) { });
-            console.log('pop up close');
-        });
+    marker[i].on('popupopen', function () {
+        console.log('berhasil ' + l + " dan " + i);
+        line = null;
+        link = document.getElementById(i + "addAfter");
+        link.addEventListener('click', e => { addAfter(l, i, marker[i].closePopup()) });
+        console.log('empty');
+
+        // console.log(link);
+        // if (link != null) {
+        // link.addEventListener('click', addAfter(l, i));
+        // addAfter(l, i);
+        // console.log('add after');
+        // } else {
+        // console.log('empty');
+        // }
+        // map.off('popupclose');
+
     });
+    marker[i].on('popupclose', function () {
+        // document.getElementById(i + "addAfter").removeEventListener('click', addAfter(l, i));
+        //let link = document.getElementById(i + "addAfter");
+        // if (link != null) {
+        //     link.remove();
+        //     console.log("close")
+        // }
+
+        // console.log(link);
+        // map.off('popupopen');
+        // marker[i].off('click');
+        console.log('pop up close');
+    });
+    // marker[i].on('click', function (e) {
+
+    //     marker[i].on('popupopen', function () {
+    //         console.log('berhasil ' + l + " dan " + i);
+
+    //         link = document.getElementById(i + "addAfter");
+    //         // console.log(link);
+    //         if (link != null) {
+    //             // link.addEventListener('click', addAfter(l, i));
+    //             addAfter(l, i);
+    //             console.log('add after');
+    //         } else {
+    //             console.log('empty');
+    //         }
+    //         // map.off('popupclose');
+
+    //     });
+    //     marker[i].on('popupclose', function () {
+    //         // document.getElementById(i + "addAfter").removeEventListener('click', addAfter(l, i));
+    //         //let link = document.getElementById(i + "addAfter");
+    //         // if (link != null) {
+    //         //     link.remove();
+    //         //     console.log("close")
+    //         // }
+
+    //         // console.log(link);
+    //         // map.off('popupopen');
+    //         // marker[i].off('click');
+    //         console.log('pop up close');
+    //     });
+    // });
 
 }
 //add after
 function addAfter(l, index) {
-    console.log('add after');
-    isAddAfter = true;
+    console.log('add after function');
+    if (line == null) {
+        polyline([test[l].cord[index].lat, test[l].cord[index].long]);
+        showPolyline();
+        console.log('polyline jalan');
+        isAddAfter = true;
+
+    }
+    // isAddAfter = true;
     makeLine(l, index);
     // indexAddAfter = index;
     // noEdit = l;
@@ -409,10 +447,6 @@ function hapus(l, index) {
     test[l].remove(index);
     console.log(test[l].cord[index]);
     hideMarker(index);
-
-
-
-
     for (let i = 0; i < marker.length; i++) {
         hideMarker(i);
         marker[i].off('click');
