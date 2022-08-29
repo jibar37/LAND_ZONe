@@ -14,11 +14,25 @@
 import * as utils from './List.js';
 
 let test = [];
+let indexAddAfter = null;
 let mapStatus = true;
 let isEdit = false;
 let noEdit;
+let isAddAfter = false;
 let cord1;
-
+let polyOnClick;
+let line = null;
+let headToNew = null;
+let x = 1;
+let z = null;
+// let nomor = [1, 2, 3, 4, 5, 6];
+// console.log(nomor);
+// nomor.splice(3);
+// console.log(nomor);
+// nomor.shift();
+// console.log(nomor);
+// nomor.unshift(3);
+// console.log(nomor);
 //api key mapbox
 const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkIn0.wEvaABwReIIPwPB4fhW1Ow';
 
@@ -41,10 +55,46 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: apiKey
 }).addTo(map);
 
+//bindpopup click
+let eventHandlerAssigned = false
+let marker = [];
+
+// map.on('popupopen', function () {
+//     if (!eventHandlerAssigned && document.querySelector('.popUp')) {
+//         const link = document.querySelector('.popUp')
+//         link.addEventListener('click', edit)
+//         eventHandlerAssigned = true
+//     }
+// })
+
+// map.on('popupclose', function () {
+//     document.querySelector('.popUp').removeEventListener('click', edit)
+//     eventHandlerAssigned = false
+// })
+
+// //fly to
+// export function fly() {
+//     map.flyTo([
+//         47.57652571374621,
+//         -27.333984375
+//     ], 3, { animate: true, duration: 5 })
+
+//     //someMarker.closePopup()
+// }
 
 //tambah polygon
 export function tambah() {
     let l;
+    if (marker != 0) {
+        let markerLength = marker.length;
+        for (let i = 0; i < markerLength; i++) {
+            hideMarker(i);
+            marker[i].off('click');
+            map.off('popupopen');
+        }
+        marker = [];
+    }
+    polyOnClick = null;
     l = test.length;
     if (l == 0) {
         test[l] = new utils.Coordinate();
@@ -57,10 +107,16 @@ export function tambah() {
             test[l] = new utils.Coordinate();
         }
     }
-    console.log(l)
+    console.log(l);
+    if (line != null) {
+        hidePolyline();
+    }
+    line = null;
+
     if (!mapStatus || l == 0) {
         onClick();
         mapStatus = true;
+        isEdit = false;
     }
 
 }
@@ -68,18 +124,24 @@ export function tambah() {
 //edit polygon
 export function edit() {
     isEdit = !isEdit;
+    if (isEdit) {
+        showPolyline();
+    }
+
     onClick();
     if (!isEdit) {
+        hidePolyline();
+        //line = null;
         map.off('click');
         mapStatus = false;
         polygonOnClick(noEdit);
-    }
 
+    }
+    console.log('edit');
 }
 
 //change map style
 export function mapStyle(id1) {
-
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         maxZoom: 18,
         id: 'mapbox/'.concat(id1),
@@ -89,17 +151,63 @@ export function mapStyle(id1) {
     }).addTo(map);
 }
 
-
 //polygon click event
 function polygonOnClick(l) {
-    test[l].polygon.on('click', function () {
+    let a = test[l].polygon.on('click', function () {
+        if (line != null) {
+            hidePolyline();
+            let index = test[l].cord.length - 1;
+            makeLine(l, 0)
+        }
+        //line = null;
         console.log("ini polygon ke ", l);
+        polyOnClick = l;
+        if (marker != 0) {
+            for (let i = 0; i < marker.length; i++) {
+                hideMarker(i);
+                // hideMarker(i);
+            }
+            marker = [];
+
+        }
         map.off('click');
+        for (let i = 0; i < test[l].cord.length; i++) {
+            addMarker(i, l, test[l].cord[i]);
+        }
+
         mapStatus = false;
         noEdit = l;
+        console.log('is null');
+        console.log(a);
+
     });
 
 }
+//help line polyline
+function makeLine(l, i) {
+    map.on('mousemove', function (e) {
+
+        // polyline(1, e.latlng);
+        // showPolyline();
+        let index = test[l].cord.length - 1;
+        if (line != null) {
+            // garis.setLatLngs([-8.53161227416715, 116.09558080792861], e.latlng);
+            // while (x == 1) {
+            if (isAddAfter) {
+                line.setLatLngs([test[l].cord[i], e.latlng, test[l].cord[i + 1]]);
+            } else {
+                line.setLatLngs([test[l].cord[0], e.latlng, test[l].cord[index]]);
+
+            }
+            // }
+            //map.off('mouseover');
+            //makeLine();
+        }
+
+
+    })
+}
+
 
 //coordinate
 function onClick() {
@@ -107,26 +215,43 @@ function onClick() {
         let l;
         let cord;
         let lat;
-        let lng;
+        let long;
         let head;
+        let index;
         if (test.length != 0) {
             cord = e.latlng;
             lat = cord.lat;
-            lng = cord.lng;
+            long = cord.lng;
             cord1 = null;
             head;
             if (!isEdit) {
-                l = test.length - 1;
+                if (isAddAfter) {
+                    l = noEdit;
+                } {
+                    l = test.length - 1;
+                }
             }
             else {
                 l = noEdit;
             }
-            console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
-            test[l].input(lat, lng);
-            test[l].show();
+            console.log("You clicked the map at latitude: " + lat + " and longitude: " + long);
+            if (isAddAfter) {
+                test[l].addAfter(indexAddAfter, [lat, long]);
+                console.log(indexAddAfter)
+                console.log(test[l].cord);
+                delAllMarker();
+                addAllMarker(l);
+                // isAddAfter = false;
+            } else {
+                test[l].input(lat, long);
+                index = test[l].cord.length - 1;
+                addMarker(index, l, [lat, long]);
+            }
+
+            // test[l].show();
             head = test[l].head;
             console.log(head.lat);
-            let temp = head;
+            // let temp = head;
             //cord1 = [[temp.lat, temp.long]];
 
 
@@ -136,10 +261,29 @@ function onClick() {
             //     temp = temp.next;
             //     cord1.push([temp.lat, temp.long]);
             // }
-            console.log(test[l].cord)
+            //var result = findArray(l, lat, long)
+            //console.log(result);
+            console.log(test[l].cord[0]);
+            let latlng1 = [lat, long];
 
 
+            // if (marker != null) {
+            //     for (let i = 0; i < marker.length; i++) {
+            //         hideMarker(i);
+            //         // hideMarker(i);
+            //     }
+            //     marker = [];
+            // }
+
+            console.log(test[l].cord);
             showPolygon(test[l].cord, test[l].polygon, l);
+            if (line == null) {
+                polyline([lat, long]);
+                showPolyline();
+
+            }
+            makeLine(l, indexAddAfter);
+
             if (!isEdit) {
                 polygonOnClick(l);
             }
@@ -148,11 +292,179 @@ function onClick() {
     });
 }
 
+//add marker
+function addMarker(i, l, latlng) {
+    let isNull = null;
+    isNull = marker[i];
+    // console.log(marker[i]);
+    if (isNull == null) {
+        marker[i] = L.marker(
+            latlng
+            , {
+                index: i,
+                id: "is",
+                tittle: 'test',
+                clickable: true,
+                dragabble: true
+            });
+        let btn = document.createElement('button');
+        // let link = document.createElement('div');
+        // link = document.getElementById(i);
+        // link.onclick = function () {
+        //     console.log('ini bagus ke' + i);
+        // }
+        // link.append(btn);
+
+
+        // Add popup message
+        let template = `
+        <label id="edit" class="btn btn-primary">
+            <input class="popUp" type="radio" name="options" id=`+ i + "addAfter" + `  autocomplete="off" ' > ADD AFTER
+        </label>
+         </br>
+        <label id="edit" class="btn btn-primary">
+			<input class="popUp" type="radio" name="options" id=`+ i + `  autocomplete="off" '> REMOVE
+		</label>
+      
+    `
+
+        marker[i].bindPopup(template);
+        //showMarker(i);
+
+        //popUp clikck event
+
+        // marker[i].on('click', function (e) {
+        //     // const link = document.getElementById(i)
+        //     map.on('popupopen', function () {
+        //         const link = document.getElementById(i)
+        //         link.addEventListener('click', function (e) {
+        //             //hapus(l, i)
+        //             console.log('hapus ');
+        //         })
+        //         // link.addEventListener('click', edit())
+        //         // eventHandlerAssigned = false;
+        //     })
+        //     //     console.log(marker[i].options.index);
+        //     // map.on('popupopen', function () {
+        //     //     const link = document.getElementById(i)
+        //     //     link.addEventListener('click', function (e) {
+        //     //         hapus(l, i)
+        //     //         //console.log('hapus ' + marker[i].options.index);
+        //     //     })
+        //     //     // link.addEventListener('click', edit())
+        //     //     // eventHandlerAssigned = false;
+        //     // })
+
+        //     // map.on('popupclose', function () {
+        //     //     document.querySelector('.popUp').removeEventListener('click', function (e) {
+        //     //         hapus(l, i)
+        //     //     })
+        //     //     // document.querySelector('.popUp').removeEventListener('click', edit())
+        //     //     eventHandlerAssigned = false
+        //     // })
+        // });
+    }
+    showMarker(i);
+    marker[i].on('click', function (e) {
+        // let link = document.getElementById(i + "addAfter");
+        map.on('popupopen', function () {
+            let link = document.getElementById(i + "addAfter");
+            console.log(link)
+
+            link.addEventListener('click', function (e) {
+                //addAfter(l, i);
+                console.log('pop up listener');
+                console.log(link.id);
+            })
+        });
+        map.on('popupclose', function () {
+            document.getElementById(i + "addAfter").removeEventListener('click', function (e) { });
+            console.log('pop up close');
+        });
+    });
+
+}
+//add after
+function addAfter(l, index) {
+    console.log('add after');
+    isAddAfter = true;
+    makeLine(l, index);
+    // indexAddAfter = index;
+    // noEdit = l;
+
+    // onClick();
+
+    // delAllMarker();
+    // addAllMarker(l);
+    // isAddAfter = false;
+    // indexAddAfter = null;
+    // noEdit = null;
+}
+
+//hapus marker
+function hapus(l, index) {
+
+    console.log('hapus');
+    console.log(test[l].cord[index])
+    test[l].remove(index);
+    console.log(test[l].cord[index]);
+    hideMarker(index);
+
+
+
+
+    for (let i = 0; i < marker.length; i++) {
+        hideMarker(i);
+        marker[i].off('click');
+        map.off('popupopen');
+    }
+    marker = [];
+    for (let i = 0; i < test[l].cord.length; i++) {
+        addMarker(i, l, test[l].cord[i]);
+    }
+
+    showPolygon(test[l].cord, test[l].polygon, l);
+    polygonOnClick(l);
+}
+
+//bind Button
+function bindButton() {
+    console.log('bind button');
+}
+
+//show marker
+function showMarker(i) {
+    map.addLayer(marker[i]);
+}
+
+//hide marker
+function hideMarker(i) {
+    map.removeLayer(marker[i]);
+}
+
+//cari index
+function findArray(l, lat, long) {
+    let result;
+    let latlng = [lat, long]
+    //console.log(latlng);
+    let temp = test[l];
+    let length = test[l].cord.length;
+    //console.log(length);
+    for (let i = 0; i < length; i++) {
+        if (temp.cord[i].every((val, index) => val === latlng[index])) {
+            result = i;
+            i = length;
+        }
+    }
+    return result;
+}
+
 // Add event listener on keydown
 document.addEventListener('keydown', (event) => {
     let name = event.key;
     let code = event.code;
     let l;
+    let indexMarker;
     if (name === 'Control') {
         // Do nothing.
         return;
@@ -163,14 +475,26 @@ document.addEventListener('keydown', (event) => {
             l = noEdit;
         }
         else {
+            // if (polyOnClick == null) {
             l = test.length - 1;
+            // }
+            // else {
+            // l = polyOnClick;
+            // }
+
+            indexMarker = marker.length - 1;
         }
         if (test[l].head != null) {
             if (code == 'KeyZ') {
                 test[l].undo();
                 console.log(l);
-                //test[l].show();
+                if (marker != null) {
+                    delAllMarker();
+
+                }
+                addAllMarker(l);
                 showPolygon(test[l].cord, test[l].polygon, l);
+                polygonOnClick(l);
                 console.log("berhasil undo")
             }
         }
@@ -179,6 +503,23 @@ document.addEventListener('keydown', (event) => {
     //   alert(`Key pressed ${name} \n Key code Value: ${code}`);
     // }
 }, true);
+//add All Marker
+function addAllMarker(l) {
+    for (let i = 0; i < test[l].cord.length; i++) {
+        addMarker(i, l, test[l].cord[i]);
+    }
+}
+//delete all marker
+function delAllMarker() {
+    let lengthMarker = marker.length;
+    for (let i = 0; i < lengthMarker; i++) {
+        hideMarker(i);
+        marker[i].off('click');
+        map.off('popupopen');
+        map.off('popupopen');
+    }
+    marker = [];
+}
 // Add event listener on keyup
 //   document.addEventListener('keyup', (event) => {
 //     var name = event.key;
@@ -198,7 +539,7 @@ function showPolygon(cord1, polygon1, l) {
             fillColor: 'blue',
             fillOpacity: 0.2
         }).addTo(map)
-        console.log("berhasil");
+        console.log("berhasil menampilkan polygon");
     }
     else {
         polygon.remove();
@@ -209,31 +550,33 @@ function showPolygon(cord1, polygon1, l) {
             fillColor: 'blue',
             fillOpacity: 0.2
         }).addTo(map)
-        console.log("berhasil");
+        console.log("berhasil menampilkan polygon");
     }
     test[l].polygon = polygon;
-    // polygon = polygon1;
-    // if (polygon == null) {
-    //     polygon = L.polygon([
-    //         cord1
-    //     ], {
-    //         color: 'blue',
-    //         fillColor: 'blue',
-    //         fillOpacity: 0.2
-    //     }).addTo(map)
-    //     console.log("berhasil");
-    // }
-    // else {
-    //     polygon.remove();
-    //     polygon = L.polygon([
-    //         cord1
-    //     ], {
-    //         color: 'blue',
-    //         fillColor: 'blue',
-    //         fillOpacity: 0.2
-    //     }).addTo(map)
-    //     console.log("berhasil");
-    // }
+}
+
+//create help line to draw
+function polyline(latlng) {
+    line = L.polyline([
+        // [-8.53161227416715, 116.09558080792861],
+        // // latlng2
+        // [-8.570808441786568, 116.12577876082713]
+
+    ], {
+        dashArray: 10
+    })
+    // headToNew = tailToNew;
+    console.log("berhasil menampilkan polyline");
+
+    console.log(line);
+}
+function showPolyline() {
+    // map.addLayer(headToNew);
+    map.addLayer(line);
+}
+function hidePolyline() {
+    map.removeLayer(line);
+    // map.removeLayer(headToNew);
 }
 
 //add marker

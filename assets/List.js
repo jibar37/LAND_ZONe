@@ -4,7 +4,7 @@ class Coordinate {
 	cord = [];
 	constructor() {
 		this.head = null;
-		this.head = null;
+		this.polygon = null;
 	}
 	input(Lat, Long) {
 		let temp = null;
@@ -17,7 +17,7 @@ class Coordinate {
 			baru = new Node(lat, long, no);
 			this.head = baru;
 			this.cord = [[lat, long]];
-			// console.log(this.head.lat);
+			console.log('head');
 
 
 		}
@@ -30,8 +30,19 @@ class Coordinate {
 			baru = new Node(lat, long, no);
 			this.cord.push([lat, long]);
 			temp.next = baru;
+			console.log('selanjutnya');
 		}
-		//console.log(head.lat);
+
+	}
+	remove(index) {
+		this.cord.splice(index, 1);
+		console.log("berhasil hapus");
+	}
+	addAfter(index, value) {
+		this.cord.splice(index + 1, 0, value);
+		console.log("berhasil addAfter");
+		console.log(index);
+
 	}
 
 	show() {

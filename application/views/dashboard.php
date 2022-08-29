@@ -59,16 +59,21 @@
 		<label id="edit" class="btn btn-secondary">
 			<input type="radio" name="options" id="edit" autocomplete="off"> EDIT
 		</label>
+
 	</div>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 	<script type='module' src='assets/Main.js'></script>
-
+	<script type="text/javascript">
+		function edit1() {
+			edit();
+		}
+	</script>
 	<script type="module">
 		import {
 			mapStyle,
 			tambah,
-			edit
+			edit,
 		} from "<?php echo base_url(); ?>assets/Main.js";
 		document.getElementById("satellite-v9").onclick = function() {
 			mapStyle('satellite-v9');
