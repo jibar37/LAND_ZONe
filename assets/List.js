@@ -44,8 +44,17 @@ class Coordinate {
 		console.log(index);
 
 	}
+	update(i, lat, long) {
+		this.cord[i] = [lat, long];
+		// console.log('ada');
+	}
+	test() {
+		console.log('hello world');
+	}
 
 	show() {
+		// this.test();
+		console.log('hello world');
 		let temp = this.head;
 		let lengkap;
 		while (temp != null) {

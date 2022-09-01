@@ -1,0 +1,61 @@
+html,
+body,
+#container
+
+/*, and all other map parent selectors*/
+    {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+#map {
+    width: auto;
+    height: 100%;
+}
+
+#changeMap {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: auto;
+    padding: 10px;
+    z-index: 400;
+}
+
+#offline {
+    display: none;
+    text-align: center;
+}
+
+#online {
+    display: none;
+    text-align: center;
+    height: fit-content;
+    -moz-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 3s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+
+}

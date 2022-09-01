@@ -17,16 +17,15 @@ let test = [];
 let indexAddAfter = null;
 let mapStatus = true;
 let isEdit = false;
-let noEdit;
 let isAddAfter = false;
-let cord1;
 let polyOnClick;
 let line = null;
-let headToNew = null;
-let x = 1;
-let z = null;
-let popUpOpen;
-let popUpClose;
+let allowUndo = true;
+let marker = [];
+
+
+
+
 
 //api key mapbox
 const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkIn0.wEvaABwReIIPwPB4fhW1Ow';
@@ -50,36 +49,10 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: apiKey
 }).addTo(map);
 
-//bindpopup click
-let eventHandlerAssigned = false
-let marker = [];
-
-// map.on('popupopen', function () {
-//     if (!eventHandlerAssigned && document.querySelector('.popUp')) {
-//         const link = document.querySelector('.popUp')
-//         link.addEventListener('click', edit)
-//         eventHandlerAssigned = true
-//     }
-// })
-
-// map.on('popupclose', function () {
-//     document.querySelector('.popUp').removeEventListener('click', edit)
-//     eventHandlerAssigned = false
-// })
-
-// //fly to
-// export function fly() {
-//     map.flyTo([
-//         47.57652571374621,
-//         -27.333984375
-//     ], 3, { animate: true, duration: 5 })
-
-//     //someMarker.closePopup()
-// }
-
 //tambah polygon
 export function tambah() {
     let l;
+    allowUndo = true;
     if (marker != 0) {
         let markerLength = marker.length;
         for (let i = 0; i < markerLength; i++) {
@@ -89,48 +62,51 @@ export function tambah() {
         }
         marker = [];
     }
-    polyOnClick = null;
     l = test.length;
+    polyOnClick = l;
     if (l == 0) {
-        test[l] = new utils.Coordinate();
+        test[polyOnClick] = new utils.Coordinate();
     }
     else {
-        if (test[l - 1].head == null) {
+        if (test[polyOnClick - 1].head == null) {
             test.pop();
         }
         else {
-            test[l] = new utils.Coordinate();
+            test[polyOnClick] = new utils.Coordinate();
         }
     }
-    console.log(l);
+    console.log(polyOnClick);
     if (line != null) {
         hidePolyline();
     }
     line = null;
 
-    if (!mapStatus || l == 0) {
+    if (!mapStatus || polyOnClick == 0) {
         onClick();
         mapStatus = true;
         isEdit = false;
     }
-
 }
 
 //edit polygon
 export function edit() {
+    map.panTo([test[polyOnClick].cord[0][0], test[polyOnClick].cord[0][1]]);
     isEdit = !isEdit;
+    allowUndo = true;
     if (isEdit) {
         showPolyline();
+        onClick();
+        console.log('edit true');
     }
 
-    onClick();
+
     if (!isEdit) {
         hidePolyline();
-        //line = null;
+        // line = null;
         map.off('click');
         mapStatus = false;
-        polygonOnClick(noEdit);
-
+        polygonOnClick(polyOnClick);
+        allowUndo = false;
     }
     console.log('edit');
 }
@@ -152,46 +128,54 @@ function polygonOnClick(l) {
         if (line != null) {
             hidePolyline();
             let index = test[l].cord.length - 1;
-            makeLine(l, 0)
+            if (!isAddAfter) {
+                map.off('mousemove');
+                makeLine(l);
+            }
         }
-        //line = null;
+        // line = null;
         console.log("ini polygon ke ", l);
-        polyOnClick = l;
         if (marker != 0) {
             for (let i = 0; i < marker.length; i++) {
                 hideMarker(i);
-                // hideMarker(i);
             }
             marker = [];
 
         }
         map.off('click');
         for (let i = 0; i < test[l].cord.length; i++) {
-            addMarker(i, l, test[l].cord[i]);
+            addMarker(i, test[l].cord[i]);
         }
 
         mapStatus = false;
-        noEdit = l;
         console.log('is null');
         console.log(a);
+        polyOnClick = l;
+        allowUndo = false;
 
     });
 
 }
 //help line polyline
-function makeLine(l, i) {
+function makeLine(i) {
     map.on('mousemove', function (e) {
 
         // polyline(1, e.latlng);
         // showPolyline();
-        let index = test[l].cord.length - 1;
+        // console.log(i);
+        let index = test[polyOnClick].cord.length - 1;
         if (line != null) {
             // garis.setLatLngs([-8.53161227416715, 116.09558080792861], e.latlng);
             // while (x == 1) {
             if (isAddAfter) {
-                line.setLatLngs([test[l].cord[i], e.latlng, test[l].cord[i]]);
+                if (i == index) {
+                    line.setLatLngs([test[polyOnClick].cord[0], e.latlng, test[polyOnClick].cord[index]]);
+                }
+                else {
+                    line.setLatLngs([test[polyOnClick].cord[i], e.latlng, test[polyOnClick].cord[i + 1]]);
+                }
             } else {
-                line.setLatLngs([test[l].cord[0], e.latlng, test[l].cord[index]]);
+                line.setLatLngs([test[polyOnClick].cord[0], e.latlng, test[polyOnClick].cord[index]]);
             }
             // }
             //map.off('mouseover');
@@ -206,7 +190,6 @@ function makeLine(l, i) {
 //coordinate
 function onClick() {
     map.on('click', function (e) {
-        let l;
         let cord;
         let lat;
         let long;
@@ -216,81 +199,99 @@ function onClick() {
             cord = e.latlng;
             lat = cord.lat;
             long = cord.lng;
-            cord1 = null;
             head;
-            if (!isEdit) {
-                if (isAddAfter) {
-                    l = noEdit;
-                } {
-                    l = test.length - 1;
-                }
-            }
-            else {
-                l = noEdit;
-            }
             console.log("You clicked the map at latitude: " + lat + " and longitude: " + long);
             if (isAddAfter) {
-                test[l].addAfter(indexAddAfter, [lat, long]);
+                test[polyOnClick].addAfter(indexAddAfter, [lat, long]);
                 console.log(indexAddAfter)
-                console.log(test[l].cord);
+                console.log(test[polyOnClick].cord);
                 delAllMarker();
-                addAllMarker(l);
-                // isAddAfter = false;
+                addAllMarker(polyOnClick);
+                hidePolyline();
+                map.off('mouse');
+                mapStatus = false;
+                polygonOnClick(polyOnClick);
+                map.off('click');
+                isAddAfter = false;
             } else {
-                test[l].input(lat, long);
-                index = test[l].cord.length - 1;
-                addMarker(index, l, [lat, long]);
+                test[polyOnClick].input(lat, long);
+                index = test[polyOnClick].cord.length - 1;
+                addMarker(index, [lat, long]);
             }
 
-            // test[l].show();
-            head = test[l].head;
+            head = test[polyOnClick].head;
             console.log(head.lat);
-            // let temp = head;
-            //cord1 = [[temp.lat, temp.long]];
-
-
-            // make polygon
-            // cord1 = [[temp.lat, temp.long]];
-            // while (temp.next != null) {
-            //     temp = temp.next;
-            //     cord1.push([temp.lat, temp.long]);
-            // }
-            //var result = findArray(l, lat, long)
-            //console.log(result);
-            console.log(test[l].cord[0]);
+            console.log(test[polyOnClick].cord[0]);
             let latlng1 = [lat, long];
+            console.log(test[polyOnClick].cord);
 
-
-            // if (marker != null) {
-            //     for (let i = 0; i < marker.length; i++) {
-            //         hideMarker(i);
-            //         // hideMarker(i);
-            //     }
-            //     marker = [];
-            // }
-
-            console.log(test[l].cord);
-            showPolygon(test[l].cord, test[l].polygon, l);
+            showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
             if (line == null) {
-                polyline([lat, long]);
+                polyline();
                 showPolyline();
-
             }
-            makeLine(l, indexAddAfter);
+            makeLine(indexAddAfter);
 
             if (!isEdit) {
-                polygonOnClick(l);
+                polygonOnClick(polyOnClick);
             }
         }
 
     });
 }
-
+///
+// marker[0] = L.marker(
+//     [
+//         -8.548419798171379,
+//         116.14352319794597
+//     ]
+//     , {
+//         // clickable: 'true',
+//         draggable: true
+//     }).addTo(map);
+// marker[0].on('drag', function (event) {
+//     // let marker0 = event.target;
+//     // var position = marker0.getLatLng();
+//     // marker[0].setLatLng(new L.LatLng(position.lat, position.lng), { draggable: 'true' });
+//     // map.panTo(new L.LatLng(position.lat, position.lng));
+// });
+// marker[0] = L.marker(
+//     [
+//         -8.548419798171379,
+//         116.14352319794597
+//     ], {
+//     draggable: true
+// }
+// ).addTo(map);
+// map.on('click',
+//     function mapClickListen(e) {
+//         var pos = e.latlng;
+//         console.log('map click event');
+//         var marker = L.marker(
+//             pos, {
+//             draggable: true
+//         }
+//         );
+// marker.on('drag', function (e) {
+//     console.log('marker drag event');
+// });
+// marker.on('dragstart', function (e) {
+//     console.log('marker dragstart event');
+//     map.off('click', mapClickListen);
+// });
+// marker.on('dragend', function (e) {
+//     console.log('marker dragend event');
+//     setTimeout(function () {
+//         map.on('click', mapClickListen);
+//     }, 10);
+// });
+// marker.addTo(map);
+//     }
+// );
 //add marker
-function addMarker(i, l, latlng) {
+function addMarker(i, latlng) {
     let isNull = null;
     isNull = marker[i];
-    // console.log(marker[i]);
     if (isNull == null) {
         marker[i] = L.marker(
             latlng
@@ -299,7 +300,7 @@ function addMarker(i, l, latlng) {
                 id: "is",
                 tittle: 'test',
                 clickable: true,
-                dragabble: true
+                draggable: true
             });
         let template = `
         <label id="edit" class="btn btn-primary">
@@ -309,143 +310,66 @@ function addMarker(i, l, latlng) {
         <label id="edit" class="btn btn-primary">
 			<input class="popUp" type="radio" name="options" id=`+ i + `  autocomplete="off" '> REMOVE
 		</label>
-      
     `
 
         marker[i].bindPopup(template);
-        //showMarker(i);
-
-        //popUp clikck event
-
-        // marker[i].on('click', function (e) {
-        //     // const link = document.getElementById(i)
-        //     map.on('popupopen', function () {
-        //         const link = document.getElementById(i)
-        //         link.addEventListener('click', function (e) {
-        //             //hapus(l, i)
-        //             console.log('hapus ');
-        //         })
-        //         // link.addEventListener('click', edit())
-        //         // eventHandlerAssigned = false;
-        //     })
-        //     //     console.log(marker[i].options.index);
-        //     // map.on('popupopen', function () {
-        //     //     const link = document.getElementById(i)
-        //     //     link.addEventListener('click', function (e) {
-        //     //         hapus(l, i)
-        //     //         //console.log('hapus ' + marker[i].options.index);
-        //     //     })
-        //     //     // link.addEventListener('click', edit())
-        //     //     // eventHandlerAssigned = false;
-        //     // })
-
-        //     // map.on('popupclose', function () {
-        //     //     document.querySelector('.popUp').removeEventListener('click', function (e) {
-        //     //         hapus(l, i)
-        //     //     })
-        //     //     // document.querySelector('.popUp').removeEventListener('click', edit())
-        //     //     eventHandlerAssigned = false
-        //     // })
-        // });
     }
+
+    //add marker
+    marker[i].on('drag', function (event) {
+        console.log("drag berhasil");
+        let marker0 = event.target;
+        let position = marker0.getLatLng();
+        marker[i].setLatLng(new L.LatLng(position.lat, position.lng), { draggable: 'true' });
+        //map.panTo(new L.LatLng(position.lat, position.lng));
+        test[polyOnClick].update(i, position.lat, position.lng);
+        showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+        polygonOnClick(polyOnClick);
+
+    });
     showMarker(i);
     let link;
 
     marker[i].on('popupopen', function () {
-        console.log('berhasil ' + l + " dan " + i);
+        console.log('berhasil ' + polyOnClick + " dan " + i);
         line = null;
         link = document.getElementById(i + "addAfter");
-        link.addEventListener('click', e => { addAfter(l, i, marker[i].closePopup()) });
+        link.addEventListener('click', e => {
+            addAfter(i),
+                marker[i].closePopup()
+        });
         console.log('empty');
-
-        // console.log(link);
-        // if (link != null) {
-        // link.addEventListener('click', addAfter(l, i));
-        // addAfter(l, i);
-        // console.log('add after');
-        // } else {
-        // console.log('empty');
-        // }
-        // map.off('popupclose');
+        link = document.getElementById(i)
+        link.addEventListener('click', function (e) {
+            hapus(i);
+        });
 
     });
     marker[i].on('popupclose', function () {
-        // document.getElementById(i + "addAfter").removeEventListener('click', addAfter(l, i));
-        //let link = document.getElementById(i + "addAfter");
-        // if (link != null) {
-        //     link.remove();
-        //     console.log("close")
-        // }
-
-        // console.log(link);
-        // map.off('popupopen');
-        // marker[i].off('click');
         console.log('pop up close');
     });
-    // marker[i].on('click', function (e) {
-
-    //     marker[i].on('popupopen', function () {
-    //         console.log('berhasil ' + l + " dan " + i);
-
-    //         link = document.getElementById(i + "addAfter");
-    //         // console.log(link);
-    //         if (link != null) {
-    //             // link.addEventListener('click', addAfter(l, i));
-    //             addAfter(l, i);
-    //             console.log('add after');
-    //         } else {
-    //             console.log('empty');
-    //         }
-    //         // map.off('popupclose');
-
-    //     });
-    //     marker[i].on('popupclose', function () {
-    //         // document.getElementById(i + "addAfter").removeEventListener('click', addAfter(l, i));
-    //         //let link = document.getElementById(i + "addAfter");
-    //         // if (link != null) {
-    //         //     link.remove();
-    //         //     console.log("close")
-    //         // }
-
-    //         // console.log(link);
-    //         // map.off('popupopen');
-    //         // marker[i].off('click');
-    //         console.log('pop up close');
-    //     });
-    // });
-
 }
+
 //add after
-function addAfter(l, index) {
+function addAfter(index) {
+    indexAddAfter = index;
     console.log('add after function');
-    if (line == null) {
-        polyline([test[l].cord[index].lat, test[l].cord[index].long]);
-        showPolyline();
-        console.log('polyline jalan');
-        isAddAfter = true;
-
-    }
-    // isAddAfter = true;
-    makeLine(l, index);
-    // indexAddAfter = index;
-    // noEdit = l;
-
-    // onClick();
-
-    // delAllMarker();
-    // addAllMarker(l);
-    // isAddAfter = false;
-    // indexAddAfter = null;
-    // noEdit = null;
+    console.log('polyline jalan ' + index);
+    isAddAfter = true;
+    polyline();
+    makeLine(index);
+    showPolyline();
+    map.off('click');
+    onClick();
 }
 
 //hapus marker
-function hapus(l, index) {
+function hapus(index) {
 
     console.log('hapus');
-    console.log(test[l].cord[index])
-    test[l].remove(index);
-    console.log(test[l].cord[index]);
+    console.log(test[polyOnClick].cord[index])
+    test[polyOnClick].remove(index);
+    console.log(test[polyOnClick].cord[index]);
     hideMarker(index);
     for (let i = 0; i < marker.length; i++) {
         hideMarker(i);
@@ -453,17 +377,13 @@ function hapus(l, index) {
         map.off('popupopen');
     }
     marker = [];
-    for (let i = 0; i < test[l].cord.length; i++) {
-        addMarker(i, l, test[l].cord[i]);
+    for (let i = 0; i < test[polyOnClick].cord.length; i++) {
+        addMarker(i, test[polyOnClick].cord[i]);
     }
 
-    showPolygon(test[l].cord, test[l].polygon, l);
-    polygonOnClick(l);
-}
-
-//bind Button
-function bindButton() {
-    console.log('bind button');
+    showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+    polygonOnClick(polyOnClick);
+    polyline(line);
 }
 
 //show marker
@@ -498,51 +418,40 @@ document.addEventListener('keydown', (event) => {
     let name = event.key;
     let code = event.code;
     let l;
-    let indexMarker;
     if (name === 'Control') {
         // Do nothing.
         return;
     }
     if (event.ctrlKey) {
         //alert(`Combination of ctrlKey + ${name} \n Key code Value: ${code}`);
-        if (isEdit) {
-            l = noEdit;
-        }
-        else {
-            // if (polyOnClick == null) {
-            l = test.length - 1;
-            // }
-            // else {
-            // l = polyOnClick;
-            // }
-
-            indexMarker = marker.length - 1;
-        }
-        if (test[l].head != null) {
-            if (code == 'KeyZ') {
-                test[l].undo();
-                console.log(l);
-                if (marker != null) {
-                    delAllMarker();
-
+        if (allowUndo) {
+            if (test[polyOnClick].cord[0] != null) {
+                if (code == 'KeyZ') {
+                    test[polyOnClick].undo();
+                    console.log(polyOnClick);
+                    if (marker != null) {
+                        delAllMarker();
+                        console.log('delete');
+                    }
+                    addAllMarker();
+                    console.log('tambah');
+                    showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+                    polygonOnClick(polyOnClick);
+                    console.log("berhasil undo")
                 }
-                addAllMarker(l);
-                showPolygon(test[l].cord, test[l].polygon, l);
-                polygonOnClick(l);
-                console.log("berhasil undo")
             }
         }
+
     }
-    // else {
-    //   alert(`Key pressed ${name} \n Key code Value: ${code}`);
-    // }
 }, true);
+
 //add All Marker
-function addAllMarker(l) {
-    for (let i = 0; i < test[l].cord.length; i++) {
-        addMarker(i, l, test[l].cord[i]);
+function addAllMarker() {
+    for (let i = 0; i < test[polyOnClick].cord.length; i++) {
+        addMarker(i, test[polyOnClick].cord[i]);
     }
 }
+
 //delete all marker
 function delAllMarker() {
     let lengthMarker = marker.length;
@@ -554,16 +463,9 @@ function delAllMarker() {
     }
     marker = [];
 }
-// Add event listener on keyup
-//   document.addEventListener('keyup', (event) => {
-//     var name = event.key;
-//     if (name === 'Control') {
-//       alert('Control key released');
-//     }
-//   }, false);
 
 //add polygon to map
-function showPolygon(cord1, polygon1, l) {
+function showPolygon(cord1, polygon1) {
     let polygon = polygon1;
     if (polygon == null) {
         polygon = L.polygon([
@@ -586,59 +488,26 @@ function showPolygon(cord1, polygon1, l) {
         }).addTo(map)
         console.log("berhasil menampilkan polygon");
     }
-    test[l].polygon = polygon;
+    test[polyOnClick].polygon = polygon;
 }
 
 //create help line to draw
-function polyline(latlng) {
+function polyline() {
     line = L.polyline([
-        // [-8.53161227416715, 116.09558080792861],
-        // // latlng2
-        // [-8.570808441786568, 116.12577876082713]
-
     ], {
         dashArray: 10
     })
-    // headToNew = tailToNew;
     console.log("berhasil menampilkan polyline");
 
     console.log(line);
 }
+
+//show polyline
 function showPolyline() {
-    // map.addLayer(headToNew);
     map.addLayer(line);
 }
+
+//hide polyline
 function hidePolyline() {
     map.removeLayer(line);
-    // map.removeLayer(headToNew);
 }
-
-//add marker
-
-// Adding Marker
-
-// const marker = L.marker([40.748708, -73.985433]).addTo(map);
-
-// // Add popup message
-// let template = `
-// <h3>Empire State Building</h3>
-// <div style="text-align:center">
-//     <img width="150" height="150"src="image.jpg"/>
-// </div>
-// `
-// marker.bindPopup(template);
-
-// // Add circle
-
-// const circle = L.circle([40.748708, -73.985433], {
-//     radius:500,
-//     color: 'green',
-//     fillColor: 'red',
-//     fillOpacity:0.2
-// }).addTo(map).bindPopup('I am a circle')
-
-// // Add Polygon
-
-
-
-// // polygon.bindPopup(' I am a polygon')
