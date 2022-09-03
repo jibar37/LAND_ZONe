@@ -22,6 +22,7 @@ let polyOnClick;
 let line = null;
 let allowUndo = true;
 let marker = [];
+let mataramCoord = "assets/mataram.geojson";
 
 
 
@@ -48,6 +49,30 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: apiKey
 }).addTo(map);
+let coba = null;
+
+async function getData(url) {
+    const response = await fetch(url);
+
+    return response.json();
+}
+
+function getFetch(data) {
+    coba = data;
+    console.log(data);
+}
+coba = await getData(mataramCoord);
+console.log(coba);
+// add GeoJSON layer to the map once the file is loaded
+L.geoJson(
+    coba, {
+    dashArray: 10,
+    color: 'red',
+    // fillOpacity: 0,
+    fillColor: 'white'
+}).addTo(map);
+
+
 
 //tambah polygon
 export function tambah() {
