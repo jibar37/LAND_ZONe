@@ -23,7 +23,7 @@ let line = null;
 let allowUndo = true;
 let marker = [];
 let mataramCoord = "assets/mataram.geojson";
-
+let isTambah = false;
 
 
 
@@ -243,7 +243,9 @@ function onClick() {
             } else {
                 test[polyOnClick].input(lat, long);
                 index = test[polyOnClick].cord.length - 1;
-                addMarker(index, [lat, long]);
+                if (!isTambah) {
+                    addMarker(index, [lat, long]);
+                }
             }
 
             head = test[polyOnClick].head;
