@@ -37,6 +37,7 @@ var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
 //  Create a new map 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     maxZoom: 18,
+    minZoom: 13,
     id: 'mapbox/streets-v11',
     // id: 'mapbox/satellite-v9',
     // id: 'mapbox/light-v10',
@@ -140,6 +141,7 @@ export function edit() {
 export function mapStyle(id1) {
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         maxZoom: 18,
+        minZoom: 13,
         id: 'mapbox/'.concat(id1),
         tileSize: 512,
         zoomOffset: -1,
