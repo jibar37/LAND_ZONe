@@ -6,10 +6,23 @@ class Admin extends CI_Controller
 
     public function index()
     {
-        $data['tittle'] = 'LAND ZONe';
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $data_session = array(
+            'nama' => $username,
+            'status' => "login"
+        );
+        $this->session->set_userdata($data_session);
+        $data['nama'] = $this->session->userdata('nama');
+
+        $data['tittle'] = 'ADMIN';
         $this->load->view('navbar\header', $data);
-        $this->load->view('admin\dashboard');
+        // $this->load->view('admin\dashboard', $data);
+
+        $this->load->view('map');
         $this->load->view('navbar\footer');
+        echo ($this->session->userdata('status'));
+        echo ($password);
     }
     public function signIn()
     {
@@ -35,8 +48,10 @@ class Admin extends CI_Controller
         // 	echo "Username dan password salah !";
         // }
         $data['tittle'] = 'ADMIN';
+        $data['nama'] = "jihad";
+
         $this->load->view('navbar\header', $data);
-        $this->load->view('admin\dashboard');
+        $this->load->view('admin\dashboard', $data);
         $this->load->view('navbar\footer');
     }
 
