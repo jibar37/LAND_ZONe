@@ -14,10 +14,12 @@ class Admin extends CI_Controller
     function index()
     {
         $data['tittle'] = 'ADMIN';
+        $data['menu'] = 'Dashboard';
         $data['nama'] = $this->session->userdata('nama');
 
         $this->load->view('navbar\header', $data);
-        $this->load->view('admin\dashboard', $data);
+        $this->load->view('navbar\admin\__navbar', $data);
+        $this->load->view('admin\dashboard');
         $this->load->view('navbar\footer');
     }
 
