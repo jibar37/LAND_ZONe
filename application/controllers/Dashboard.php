@@ -3,7 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller
 {
-
+	public function __construct()
+	{
+		parent::__construct();
+	}
 	public function index()
 	{
 		$data['tittle'] = 'LAND ZONe';
@@ -11,10 +14,14 @@ class Dashboard extends CI_Controller
 		$this->load->view('dashboard');
 		$this->load->view('navbar\footer');
 	}
-	public function login()
+	function signIn()
 	{
-		// $username = $this->input->post('username');
-		// $password = $this->input->post('password');
+		// $data['tittle'] = 'LAND ZONe';
+		// $this->load->view('navbar\header', $data);
+		// $this->load->view('dashboard');
+		// $this->load->view('navbar\footer');
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
 		// $where = array(
 		// 	'username' => $username,
 		// 	'password' => md5($password)
@@ -22,14 +29,14 @@ class Dashboard extends CI_Controller
 		// $cek = $this->m_login->cek_login("admin",$where)->num_rows();
 		// if($cek > 0){
 
-		// 	$data_session = array(
-		// 		'nama' => $username,
-		// 		'status' => "login"
-		// 		);
+		$data_session = array(
+			'nama' => $username,
+			'status' => "login"
+		);
 
-		// 	$this->session->set_userdata($data_session);
+		$this->session->set_userdata($data_session);
 
-		// 	redirect(base_url("admin"));
+		redirect(base_url("admin"));
 
 		// }else{
 		// 	echo "Username dan password salah !";
