@@ -6,28 +6,34 @@ class Admin extends CI_Controller
 
     public function index()
     {
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
-        $data_session = array(
-            'nama' => $username,
-            'status' => "login"
-        );
-        $this->session->set_userdata($data_session);
-        $data['nama'] = $this->session->userdata('nama');
+        $isSession = $this->session->userdata('nama');
+        if (empty($isSession)) {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+            $data_session = array(
+                'nama' => $username,
+                'status' => "login"
+            );
+            $this->session->set_userdata($data_session);
+            $data['nama'] = $this->session->userdata('nama');
 
-        $data['tittle'] = 'ADMIN';
-        $this->load->view('navbar\header', $data);
-        // $this->load->view('admin\dashboard', $data);
+            $data['tittle'] = 'ADMIN';
+            $this->load->view('navbar\header', $data);
+            $this->load->view('admin\dashboard', $data);
+            $this->load->view('navbar\footer');
+        } else {
+            $data['tittle'] = 'ADMIN';
+            $data['nama'] = $this->session->userdata('nama');
 
-        $this->load->view('map');
-        $this->load->view('navbar\footer');
-        echo ($this->session->userdata('status'));
-        echo ($password);
+            $this->load->view('navbar\header', $data);
+            $this->load->view('admin\dashboard', $data);
+            $this->load->view('navbar\footer');
+        }
     }
     public function signIn()
     {
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
+        // $username = $this->input->post('username');
+        // $password = $this->input->post('password');
         // $where = array(
         // 	'username' => $username,
         // 	'password' => md5($password)
@@ -35,12 +41,12 @@ class Admin extends CI_Controller
         // $cek = $this->m_login->cek_login("admin",$where)->num_rows();
         // if($cek > 0){
 
-        $data_session = array(
-            'nama' => $username,
-            'status' => "login"
-        );
+        // $data_session = array(
+        //     'nama' => $username,
+        //     'status' => "login"
+        // );
 
-        $this->session->set_userdata($data_session);
+        // $this->session->set_userdata($data_session);
 
         // 	redirect(base_url("admin"));
 
@@ -48,7 +54,7 @@ class Admin extends CI_Controller
         // 	echo "Username dan password salah !";
         // }
         $data['tittle'] = 'ADMIN';
-        $data['nama'] = "jihad";
+        $data['nama'] = $this->session->userdata('nama');
 
         $this->load->view('navbar\header', $data);
         $this->load->view('admin\dashboard', $data);
