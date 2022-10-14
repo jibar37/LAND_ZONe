@@ -33,6 +33,7 @@ const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkI
 
 // Define map
 var map = L.map('map').setView([-8.576937757085497, 116.09794658196444], 13);
+// var map1 = L.map('map1').setView([-8.576937757085497, 116.09794658196444], 13);
 
 //  Create a new map 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -50,6 +51,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: apiKey
 }).addTo(map);
+
 let coba = null;
 
 async function getData(url) {
@@ -72,6 +74,7 @@ L.geoJson(
     // fillOpacity: 0,
     fillColor: 'white'
 }).addTo(map);
+
 
 
 
