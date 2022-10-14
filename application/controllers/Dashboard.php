@@ -34,15 +34,5 @@ class Dashboard extends CI_Controller
 		// }else{
 		// 	echo "Username dan password salah !";
 		// }
-		$data['tittle'] = 'ADMIN';
-		$this->load->view('navbar\header', $data);
-		$this->load->view('admin\dashboard');
-		$this->load->view('navbar\footer');
-	}
-
-	public function logout()
-	{
-		$this->session->sess_destroy();
-		redirect(base_url('login'));
 	}
 }

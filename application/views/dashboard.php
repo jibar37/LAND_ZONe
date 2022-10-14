@@ -16,18 +16,20 @@
 </head> -->
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
 	<h5 class="my-0  font-weight-bold">LAND ZONe</h5>
+
 	<nav class="my-2 my-md-0 mr-md-3">
 		<a class="p-2 text-dark" href="#">About Us</a>
 
 	</nav>
+
 	<h3 class="nav-item dropdown my-0 mr-md-auto font-weight-normal">
 		<a class="btn btn-outline-primary" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			LOGIN
 		</a>
-		<form class="dropdown-menu p-4" action="<?php echo base_url('dashboard\login'); ?>" method="post">
+		<form class="dropdown-menu p-4" action="<?php echo base_url('admin'); ?>" method="post">
 			<div class="form-group">
 				<label for="username">Username</label>
-				<input type="email" class="form-control" id="username" placeholder="Username">
+				<input class="form-control" id="username" placeholder="Username">
 			</div>
 			<div class="form-group">
 				<label for="password">Password</label>
@@ -36,9 +38,20 @@
 			<button type="submit" class="btn btn-primary">Sign in</button>
 		</form>
 	</h3>
-
-
+	<nav class="my-2 my-md-0 mr-md-3">
+		<button class="btn btn-outline-success btn-sm" name="options" id="streets-v11" autocomplete="off"> STREET
+		</button>
+		<button type="button" class="btn btn-outline-success btn-sm" name="options" id="satellite-v9" autocomplete="off"> SATELITE
+		</button>
+		<button type="button" class="btn btn-outline-success btn-sm" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
+		</button>
+		<!-- <button type="button" class="btn btn-outline-success" name="options" id="tambah" autocomplete="off"> TAMBAH
+		</button>
+		<button type="button" class="btn btn-outline-success" name="options" id="edit" autocomplete="off"> EDIT
+		</button> -->
+	</nav>
 </div>
+
 <div id="offline" class="off">
 	<div class="alert alert-danger" role="alert">
 		You are <b style="color:red;">OFFLINE</b>
@@ -53,26 +66,6 @@
 </div>
 
 <div id="map">
-	<div id="changeMap" data-toggle="buttons">
-		<label id="streets-v11" class="btn btn-secondary active">
-			<input type="radio" name="options" id="streets-v11" autocomplete="off" checked> STREET
-		</label>
-		<label id="satellite-v9" class="btn btn-secondary">
-			<input type="radio" name="options" id="satellite-v9" autocomplete="off"> SATELITE
-		</label>
-		<label id="outdoors-v11" class="btn btn-secondary">
-			<input type="radio" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
-		</label>
-		<label id="tambah" class="btn btn-secondary">
-			<input type="radio" name="options" id="tambah" autocomplete="off"> TAMBAH
-		</label>
-		<label id="edit" class="btn btn-secondary">
-			<input type="radio" name="options" id="edit" autocomplete="off"> EDIT
-		</label>
-		<div class="card" style="height: 100vh;">
-		</div>
-
-	</div>
 </div>
 
 

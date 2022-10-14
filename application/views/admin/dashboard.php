@@ -3,7 +3,7 @@
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="btn text-danger btn-outline-danger" href="#">Sign out</a>
+            <a class="btn text-danger btn-outline-danger" href=<?php echo base_url("admin/signOut") ?>>Sign out</a>
         </li>
     </ul>
 </nav>
@@ -14,15 +14,15 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active" href=<?php echo base_url("admin") ?>>
                             <span data-feather="home"></span>
                             Dashboard <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file"></span>
-                            Orders
+                            <span data-feather="edit"></span>
+                            Edit
                         </a>
                     </li>
                     <li class="nav-item">
@@ -94,13 +94,25 @@
                         <button class="btn btn-sm btn-outline-secondary text-primary">Save</button>
                         <button class="btn btn-sm btn-outline-secondary text-danger">Cancel</button>
                     </div>
+                    <nav class="my-2 my-md-0 mr-md-3">
+                        <button class="btn btn-outline-success btn-sm" name="options" id="streets-v11" autocomplete="off"> STREET
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm" name="options" id="satellite-v9" autocomplete="off"> SATELITE
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
+                        </button>
+                        <!-- <button type="button" class="btn btn-outline-success" name="options" id="tambah" autocomplete="off"> TAMBAH
+		                </button>
+                        <button type="button" class="btn btn-outline-success" name="options" id="edit" autocomplete="off"> EDIT
+                        </button> -->
+                    </nav>
                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
                         <span data-feather="calendar"></span>
                         This week
                     </button>
                 </div>
             </div>
-            <div id="changeMap" data-toggle="buttons">
+            <!-- <div id="changeMap" data-toggle="buttons">
                 <label id="streets-v11" class="btn btn-secondary active">
                     <input type="radio" name="options" id="streets-v11" autocomplete="off" checked> STREET
                 </label>
@@ -116,7 +128,7 @@
                 <label id="edit" class="btn btn-secondary">
                     <input type="radio" name="options" id="edit" autocomplete="off"> EDIT
                 </label>
-            </div>
+            </div> -->
             <div id="map">
 
                 <div class="card" style="height: 100vh;">
