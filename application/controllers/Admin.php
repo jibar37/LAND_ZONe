@@ -11,7 +11,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function index()
+    function index()
     {
         $data['tittle'] = 'ADMIN';
         $data['nama'] = $this->session->userdata('nama');

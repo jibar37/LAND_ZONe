@@ -22,7 +22,7 @@ let polyOnClick;
 let line = null;
 let allowUndo = true;
 let marker = [];
-let mataramCoord = "assets/mataram.geojson";
+let mataramCoord = base_url + "assets/mataram.geojson";
 let isTambah = false;
 
 

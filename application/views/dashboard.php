@@ -64,7 +64,7 @@
 		mapStyle,
 		tambah,
 		edit,
-	} from "<?php echo base_url(); ?>assets/Main.js";
+	} from "<?php echo (base_url()); ?>assets/Main.js";
 	document.getElementById("satellite-v9").onclick = function() {
 		mapStyle('satellite-v9');
 
