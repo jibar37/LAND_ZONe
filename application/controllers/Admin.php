@@ -25,32 +25,22 @@ class Admin extends CI_Controller
 
     public function signIn()
     {
-        // $username = $this->input->post('username');
-        // $password = $this->input->post('password');
-        // $where = array(
-        // 	'username' => $username,
-        // 	'password' => md5($password)
-        // 	);
-        // $cek = $this->m_login->cek_login("admin",$where)->num_rows();
-        // if($cek > 0){
-
-        // $data_session = array(
-        //     'nama' => $username,
-        //     'status' => "login"
-        // );
-
-        // $this->session->set_userdata($data_session);
-
-        // 	redirect(base_url("admin"));
-
-        // }else{
-        // 	echo "Username dan password salah !";
-        // }
         $data['tittle'] = 'ADMIN';
         $data['nama'] = $this->session->userdata('nama');
 
         $this->load->view('navbar\header', $data);
         $this->load->view('admin\dashboard', $data);
+        $this->load->view('navbar\footer');
+    }
+    public function tambahUser()
+    {
+        $data['tittle'] = 'TAMBAH USER';
+        $data['menu'] = 'Tambah User';
+        $data['nama'] = $this->session->userdata('nama');
+
+        $this->load->view('navbar\header', $data);
+        $this->load->view('navbar\admin\__navbar', $data);
+        $this->load->view('admin\tambahUser');
         $this->load->view('navbar\footer');
     }
 

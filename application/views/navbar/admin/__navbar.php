@@ -23,7 +23,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" href=<?php echo base_url("admin") ?>>
                             <span data-feather="home"></span>
-                            <?php echo ($menu) ?> <span class="sr-only">(current)</span>
+                            Dashboard <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -92,3 +92,6 @@
                 </ul>
             </div>
         </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2 font-weight-bold text-secondary"><?php echo $menu ?></h1>
