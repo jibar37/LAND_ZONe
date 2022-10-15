@@ -20,22 +20,24 @@ class MUser extends CI_model
             return false;
         }
     }
-    public function add_user($username, $password)
+    public function add_user()
     {
         $fb = Firebase::initialize($this->url, $this->secret);
 
         $d = [
-            "username" => $username,
-            "password" => $password,
+            "username" => $this->input->post('username'),
+            "password" => $this->input->post('password'),
+            "nama" => $this->input->post('nama'),
+            "level" => $this->input->post('level'),
         ];
-        $a = $fb->set('/user/' . $username, $d);
+        $a = $fb->set('/user/' . $this->input->post('username'), $d);
         var_dump($a);
     }
-    public function get_user($username, $password)
+    public function login($username, $password)
     {
         $fb = Firebase::initialize($this->url, $this->secret);
         $a = $fb->get('/user/' . $username);
-        $hasil = $null;
+        $hasil = null;
 
         if ($a == null) {
             $hasil = null;

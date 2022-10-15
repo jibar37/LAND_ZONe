@@ -20,7 +20,7 @@ class Dashboard extends CI_Controller
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 
-		$data = $this->MUser->get_user($username, $password);
+		$data = $this->MUser->login($username, $password);
 		if ($data != null) {
 			$nama = $data['nama'];
 			$level = $data['level'];

@@ -4,7 +4,7 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3">
         <a class="nav-link" href="#">
             <span data-feather="users"></span>
-            <?php echo ($nama); ?>
+            <?php echo ($this->session->userdata('nama')); ?>
         </a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">

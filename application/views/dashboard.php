@@ -1,3 +1,15 @@
+<div id="offline" class="off">
+	<div class="alert alert-danger" role="alert">
+		You are <b style="color:red;">OFFLINE</b>
+		<br>
+		Please Turn On Internet Connection To Run Website
+	</div>
+</div>
+<div id="online" class="on">
+	<div class="alert alert-success" role="alert">
+		<b style="color:green">ONLINE</style=>
+	</div>
+</div>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
 	<h5 class="my-0  font-weight-bold">LAND ZONe</h5>
 
@@ -35,19 +47,6 @@
 	</nav>
 </div>
 
-<div id="offline" class="off">
-	<div class="alert alert-danger" role="alert">
-		You are <b style="color:red;">OFFLINE</b>
-		<br>
-		Please Turn On Internet Connection To Run Website
-	</div>
-</div>
-<div id="online" class="on">
-	<div class="alert alert-success" role="alert">
-		<b style="color:green">ONLINE</style=>
-	</div>
-</div>
-
 <div id="map">
 </div>
 
@@ -77,27 +76,12 @@
 		mapStyle('outdoors-v11');
 
 	};
-	document.getElementById("tambah").onclick = function() {
-		//mapStyle('outdoors-v11');
-		tambah();
-	};
+	// document.getElementById("tambah").onclick = function() {
+	// 	//mapStyle('outdoors-v11');
+	// 	tambah();
+	// };
 	document.getElementById("edit").onclick = function() {
 		//mapStyle('outdoors-v11');
 		edit();
 	};
-	let off = document.getElementById("offline");
-	let on = document.getElementById("online");
-	window.addEventListener('offline', (e) => {
-		console.log('offline');
-		off.style.display = 'block';
-		on.style.display = 'none';
-
-	});
-
-	window.addEventListener('online', function() {
-		console.log('online');
-		let hidden = document.getElementById("offline");
-		off.style.display = 'none';
-		on.style.display = 'block';
-	});
 </script>
