@@ -61,7 +61,51 @@ class Admin extends CI_Controller
             redirect(base_url('admin/tambahUser'));
         }
     }
+    public function editUser()
+    {
+        $data['data'] = $this->MUser->getAll_user();
+        $data['tittle'] = 'ADMIN';
+        $data['nama'] = $this->session->userdata('nama');
+        $username = $this->input->get('username');
+        if ($username == "") {
+            $data['menu'] = 'Edit User';
 
+            $this->load->view('navbar\header', $data);
+            $this->load->view('navbar\admin\__navbar', $data);
+            $this->load->view('admin\editUser', $data);
+            $this->load->view('navbar\footer');
+        } else {
+            $this->form_validation->set_rules('username', 'Username', 'required');
+            $this->form_validation->set_rules('nama', 'Nama', 'required|alpha_numeric_spaces');
+            $this->form_validation->set_rules('password', 'Password', 'required');
+            $this->form_validation->set_rules('passconf', 'Password Confirmation', 'matches[password]');
+            $this->form_validation->set_rules('level', 'Level', 'required');
+
+            $user = $this->MUser->get_user($username);
+            $data['menu'] = $user['nama'];
+            $data['user'] = $user;
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->load->view('navbar\header', $data);
+                $this->load->view('navbar\admin\__navbar', $data);
+                $this->load->view('admin\edit', $data);
+                $this->load->view('navbar\footer');
+            } else {
+                $data = $this->MUser->update_user($username);
+
+                $this->session->set_flashdata('flash', 'diupdate');
+                redirect(base_url('admin/editUser?username=') . $username);
+            }
+        }
+    }
+    public function test()
+    {
+        $data = $this->MUser->getAll_user();
+        foreach ($data as $key => $value) {
+            echo ($key);
+            echo "<br>";
+        }
+    }
     public function signOut()
     {
         $this->session->sess_destroy();

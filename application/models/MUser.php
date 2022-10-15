@@ -50,16 +50,28 @@ class MUser extends CI_model
         }
         return $hasil;
     }
-    public function update_data()
+    public function getAll_user()
     {
-        $key = $this->input->get("key");
+        $fb = Firebase::initialize($this->url, $this->secret);
+        $a = $fb->get('/user');
+        return $a;
+    }
+    public function get_user($username)
+    {
+        $fb = Firebase::initialize($this->url, $this->secret);
+        $a = $fb->get('/user/' . $username);
+        return $a;
+    }
+    public function update_user($username)
+    {
         $fb = Firebase::initialize($this->url, $this->secret);
         $d = [
-            "notif" => "1",
-            "tipe" => "0",
+            "username" => $this->input->post('username'),
+            "password" => $this->input->post('password'),
+            "nama" => $this->input->post('nama'),
+            "level" => $this->input->post('level'),
         ];
-        $a = $fb->update('/data/' . $key, $d);
-        echo json_encode($a);
+        $a = $fb->update('/user/' . $username, $d);
     }
     public function delete_data()
     {
@@ -69,7 +81,6 @@ class MUser extends CI_model
             "notif" => "1",
             "tipe" => "0",
         ];
-        $a = $fb->delete('/data/' . $key, $d);
-        echo json_encode($a);
+        $a = $fb->delete('/user/' . $key, $d);
     }
 }

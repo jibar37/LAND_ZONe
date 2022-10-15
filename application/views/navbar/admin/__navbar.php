@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href=<?php echo (base_url('admin/editUser')) ?>>
                             <span data-feather="edit"></span>
                             Edit User
                         </a>
