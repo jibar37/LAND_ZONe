@@ -17,22 +17,33 @@
 		<a class="p-2 text-dark" href="#">About Us</a>
 	</nav>
 
-	<h3 class="nav-item dropdown my-0 mr-md-auto font-weight-normal">
-		<a class="btn btn-outline-primary" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			LOGIN
-		</a>
-		<form class="dropdown-menu p-4" action=<?php echo (base_url('dashboard/signIn')); ?> method="post">
-			<div class="form-group">
-				<label for="username">Username</label>
-				<input type="text" class="form-control" name="username" id="username" placeholder="Username">
+	<h5 class="nav-item dropdown my-0 mr-md-auto font-weight-normal">
+
+		<form action=<?php echo (base_url('dashboard/signIn')); ?> method="post">
+			<?php if ($username != "") : ?>
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" style="display:inline-block;">
+					<p style="font-size: 15px;margin:0px">Username atau Password salah.</p>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin:-5px">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			<?php endif ?>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" name="username" id="username" placeholder="Username" value=<?php echo ($username) ?>>
+				</div>
+				<div class="col">
+					<input type="password" class="form-control" name="password" id="password" placeholder="Password">
+				</div>
+				<div class="col">
+					<button type="submit" class="btn btn-primary">Sign in</button>
+				</div>
+
 			</div>
-			<div class="form-group">
-				<label for="password">Password</label>
-				<input type="password" class="form-control" name="password" id="password" placeholder="Password">
-			</div>
-			<button type="submit" class="btn btn-primary">Sign in</button>
+
+
 		</form>
-	</h3>
+	</h5>
 	<nav class="my-2 my-md-0 mr-md-3">
 		<button class="btn btn-outline-success btn-sm" name="options" id="streets-v11" autocomplete="off"> STREET
 		</button>

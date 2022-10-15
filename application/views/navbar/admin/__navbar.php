@@ -59,34 +59,28 @@
                 </ul>
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted" href="#">
-                        <span data-feather="plus-circle"></span>
+                    <span>User Setting</span>
+                    <a class="d-flex align-items-center text-muted">
+                        <span data-feather="tool"></span>
                     </a>
                 </h6>
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Current month
+                        <a class="nav-link" href=<?php echo (base_url('admin/tambahUser')) ?>>
+                            <span data-feather="user-plus"></span>
+                            Tambah User
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Last quarter
+                            <span data-feather="edit"></span>
+                            Edit User
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Year-end sale
+                            <span data-feather="user-minus"></span>
+                            Hapus User
                         </a>
                     </li>
                 </ul>

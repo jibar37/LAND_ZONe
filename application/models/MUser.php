@@ -16,7 +16,6 @@ class MUser extends CI_model
             echo ('berhasil login');
             return true;
         } else {
-            echo ('login gagal');
             return false;
         }
     }

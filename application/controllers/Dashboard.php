@@ -10,9 +10,11 @@ class Dashboard extends CI_Controller
 	}
 	public function index()
 	{
+		$data['username'] = "";
+		$data['password'] = "";
 		$data['tittle'] = 'LAND ZONe';
 		$this->load->view('navbar\header', $data);
-		$this->load->view('dashboard');
+		$this->load->view('dashboard', $data);
 		$this->load->view('navbar\footer');
 	}
 	function signIn()
@@ -33,7 +35,12 @@ class Dashboard extends CI_Controller
 			$this->session->set_userdata($data_session);
 			redirect(base_url("admin"));;
 		} else {
-			redirect(base_url());
+			$data['username'] = $username;
+			$data['password'] = $password;
+			$data['tittle'] = 'LAND ZONe';
+			$this->load->view('navbar\header', $data);
+			$this->load->view('dashboard', $data);
+			$this->load->view('navbar\footer');
 		}
 
 
