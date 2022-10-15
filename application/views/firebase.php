@@ -2,7 +2,7 @@
     <a class="btn btn-outline-primary" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         LOGIN
     </a>
-    <form class="dropdown-menu p-4" action=<?php echo (base_url('CFirebase/add_data')); ?> method="post">
+    <form class="dropdown-menu p-4" action=<?php echo (base_url('CFirebase/get_data')); ?> method="post">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" name="username" id="username" placeholder="Username">

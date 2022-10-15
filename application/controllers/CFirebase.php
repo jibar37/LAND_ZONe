@@ -12,9 +12,7 @@ class CFirebase extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		// $this->load->model('Mdata');
-
-
+		$this->load->model('MUser');
 	}
 	public function index()
 	{
@@ -22,21 +20,34 @@ class CFirebase extends CI_Controller
 	}
 	public function add_data()
 	{
-		$fb = Firebase::initialize($this->url, $this->secret);
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$d = [
-			"username" => $username,
-			"password" => $password,
-		];
-		$a = $fb->push('/data', $d);
-		echo json_encode($a);
+
+		$this->MUser->add_user($username, $password);
 	}
 	public function get_data()
 	{
-		$fb = Firebase::initialize($this->url, $this->secret);
-		$a = $fb->get('/data');
-		echo json_encode($a);
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+
+		$data = $this->MUser->get_user($username);
+		if ($data == null) {
+			// redirect(base_url());
+		} else {
+			$cek = $this->MUser->validation($username, $password, $data);
+			if ($cek == true) {
+				$data_session = array(
+					'username' => $username,
+					'status' => 'login'
+				);
+				$this->session->set_userdata($data_session);
+				redirect(base_url("admin"));
+			} else {
+				var_dump($data);
+				// redirect(base_url());
+			}
+		}
+		var_dump($data);
 	}
 	public function update_data()
 	{

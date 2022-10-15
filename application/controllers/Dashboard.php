@@ -6,6 +6,7 @@ class Dashboard extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('MUser');
 	}
 	public function index()
 	{
@@ -16,27 +17,25 @@ class Dashboard extends CI_Controller
 	}
 	function signIn()
 	{
-		// $data['tittle'] = 'LAND ZONe';
-		// $this->load->view('navbar\header', $data);
-		// $this->load->view('dashboard');
-		// $this->load->view('navbar\footer');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		// $where = array(
-		// 	'username' => $username,
-		// 	'password' => md5($password)
-		// 	);
-		// $cek = $this->m_login->cek_login("admin",$where)->num_rows();
-		// if($cek > 0){
 
-		$data_session = array(
-			'nama' => $username,
-			'status' => "login"
-		);
+		$data = $this->MUser->get_user($username, $password);
+		if ($data != null) {
+			$nama = $data['nama'];
+			$level = $data['level'];
+			$data_session = array(
+				'username' => $username,
+				'nama' => $nama,
+				'level' => $level,
+				'status' => 'login'
+			);
+			$this->session->set_userdata($data_session);
+			redirect(base_url("admin"));;
+		} else {
+			redirect(base_url());
+		}
 
-		$this->session->set_userdata($data_session);
-
-		redirect(base_url("admin"));
 
 		// }else{
 		// 	echo "Username dan password salah !";
