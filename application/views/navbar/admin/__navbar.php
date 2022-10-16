@@ -83,6 +83,25 @@
                             Hapus User
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=<?php echo (base_url('admin/banUser')) ?>>
+                            <span data-feather="user-x"></span>
+                            BAN User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=<?php echo (base_url('admin/unbanUser')) ?>>
+                            <span data-feather="user-check"></span>
+                            UNBAN User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=<?php echo (base_url('admin/forceLogout')) ?>>
+                            <span data-feather="log-out"></span>
+                            Force Logout
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </nav>

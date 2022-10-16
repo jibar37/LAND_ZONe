@@ -13,7 +13,6 @@ class MUser extends CI_model
         $dPassword = $data['password'];
 
         if ($username == $dUsername && $password == $dPassword) {
-            echo ('berhasil login');
             return true;
         } else {
             return false;
@@ -28,6 +27,8 @@ class MUser extends CI_model
             "password" => $this->input->post('password'),
             "nama" => $this->input->post('nama'),
             "level" => $this->input->post('level'),
+            "status" => "1",
+            "login" => "0",
         ];
         $a = $fb->set('/user/' . $this->input->post('username'), $d);
         var_dump($a);
@@ -62,15 +63,9 @@ class MUser extends CI_model
         $a = $fb->get('/user/' . $username);
         return $a;
     }
-    public function update_user($username)
+    public function update_user($username, $d)
     {
         $fb = Firebase::initialize($this->url, $this->secret);
-        $d = [
-            "username" => $this->input->post('username'),
-            "password" => $this->input->post('password'),
-            "nama" => $this->input->post('nama'),
-            "level" => $this->input->post('level'),
-        ];
         $a = $fb->update('/user/' . $username, $d);
     }
     public function delete_user($username)

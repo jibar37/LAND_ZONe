@@ -6,11 +6,18 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('MUser');
+        $this->load->library('form_validation');
         if (!$this->session->userdata('username')) {
             redirect(base_url());
         } else {
-            $this->load->library('form_validation');
-            $this->load->model('MUser');
+            $d_username = $this->session->userdata('username');
+            $d = $this->MUser->get_user($d_username);
+
+            if ($d['login'] == "0" || $d['status'] == "0") {
+                $this->session->sess_destroy();
+                redirect(base_url());
+            }
         }
     }
 
@@ -91,7 +98,13 @@ class Admin extends CI_Controller
                 $this->load->view('admin\edit', $data);
                 $this->load->view('navbar\footer');
             } else {
-                $data = $this->MUser->update_user($username);
+                $d = [
+                    "username" => $this->input->post('username'),
+                    "password" => $this->input->post('password'),
+                    "nama" => $this->input->post('nama'),
+                    "level" => $this->input->post('level'),
+                ];
+                $this->MUser->update_user($username, $d);
 
                 $this->session->set_flashdata('flash', 'diupdate');
                 redirect(base_url('admin/editUser?username=') . $username);
@@ -116,6 +129,69 @@ class Admin extends CI_Controller
             redirect(base_url('admin/deleteUser') . $d);
         }
     }
+    public function forceLogout()
+    {
+        $data['data'] = $this->MUser->getAll_user();
+        $data['tittle'] = 'ADMIN';
+
+        $username = $this->input->get('username');
+        if ($username == "") {
+            $data['menu'] = 'Force Logout';
+
+            $this->load->view('navbar\header', $data);
+            $this->load->view('navbar\admin\__navbar', $data);
+            $this->load->view('admin\forceLogout', $data);
+            $this->load->view('navbar\footer');
+        } else {
+            $d = [
+                "login" => "0",
+            ];
+            $this->MUser->update_user($username, $d);
+            redirect(base_url('admin/forceLogout'));
+        }
+    }
+    public function banUser()
+    {
+        $data['data'] = $this->MUser->getAll_user();
+        $data['tittle'] = 'ADMIN';
+
+        $username = $this->input->get('username');
+        if ($username == "") {
+            $data['menu'] = 'BAN USER';
+
+            $this->load->view('navbar\header', $data);
+            $this->load->view('navbar\admin\__navbar', $data);
+            $this->load->view('admin\banUser', $data);
+            $this->load->view('navbar\footer');
+        } else {
+            $d = [
+                "status" => "0",
+            ];
+            $this->MUser->update_user($username, $d);
+            redirect(base_url('admin/banUser'));
+        }
+    }
+    public function unbanUser()
+    {
+        $data['data'] = $this->MUser->getAll_user();
+        $data['tittle'] = 'ADMIN';
+
+        $username = $this->input->get('username');
+        if ($username == "") {
+            $data['menu'] = 'UNBAN USER';
+
+            $this->load->view('navbar\header', $data);
+            $this->load->view('navbar\admin\__navbar', $data);
+            $this->load->view('admin\unbanUser', $data);
+            $this->load->view('navbar\footer');
+        } else {
+            $d = [
+                "status" => "1",
+            ];
+            $this->MUser->update_user($username, $d);
+            redirect(base_url('admin/unbanUser'));
+        }
+    }
     public function test()
     {
         // $d = $this->MUser->delete_user('q');
@@ -124,6 +200,11 @@ class Admin extends CI_Controller
     }
     public function signOut()
     {
+        $username = $this->session->userdata('username');
+        $d = [
+            "login" => "0",
+        ];
+        $this->MUser->update_user($username, $d);
         $this->session->sess_destroy();
         redirect(base_url());
     }

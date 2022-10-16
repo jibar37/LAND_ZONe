@@ -21,12 +21,21 @@
 
 		<form action=<?php echo (base_url('dashboard/signIn')); ?> method="post">
 			<?php if ($username != "") : ?>
-				<div class="alert alert-danger alert-dismissible fade show" role="alert" style="display:inline-block">
-					<p style="font-size: 15px;margin:0px">Username atau Password salah.</p>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin:-5px">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+				<?php if ($status == "0") : ?>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert" style="display:inline-block">
+						<p style="font-size: 15px;margin:0px">User ini telah dibekukan silahkan hubungi admin.</p>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin:-5px">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				<?php else : ?>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert" style="display:inline-block">
+						<p style="font-size: 15px;margin:0px">Username atau Password salah.</p>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin:-5px">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				<?php endif ?>
 			<?php endif ?>
 			<div class="form-row">
 				<div class="col">

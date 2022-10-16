@@ -16,6 +16,7 @@ class Dashboard extends CI_Controller
 	{
 		$data['username'] = "";
 		$data['password'] = "";
+		$data['status'] = "";
 		$data['tittle'] = 'LAND ZONe';
 		$this->load->view('navbar\header', $data);
 		$this->load->view('dashboard', $data);
@@ -26,21 +27,39 @@ class Dashboard extends CI_Controller
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 
-		$data = $this->MUser->login($username, $password);
-		if ($data != null) {
-			$nama = $data['nama'];
-			$level = $data['level'];
-			$data_session = array(
-				'username' => $username,
-				'nama' => $nama,
-				'level' => $level,
-				'status' => 'login'
-			);
-			$this->session->set_userdata($data_session);
-			redirect(base_url("admin"));;
+		$d = $this->MUser->login($username, $password);
+		if ($d != null) {
+			if ($d['status'] == "1") {
+				$nama = $d['nama'];
+				$level = $d['level'];
+				$status = $d['status'];
+				$login = $d['login'];
+				$data_session = array(
+					'username' => $username,
+					'nama' => $nama,
+					'level' => $level,
+					'status' => $status,
+					'login' => $login
+				);
+				$this->session->set_userdata($data_session);
+				$d = [
+					"login" => "1",
+				];
+				$this->MUser->update_user($username, $d);
+				redirect(base_url("admin"));;
+			} else {
+				$data['username'] = $username;
+				$data['password'] = $password;
+				$data['status'] = $d['status'];
+				$data['tittle'] = 'LAND ZONe';
+				$this->load->view('navbar\header', $data);
+				$this->load->view('dashboard', $data);
+				$this->load->view('navbar\footer');
+			}
 		} else {
 			$data['username'] = $username;
 			$data['password'] = $password;
+			$data['status'] = "";
 			$data['tittle'] = 'LAND ZONe';
 			$this->load->view('navbar\header', $data);
 			$this->load->view('dashboard', $data);
