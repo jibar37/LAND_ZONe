@@ -7,7 +7,7 @@
     <?php endif ?>
     <?php if ($this->session->flashdata('flash')) : ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            User berhasil <?php echo ($this->session->flashdata('flash')) ?>.
+            User <?php echo ($this->session->flashdata('flash')) ?> ditambahkan.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

@@ -1,6 +1,14 @@
 </div>
 <div class="container-fluid ">
     <div class="list-group ">
+        <?php if ($this->session->flashdata('flash')) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                User <?php echo ($this->session->flashdata('flash')) ?> di UNBAN.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif ?>
         <?php foreach ($data as $key => $value) { ?>
             <?php if ($key != $this->session->userdata('username')) { ?>
                 <?php if ($value['status'] != "1") { ?>

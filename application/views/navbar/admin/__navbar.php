@@ -1,5 +1,17 @@
+<div id="offline" class="off">
+    <div class="alert alert-danger" role="alert">
+        You are <b style="color:red;">OFFLINE</b>
+        <br>
+        Please Turn On Internet Connection To Run Website
+    </div>
+</div>
+<div id="online" class="on">
+    <div class="alert alert-success" role="alert">
+        <b style="color:green">ONLINE</style=>
+    </div>
+</div>
 <nav class="navbar navbar-dark sticky-top bg-white flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0 text-secondary font-weight-bold" href="#">LAND ZONe</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0 text-secondary font-weight-bold" href=<?php echo base_url() ?>>LAND ZONe</a>
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3">
         <a class="nav-link" href="#">

@@ -64,7 +64,7 @@ class Admin extends CI_Controller
             $this->load->view('navbar\footer');
         } else {
             $data = $this->MUser->add_user();
-            $this->session->set_flashdata('flash', 'ditambahkan');
+            $this->session->set_flashdata('flash', 'berhasil');
             redirect(base_url('admin/tambahUser'));
         }
     }
@@ -106,7 +106,7 @@ class Admin extends CI_Controller
                 ];
                 $this->MUser->update_user($username, $d);
 
-                $this->session->set_flashdata('flash', 'diupdate');
+                $this->session->set_flashdata('flash', 'berhasil');
                 redirect(base_url('admin/editUser?username=') . $username);
             }
         }
@@ -126,6 +126,7 @@ class Admin extends CI_Controller
             $this->load->view('navbar\footer');
         } else {
             $d = $this->MUser->delete_user($username);
+            $this->session->set_flashdata('flash', 'berhasil');
             redirect(base_url('admin/deleteUser') . $d);
         }
     }
@@ -147,6 +148,7 @@ class Admin extends CI_Controller
                 "login" => "0",
             ];
             $this->MUser->update_user($username, $d);
+            $this->session->set_flashdata('flash', 'berhasil');
             redirect(base_url('admin/forceLogout'));
         }
     }
@@ -168,6 +170,7 @@ class Admin extends CI_Controller
                 "status" => "0",
             ];
             $this->MUser->update_user($username, $d);
+            $this->session->set_flashdata('flash', 'berhasil');
             redirect(base_url('admin/banUser'));
         }
     }
@@ -189,6 +192,7 @@ class Admin extends CI_Controller
                 "status" => "1",
             ];
             $this->MUser->update_user($username, $d);
+            $this->session->set_flashdata('flash', 'berhasil');
             redirect(base_url('admin/unbanUser'));
         }
     }
