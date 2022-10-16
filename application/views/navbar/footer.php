@@ -1,6 +1,98 @@
  <!-- Bootstrap core JavaScript
     ================================================== -->
  <!-- Placed at the end of the document so the pages load faster -->
+ <script>
+     function sweet() {
+         swal({
+                 title: "Are you sure?",
+                 icon: "warning",
+                 buttons: true,
+                 dangerMode: true,
+             })
+             .then((willDelete) => {
+                 if (willDelete) {
+                     location.href = "<?php echo (base_url("admin/signOut")) ?>";
+                 }
+             });
+     }
+
+     function del(link) {
+         swal({
+                 title: "Are you sure?",
+                 icon: "warning",
+                 buttons: true,
+                 dangerMode: true,
+             })
+             .then((willDelete) => {
+                 if (willDelete) {
+                     swal({
+                         icon: "success",
+                         title: "User berhasil dihapus!",
+                     }).then((willDelete) => {
+                         location.href = link;
+                     });
+                 }
+             });
+     }
+
+     function ban(link) {
+         swal({
+                 title: "Are you sure?",
+                 icon: "warning",
+                 buttons: true,
+                 dangerMode: true,
+             })
+             .then((willDelete) => {
+                 if (willDelete) {
+                     swal({
+                         icon: "success",
+                         title: "User berhasil di BAN!",
+                     }).then((willDelete) => {
+                         location.href = link;
+                     });
+                 }
+             });
+     }
+
+     function unban(link) {
+         swal({
+                 title: "Are you sure?",
+                 icon: "warning",
+                 buttons: true,
+                 dangerMode: true,
+             })
+             .then((willDelete) => {
+                 if (willDelete) {
+                     swal({
+                         icon: "success",
+                         title: "User berhasil di UNBAN!",
+                     }).then((willDelete) => {
+                         location.href = link;
+                     });
+                 }
+             });
+     }
+
+     function logout(link) {
+         swal({
+                 title: "Are you sure?",
+                 icon: "warning",
+                 buttons: true,
+                 dangerMode: true,
+             })
+             .then((willDelete) => {
+                 if (willDelete) {
+                     swal({
+                         icon: "success",
+                         title: "User berhasil di logout!",
+                     }).then((willDelete) => {
+                         location.href = link;
+                     });
+                 }
+             });
+     }
+ </script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
  <script type="text/javascript">
      let off = document.getElementById("offline");
      let on = document.getElementById("online");

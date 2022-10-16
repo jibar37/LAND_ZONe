@@ -20,7 +20,7 @@
         </a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="btn text-danger btn-outline-danger" href=<?php echo base_url("admin/signOut") ?>>Sign out</a>
+                <a class="btn text-danger btn-outline-danger" onclick="sweet()">Sign out</a>
             </li>
         </ul>
     </div>
