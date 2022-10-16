@@ -73,14 +73,12 @@ class MUser extends CI_model
         ];
         $a = $fb->update('/user/' . $username, $d);
     }
-    public function delete_data()
+    public function delete_user($username)
     {
         $key = $this->input->get("key");
         $fb = Firebase::initialize($this->url, $this->secret);
-        $d = [
-            "notif" => "1",
-            "tipe" => "0",
-        ];
-        $a = $fb->delete('/user/' . $key, $d);
+
+        $a = $fb->delete('/user/' . $username);
+        return $a;
     }
 }

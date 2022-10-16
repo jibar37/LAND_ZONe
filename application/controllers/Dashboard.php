@@ -6,7 +6,11 @@ class Dashboard extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('MUser');
+		if ($this->session->userdata('username')) {
+			redirect(base_url('admin'));
+		} else {
+			$this->load->model('MUser');
+		}
 	}
 	public function index()
 	{

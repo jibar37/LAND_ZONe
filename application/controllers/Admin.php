@@ -43,7 +43,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('passconf', 'Password Confirmation', 'matches[password]');
         $this->form_validation->set_rules('level', 'Level', 'required');
 
-        $data['tittle'] = 'TAMBAH USER';
+        $data['tittle'] = 'ADMIN';
         $data['menu'] = 'Tambah User';
 
         if ($this->form_validation->run() == FALSE) {
@@ -98,13 +98,29 @@ class Admin extends CI_Controller
             }
         }
     }
+    public function deleteUser()
+    {
+        $data['data'] = $this->MUser->getAll_user();
+        $data['tittle'] = 'ADMIN';
+
+        $username = $this->input->get('username');
+        if ($username == "") {
+            $data['menu'] = 'Hapus User';
+
+            $this->load->view('navbar\header', $data);
+            $this->load->view('navbar\admin\__navbar', $data);
+            $this->load->view('admin\deleteUser', $data);
+            $this->load->view('navbar\footer');
+        } else {
+            $d = $this->MUser->delete_user($username);
+            redirect(base_url('admin/deleteUser') . $d);
+        }
+    }
     public function test()
     {
-        $data = $this->MUser->getAll_user();
-        foreach ($data as $key => $value) {
-            echo ($key);
-            echo "<br>";
-        }
+        // $d = $this->MUser->delete_user('q');
+        $d = true;
+        echo $d;
     }
     public function signOut()
     {
