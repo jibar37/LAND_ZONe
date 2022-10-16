@@ -69,52 +69,54 @@
                         </a>
                     </li>
                 </ul>
+                <?php if ($this->session->userdata('level') == "2") { ?>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>User Setting</span>
+                        <a class="d-flex align-items-center text-muted">
+                            <span data-feather="tool"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href=<?php echo (base_url('admin/tambahUser')) ?>>
+                                <span data-feather="user-plus"></span>
+                                Tambah User
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=<?php echo (base_url('admin/editUser')) ?>>
+                                <span data-feather="edit"></span>
+                                Edit User
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=<?php echo (base_url('admin/deleteUser')) ?>>
+                                <span data-feather="user-minus"></span>
+                                Hapus User
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=<?php echo (base_url('admin/banUser')) ?>>
+                                <span data-feather="user-x"></span>
+                                BAN User
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=<?php echo (base_url('admin/unbanUser')) ?>>
+                                <span data-feather="user-check"></span>
+                                UNBAN User
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=<?php echo (base_url('admin/forceLogout')) ?>>
+                                <span data-feather="log-out"></span>
+                                Force Logout
+                            </a>
+                        </li>
+                    <?php } ?>
 
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>User Setting</span>
-                    <a class="d-flex align-items-center text-muted">
-                        <span data-feather="tool"></span>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href=<?php echo (base_url('admin/tambahUser')) ?>>
-                            <span data-feather="user-plus"></span>
-                            Tambah User
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=<?php echo (base_url('admin/editUser')) ?>>
-                            <span data-feather="edit"></span>
-                            Edit User
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=<?php echo (base_url('admin/deleteUser')) ?>>
-                            <span data-feather="user-minus"></span>
-                            Hapus User
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=<?php echo (base_url('admin/banUser')) ?>>
-                            <span data-feather="user-x"></span>
-                            BAN User
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=<?php echo (base_url('admin/unbanUser')) ?>>
-                            <span data-feather="user-check"></span>
-                            UNBAN User
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=<?php echo (base_url('admin/forceLogout')) ?>>
-                            <span data-feather="log-out"></span>
-                            Force Logout
-                        </a>
-                    </li>
 
-                </ul>
+                    </ul>
             </div>
         </nav>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
