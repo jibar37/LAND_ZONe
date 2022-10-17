@@ -5,15 +5,15 @@
     </button>
     <button type="button" class="btn btn-outline-success btn-sm" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
     </button>
-    <!-- <button type="button" class="btn btn-outline-success" name="options" id="tambah" autocomplete="off"> TAMBAH
-		                </button>
-                        <button type="button" class="btn btn-outline-success" name="options" id="edit" autocomplete="off"> EDIT
-                        </button> -->
+    <button type="button" class="btn btn-outline-success" name="options" id="tambah" autocomplete="off"> TAMBAH
+    </button>
+    <button type="button" class="btn btn-outline-success" name="options" id="edit" autocomplete="off"> EDIT
+    </button>
 </nav>
 <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
-        <button class="btn btn-sm btn-outline-secondary text-primary">Save</button>
-        <button class="btn btn-sm btn-outline-secondary text-danger">Cancel</button>
+        <button class="btn btn-sm btn-outline-secondary text-primary" id="save">Save</button>
+        <button class="btn btn-sm btn-outline-secondary text-danger" id="cancel">Cancel</button>
     </div>
 
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
@@ -58,30 +58,4 @@
         edit();
     }
 </script>
-<script type="module">
-    import {
-        mapStyle,
-        tambah,
-        edit,
-    } from "<?php echo base_url(); ?>assets/Main.js";
-    document.getElementById("satellite-v9").onclick = function() {
-        mapStyle('satellite-v9');
-
-    };
-    document.getElementById("streets-v11").onclick = function() {
-        mapStyle('streets-v11');
-
-    };
-    document.getElementById("outdoors-v11").onclick = function() {
-        mapStyle('outdoors-v11');
-
-    };
-    // document.getElementById("tambah").onclick = function() {
-    //     //mapStyle('outdoors-v11');
-    //     tambah();
-    // };
-    document.getElementById("edit").onclick = function() {
-        //mapStyle('outdoors-v11');
-        edit();
-    };
-</script>
+<!-- document.writeln("<script type='text/javascript' src='https://code.jquery.com/jquery-3.5.1.min.js'></script>"); -->

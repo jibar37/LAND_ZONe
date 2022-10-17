@@ -30,6 +30,7 @@ class Admin extends CI_Controller
         $this->load->view('navbar\header', $data);
         $this->load->view('navbar\admin\__navbar', $data);
         $this->load->view('admin\dashboard');
+        $this->load->view('map\map', $data);
         $this->load->view('navbar\footer');
     }
 

@@ -20,6 +20,7 @@ class Dashboard extends CI_Controller
 		$data['tittle'] = 'LAND ZONe';
 		$this->load->view('navbar\header', $data);
 		$this->load->view('dashboard', $data);
+		$this->load->view('map\map', $data);
 		$this->load->view('navbar\footer');
 	}
 	function signIn()
