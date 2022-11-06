@@ -5,43 +5,22 @@
     </button>
     <button type="button" class="btn btn-outline-success btn-sm" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
     </button>
-    <button type="button" class="btn btn-outline-success" name="options" id="tambah" autocomplete="off"> TAMBAH
-    </button>
-    <button type="button" class="btn btn-outline-success" name="options" id="edit" autocomplete="off"> EDIT
-    </button>
+
 </nav>
 
 <div class="btn-toolbar mb-2 mb-md-0">
+
     <div class="btn-group mr-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm text-danger" name="options" id="tambah" autocomplete="off"> Tambah
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-sm text-success" name="options" id="edit" autocomplete="off"> Edit
+        </button>
         <button class="btn btn-sm btn-outline-secondary text-primary" id="save">Save</button>
-        <button class="btn btn-sm btn-outline-secondary text-danger" id="cancel">Cancel</button>
     </div>
-
-    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-    </button>
 </div>
 
 
 </div>
-<!-- <div id="changeMap" data-toggle="buttons">
-                <label id="streets-v11" class="btn btn-secondary active">
-                    <input type="radio" name="options" id="streets-v11" autocomplete="off" checked> STREET
-                </label>
-                <label id="satellite-v9" class="btn btn-secondary">
-                    <input type="radio" name="options" id="satellite-v9" autocomplete="off"> SATELITE
-                </label>
-                <label id="outdoors-v11" class="btn btn-secondary">
-                    <input type="radio" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
-                </label>
-                <label id="tambah" class="btn btn-secondary">
-                    <input type="radio" name="options" id="tambah" autocomplete="off"> TAMBAH
-                </label>
-                <label id="edit" class="btn btn-secondary">
-                    <input type="radio" name="options" id="edit" autocomplete="off"> EDIT
-                </label>
-            </div> -->
 <div id="map">
 
     <div class="card" style="height: 100vh;">
