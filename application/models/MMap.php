@@ -2,10 +2,11 @@
 
 use Firebase\Firebase;
 
-class MUser extends CI_model
+class MMap extends CI_model
 {
     var $url = 'https://land-zone-default-rtdb.firebaseio.com';
     var $secret = "DZ1F98TXlnnjXqc64NBPi0R6PNA9WyU2tolALmmI";
+
 
     public function validation($username, $password, $data)
     {
@@ -79,23 +80,17 @@ class MUser extends CI_model
     public function add_polygon()
     {
         $fb = Firebase::initialize($this->url, $this->secret);
-
-        $d = [
-            "name" => $this->input->post('username'),
-            "password" => $this->input->post('password'),
-            "nama" => $this->input->post('nama'),
-            "level" => $this->input->post('level'),
-            "status" => "1",
-            "login" => "0",
-        ];
-        $a = $fb->set('/map/' . $this->input->post('username'), $d);
-        var_dump($a);
+        $data = $this->input->post('data');
+        foreach ($data as $dt => $value) {
+            $d = $value;
+            $a = $fb->set('/map/polygon/' . $value['id'], $d);
+        }
+        // var_dump($a);
     }
     public function getAll_polygon()
     {
         $fb = Firebase::initialize($this->url, $this->secret);
         $a = $fb->get('/map/polygon');
         return $a;
-        var_dump($a);
     }
 }

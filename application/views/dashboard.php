@@ -60,10 +60,10 @@
 		</button>
 		<button type="button" class="btn btn-outline-success btn-sm" name="options" id="outdoors-v11" autocomplete="off"> OUTDOORS
 		</button>
-		<!-- <button type="button" class="btn btn-outline-success" name="options" id="tambah" autocomplete="off"> TAMBAH
+		<button type="button" class="btn btn-outline-success" name="options" id="tambah" autocomplete="off"> TAMBAH
 		</button>
 		<button type="button" class="btn btn-outline-success" name="options" id="edit" autocomplete="off"> EDIT
-		</button> -->
+		</button>
 	</nav>
 </div>
 

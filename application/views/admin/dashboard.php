@@ -10,6 +10,7 @@
     <button type="button" class="btn btn-outline-success" name="options" id="edit" autocomplete="off"> EDIT
     </button>
 </nav>
+
 <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
         <button class="btn btn-sm btn-outline-secondary text-primary" id="save">Save</button>
@@ -21,6 +22,8 @@
         This week
     </button>
 </div>
+
+
 </div>
 <!-- <div id="changeMap" data-toggle="buttons">
                 <label id="streets-v11" class="btn btn-secondary active">

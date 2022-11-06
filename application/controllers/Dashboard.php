@@ -17,6 +17,12 @@ class Dashboard extends CI_Controller
 		$data['username'] = "";
 		$data['password'] = "";
 		$data['status'] = "";
+		$this->load->model('MMap');
+		$dt = $this->MMap->getAll_polygon();
+		foreach ($dt as $d => $value) {
+			$d = $value['coordinate'];
+		}
+		$data['d'] = $d;
 		$data['tittle'] = 'LAND ZONe';
 		$this->load->view('navbar\header', $data);
 		$this->load->view('dashboard', $data);
@@ -55,6 +61,7 @@ class Dashboard extends CI_Controller
 				$data['tittle'] = 'LAND ZONe';
 				$this->load->view('navbar\header', $data);
 				$this->load->view('dashboard', $data);
+				$this->load->view('map\map', $data);
 				$this->load->view('navbar\footer');
 			}
 		} else {
@@ -64,6 +71,7 @@ class Dashboard extends CI_Controller
 			$data['tittle'] = 'LAND ZONe';
 			$this->load->view('navbar\header', $data);
 			$this->load->view('dashboard', $data);
+			$this->load->view('map\map', $data);
 			$this->load->view('navbar\footer');
 		}
 

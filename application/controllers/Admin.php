@@ -7,6 +7,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->model('MUser');
+        $this->load->model('MMap');
         $this->load->library('form_validation');
         if (!$this->session->userdata('level')) {
             redirect(base_url());
@@ -25,6 +26,19 @@ class Admin extends CI_Controller
     {
         $data['tittle'] = 'ADMIN';
         $data['menu'] = 'Dashboard';
+        $dt = $this->MMap->getAll_polygon();
+        $dtLength = count($dt);
+        for ($i = 0; $i < $dtLength; $i++) {
+        }
+        $i = 0;
+        $polygon = array();
+        foreach ($dt as $d => $value) {
+            // $final[$d][$i] = [$value['coordinate']];
+            $polygon[$i] = $value;
+            $i++;
+        }
+
+        $data['d'] = $polygon;
         $data['nama'] = $this->session->userdata('nama');
 
         $this->load->view('navbar\header', $data);
@@ -215,8 +229,21 @@ class Admin extends CI_Controller
     public function test()
     {
         // $d = $this->MUser->delete_user('q');
-        $d = true;
-        echo $d;
+        $d = $this->input->post('exp');
+        var_dump($d);
+    }
+    public function getAllPolygon()
+    {
+        $data = $this->MMap->getAll_polygon();
+        foreach ($data as $d => $value) {
+            $hasil = $value['coordinate'];
+        }
+        var_dump($hasil);
+    }
+    public function addPolygon()
+    {
+        $this->MMap->add_polygon();
+        echo "tambah polygon";
     }
     public function signOut()
     {

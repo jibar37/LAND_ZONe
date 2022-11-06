@@ -13,6 +13,10 @@
     let marker = [];
     let mataramCoord = "<?php echo (base_url()); ?>assets/mataram.geojson";
     let isTambah = false;
+    let dataPolygon = [];
+    let allData = [];
+    // let coba3 = Array.from(Array(), () => new Array());
+    // coba3[0][0] = "test";
 
     //api key mapbox
     const apiKey = 'pk.eyJ1IjoiamliYXIzNyIsImEiOiJja2tpcnZvaWYwc3J3MnVxOW84YmV0MDFkIn0.wEvaABwReIIPwPB4fhW1Ow';
@@ -61,9 +65,64 @@
             fillColor: 'white'
         }).addTo(map);
 
+    //show all polygon
+    function showAll(data) {
+        let l;
+        allowUndo = false;
+        if (marker != 0) {
+            let markerLength = marker.length;
+            for (let i = 0; i < markerLength; i++) {
+                hideMarker(i);
+                marker[i].off('click');
+                map.off('popupopen');
+            }
+            marker = [];
+        }
+        l = test.length;
+        console.log("polygon = ", l);
+        polyOnClick = l;
+        if (l == 0) {
+            test[polyOnClick] = new utils.Coordinate();
+            test[polyOnClick].nama = data.nama;
+            test[polyOnClick].id = data.id;
+            test[polyOnClick].jenis = data.jenis;
+
+            for (let i = 0; i < data.coordinate.length; i++) {
+                test[polyOnClick].input(data.coordinate[i][0], data.coordinate[i][1]);
+            }
+            showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+        } else {
+            if (test[polyOnClick - 1].head == null) {
+                test.pop();
+            } else {
+                test[polyOnClick] = new utils.Coordinate();
+                test[polyOnClick].nama = data.nama;
+                test[polyOnClick].id = data.id;
+                test[polyOnClick].jenis = data.jenis;
+
+                for (let i = 0; i < data.coordinate.length; i++) {
+                    test[polyOnClick].input(data.coordinate[i][0], data.coordinate[i][1]);
+                }
+                showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+            }
+        }
+        console.log(polyOnClick);
+        if (line != null) {
+            hidePolyline();
+        }
+        line = null;
 
 
 
+        if (!mapStatus || polyOnClick == 0) {
+            onClick();
+            mapStatus = true;
+            isEdit = false;
+        }
+        console.log(test.length);
+        polygonOnClick(polyOnClick);
+
+    }
     //tambah polygon
     export function tambah() {
         let l;
@@ -81,11 +140,17 @@
         polyOnClick = l;
         if (l == 0) {
             test[polyOnClick] = new utils.Coordinate();
+            test[polyOnClick].nama = "data.nama";
+            test[polyOnClick].id = polyOnClick;
+            test[polyOnClick].jenis = "data.jenis";
         } else {
             if (test[polyOnClick - 1].head == null) {
                 test.pop();
             } else {
                 test[polyOnClick] = new utils.Coordinate();
+                test[polyOnClick].nama = "data.nama";
+                test[polyOnClick].id = polyOnClick;
+                test[polyOnClick].jenis = "data.jenis";
             }
         }
         console.log(polyOnClick);
@@ -99,6 +164,8 @@
             mapStatus = true;
             isEdit = false;
         }
+
+
     }
 
     //edit polygon
@@ -149,6 +216,10 @@
             }
             // line = null;
             console.log("ini polygon ke ", l);
+            console.log("id ", test[l].id);
+            console.log("nama ", test[l].nama);
+            console.log("jenis ", test[l].jenis);
+
             if (marker != 0) {
                 for (let i = 0; i < marker.length; i++) {
                     hideMarker(i);
@@ -537,12 +608,108 @@
         mapStyle('outdoors-v11');
 
     };
-    // document.getElementById("tambah").onclick = function() {
-    // 	//mapStyle('outdoors-v11');
-    // 	tambah();
-    // };
+    document.getElementById("tambah").onclick = function() {
+        //mapStyle('outdoors-v11');
+        tambah();
+    };
     document.getElementById("edit").onclick = function() {
         //mapStyle('outdoors-v11');
         edit();
     };
+    let d = <?php echo json_encode($d); ?>;
+    console.log(d);
+    for (let i = 0; i < d.length; i++) {
+        showAll(d[i]);
+    }
+    //passing data javascript ke Controller dengan ajax
+    // Variable to hold request
+    var request;
+
+    // Bind to the submit event of our form
+    $("#save").click(function(event) {
+
+        // Prevent default posting of form - put here to work in case of errors
+        event.preventDefault();
+        getAllData();
+
+        // Abort any pending request
+        if (request) {
+            request.abort();
+        }
+        // setup some local variables
+        // var $form = $(this);
+
+        // Let's select and cache all the fields
+        // var $inputs = $form.find("input, select, button, textarea");
+
+        // Serialize the data in the form
+        // var serializedData = $form.serialize();
+
+        // Let's disable the inputs for the duration of the Ajax request.
+        // Note: we disable elements AFTER the form data has been serialized.
+        // Disabled form elements will not be serialized.
+        //$inputs.prop("disabled", true);                
+
+        // Fire off the request to /form.php
+        request = $.ajax({
+            url: "<?php echo (base_url()); ?>Admin/addPolygon",
+            type: "post",
+            data: {
+                data: allData
+            },
+            success: function(data) {
+                swal({
+                    icon: "success",
+                    title: "Berhasil Disimpan!",
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+
+        // Callback handler that will be called on success
+        request.done(function(response, textStatus, jqXHR) {
+            // Log a message to the console
+            console.log("Hooray, it worked!");
+        });
+
+        // Callback handler that will be called on failure
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+            // Log the error to the console
+            swal({
+                icon: "warning",
+                title: "Data Gagal di Update!",
+            }).then((willDelete) => {
+
+            });
+
+            console.error(
+                "The following error occurred: " +
+                textStatus, errorThrown
+            );
+        });
+
+        // Callback handler that will be called regardless
+        // if the request failed or succeeded
+        // request.always(function() {
+        //     // Reenable the inputs
+        //     $inputs.prop("disabled", false);
+        // });
+
+    });
+
+    function getAllData() {
+        let l = test.length;
+        for (let i = 0; i < l; i++) {
+            dataPolygon = {
+                id: test[i].id,
+                nama: test[i].nama,
+                jenis: test[i].jenis,
+                coordinate: test[i].cord,
+
+            };
+            allData[i] = dataPolygon;
+        }
+        console.log(allData);
+    }
 </script>

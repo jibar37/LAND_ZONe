@@ -2,10 +2,14 @@ class Coordinate {
 	head = null;
 	polygon = null;
 	cord = [];
+	id = null;
+	jenis = null;
+	nama = null;
 	constructor() {
 		this.head = null;
 		this.polygon = null;
 	}
+
 	input(Lat, Long) {
 		let temp = null;
 		let lat = Lat;
