@@ -3,6 +3,8 @@
     import * as utils from "<?php echo (base_url()); ?>assets/List.js";
 
     let test = [];
+    let namaPolygon = null;
+    let jenisPolygon = null;
     let indexAddAfter = null;
     let mapStatus = true;
     let isEdit = false;
@@ -145,17 +147,21 @@
 
         if (l == 0) {
             test[polyOnClick] = new utils.Coordinate();
-            test[polyOnClick].nama = "data.nama";
+            test[polyOnClick].nama = namaPolygon;
             test[polyOnClick].id = lastId + 1;
-            test[polyOnClick].jenis = "data.jenis";
+            test[polyOnClick].jenis = jenisPolygon;
+            namaPolygon = null;
+            jenisPolygon = null;
         } else {
             if (test[polyOnClick - 1].head == null) {
                 test.pop();
             } else {
                 test[polyOnClick] = new utils.Coordinate();
-                test[polyOnClick].nama = "data.nama";
+                test[polyOnClick].nama = namaPolygon;
                 test[polyOnClick].id = lastId + 1;
-                test[polyOnClick].jenis = "data.jenis";
+                test[polyOnClick].jenis = jenisPolygon;
+                namaPolygon = null;
+                jenisPolygon = null;
             }
         }
         console.log(polyOnClick);
@@ -649,10 +655,7 @@
         mapStyle('outdoors-v11');
 
     };
-    document.getElementById("tambah").onclick = function() {
-        //mapStyle('outdoors-v11');
-        tambah();
-    };
+
     document.getElementById("edit").onclick = function() {
         //mapStyle('outdoors-v11');
         edit();
@@ -676,6 +679,22 @@
     //passing data javascript ke Controller dengan ajax
     // Variable to hold request
     var request;
+    //set detail polygon
+
+    $("#detailPolygon").submit(function(e) {
+
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $(this);
+        //close modal
+        $('#exampleModal').modal('toggle'); //or  $('#IDModal').modal('hide');
+
+        namaPolygon = $('#nama').val();
+        jenisPolygon = $("input[name='jenis']:checked").val();;
+        tambah();
+    });
+
 
     // Bind to the submit event of our form
     $("#save").click(function(event) {

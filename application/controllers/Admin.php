@@ -24,6 +24,8 @@ class Admin extends CI_Controller
 
     function index()
     {
+
+
         $temp = [
             [
                 [
@@ -250,7 +252,10 @@ class Admin extends CI_Controller
     public function test()
     {
         // $d = $this->MUser->delete_user('q');
-        $d = $this->input->post('exp');
+        $d = $this->input->post('nama');
+        $this->session->set_userdata('namaPolygon', $d);
+        $d = $this->input->post('jenis');
+        $this->session->set_userdata('jenisPolygon', $d);
         var_dump($d);
     }
     public function getAllPolygon()
