@@ -11,12 +11,30 @@
 <div class="btn-toolbar mb-2 mb-md-0">
 
     <div class="btn-group mr-2">
-        <button type="button" class="btn btn-outline-secondary btn-sm text-danger" name="options" id="tambah" autocomplete="off"> Tambah
+        <button type="button" class="btn btn-outline-warning btn-sm font-weight-bold" name="options" id="tambah" autocomplete="off">
+            <span data-feather="plus-square"></span>
+            Tambah
         </button>
-        <button type="button" class="btn btn-outline-secondary btn-sm text-success" name="options" id="edit" autocomplete="off"> Edit
+        <button type="button" class="btn btn-outline-success btn-sm font-weight-bold" name="options" id="edit" autocomplete="off">
+            <span data-feather="edit"></span>
+            Edit
         </button>
-        <button class="btn btn-sm btn-outline-secondary text-primary" id="save">Save</button>
+        <button type="button" class="btn btn-outline-danger btn-sm font-weight-bold" name="options" id="hapus" autocomplete="off">
+            <span data-feather="trash"></span>
+            Hapus
+        </button>
     </div>
+    <div class="btn-group mr-2">
+        <button class="btn btn-sm btn-outline-primary font-weight-bold" id="save">
+            <span data-feather="save"></span>
+            Save
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm font-weight-bold" name="options" id="cancel" autocomplete="off">
+            <span data-feather="x-square"></span>
+            Cancel
+        </button>
+    </div>
+
 </div>
 
 

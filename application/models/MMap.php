@@ -81,9 +81,11 @@ class MMap extends CI_model
     {
         $fb = Firebase::initialize($this->url, $this->secret);
         $data = $this->input->post('data');
+        var_dump($data);
+        $fb->delete('/map');
         foreach ($data as $dt => $value) {
             $d = $value;
-            $a = $fb->set('/map/polygon/' . $value['id'], $d);
+            $fb->set('/map/polygon/' . $d['id'], $d);
         }
         // var_dump($a);
     }
@@ -91,6 +93,11 @@ class MMap extends CI_model
     {
         $fb = Firebase::initialize($this->url, $this->secret);
         $a = $fb->get('/map/polygon');
+        function myFilter($var)
+        {
+            return ($var !== NULL && $var !== FALSE && $var !== "");
+        }
+        $a = array_filter($a, "myFilter");
         return $a;
     }
 }

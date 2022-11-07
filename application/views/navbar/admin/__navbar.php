@@ -20,7 +20,10 @@
         </a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="btn text-danger btn-outline-danger" onclick="sweet()">Sign out</a>
+                <a class="btn text-danger btn-outline-danger font-weight-bold" onclick="sweet()">
+                    <span data-feather="log-out"></span>
+                    Sign out
+                </a>
             </li>
         </ul>
     </div>

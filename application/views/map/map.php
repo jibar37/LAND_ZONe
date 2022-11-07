@@ -69,6 +69,10 @@
     function showAll(data) {
         let l;
         allowUndo = false;
+        if (line == null) {
+            polyline();
+            showPolyline();
+        }
         if (marker != 0) {
             let markerLength = marker.length;
             for (let i = 0; i < markerLength; i++) {
@@ -89,8 +93,9 @@
 
             for (let i = 0; i < data.coordinate.length; i++) {
                 test[polyOnClick].input(data.coordinate[i][0], data.coordinate[i][1]);
+                makeLine(i);
             }
-            showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+            showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon, polyOnClick);
         } else {
             if (test[polyOnClick - 1].head == null) {
                 test.pop();
@@ -102,25 +107,18 @@
 
                 for (let i = 0; i < data.coordinate.length; i++) {
                     test[polyOnClick].input(data.coordinate[i][0], data.coordinate[i][1]);
+                    makeLine(i);
                 }
-                showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+                showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon, polyOnClick);
             }
         }
-        console.log(polyOnClick);
-        if (line != null) {
-            hidePolyline();
-        }
-        line = null;
 
-
-
-        if (!mapStatus || polyOnClick == 0) {
-            onClick();
-            mapStatus = true;
-            isEdit = false;
-        }
-        console.log(test.length);
+        hidePolyline();
+        // line = null;
+        map.off('click');
+        mapStatus = false;
         polygonOnClick(polyOnClick);
+        allowUndo = false;
 
     }
     //tambah polygon
@@ -138,10 +136,17 @@
         }
         l = test.length;
         polyOnClick = l;
+        let lastId = null
+        if (test[0] != null) {
+            lastId = parseInt(test[l - 1].id);
+        } else {
+            lastId = -1;
+        }
+
         if (l == 0) {
             test[polyOnClick] = new utils.Coordinate();
             test[polyOnClick].nama = "data.nama";
-            test[polyOnClick].id = polyOnClick;
+            test[polyOnClick].id = lastId + 1;
             test[polyOnClick].jenis = "data.jenis";
         } else {
             if (test[polyOnClick - 1].head == null) {
@@ -149,7 +154,7 @@
             } else {
                 test[polyOnClick] = new utils.Coordinate();
                 test[polyOnClick].nama = "data.nama";
-                test[polyOnClick].id = polyOnClick;
+                test[polyOnClick].id = lastId + 1;
                 test[polyOnClick].jenis = "data.jenis";
             }
         }
@@ -294,7 +299,7 @@
                     hidePolyline();
                     map.off('mouse');
                     mapStatus = false;
-                    polygonOnClick(polyOnClick);
+                    //polygonOnClick(polyOnClick);
                     map.off('click');
                     isAddAfter = false;
                 } else {
@@ -311,7 +316,7 @@
                 let latlng1 = [lat, long];
                 console.log(test[polyOnClick].cord);
 
-                showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+                showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon, polyOnClick);
                 if (line == null) {
                     polyline();
                     showPolyline();
@@ -319,7 +324,7 @@
                 makeLine(indexAddAfter);
 
                 if (!isEdit) {
-                    polygonOnClick(polyOnClick);
+                    // polygonOnClick(polyOnClick);
                 }
             }
 
@@ -410,7 +415,7 @@
             });
             //map.panTo(new L.LatLng(position.lat, position.lng));
             test[polyOnClick].update(i, position.lat, position.lng);
-            showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+            showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon, polyOnClick);
             polygonOnClick(polyOnClick);
 
         });
@@ -468,7 +473,7 @@
             addMarker(i, test[polyOnClick].cord[i]);
         }
 
-        showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+        showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon, polyOnClick);
         polygonOnClick(polyOnClick);
         polyline(line);
     }
@@ -522,7 +527,7 @@
                         }
                         addAllMarker();
                         console.log('tambah');
-                        showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon);
+                        showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon, polyOnClick);
                         polygonOnClick(polyOnClick);
                         console.log("berhasil undo")
                     }
@@ -552,7 +557,17 @@
     }
 
     //add polygon to map
-    function showPolygon(cord1, polygon1) {
+    function showPolygon(cord1, polygon1, index) {
+        let content =
+            `<div class="card text-center">           
+            <div class="card-body">
+                <h5 class="card-title">` + test[index].nama + `</h5>
+                <p class="card-text">` + test[index].jenis + `</p>               
+            </div>
+            <div class="card-footer text-muted">
+               
+            </div>
+        </div>`;
         let polygon = polygon1;
         if (polygon == null) {
             polygon = L.polygon([
@@ -562,6 +577,7 @@
                 fillColor: 'blue',
                 fillOpacity: 0.2
             }).addTo(map)
+            polygon.bindTooltip(content);
             console.log("berhasil menampilkan polygon");
         } else {
             polygon.remove();
@@ -572,9 +588,23 @@
                 fillColor: 'blue',
                 fillOpacity: 0.2
             }).addTo(map)
+            polygon.bindTooltip(content);
             console.log("berhasil menampilkan polygon");
         }
-        test[polyOnClick].polygon = polygon;
+        test[index].polygon = polygon;
+    }
+    //show all polygon
+    function showAllPolygon() {
+        let l = test.length;
+        if (l > 0) {
+            console.log(test);
+            for (let i = 0; i < l; i++) {
+                test[i].polygon.remove();
+                test[i].polygon = null;
+                showPolygon(test[i].cord, test[i].polygon, i);
+                polygonOnClick(i);
+            }
+        }
     }
 
     //create help line to draw
@@ -594,7 +624,18 @@
 
     //hide polyline
     function hidePolyline() {
-        map.removeLayer(line);
+        if (line != null) {
+            map.removeLayer(line);
+        }
+    }
+
+    function hapusPolygon() {
+        test[polyOnClick].polygon.remove();
+        test.splice(polyOnClick, 1);
+        allData = [];
+        //polyOnClick = test.length - 1;
+        showAllPolygon();
+        delAllMarker();
     }
     document.getElementById("satellite-v9").onclick = function() {
         mapStyle('satellite-v9');
@@ -616,11 +657,22 @@
         //mapStyle('outdoors-v11');
         edit();
     };
+    document.getElementById("hapus").onclick = function() {
+        //mapStyle('outdoors-v11');
+        hapusPolygon();
+    };
+    document.getElementById("cancel").onclick = function() {
+        //mapStyle('outdoors-v11');
+        location.replace("<?php echo (base_url()); ?>Admin");
+    };
     let d = <?php echo json_encode($d); ?>;
-    console.log(d);
-    for (let i = 0; i < d.length; i++) {
-        showAll(d[i]);
+    if (d != null) {
+        console.log("banyak data " + d.length);
+        for (let i = 0; i < d.length; i++) {
+            showAll(d[i]);
+        }
     }
+
     //passing data javascript ke Controller dengan ajax
     // Variable to hold request
     var request;
@@ -631,6 +683,15 @@
         // Prevent default posting of form - put here to work in case of errors
         event.preventDefault();
         getAllData();
+        // if (!isEdit) {
+        hidePolyline();
+        //line = null;
+        map.off('click');
+        mapStatus = false;
+        console.log("panjang array test = ", test.length);
+        //polygonOnClick(polyOnClick);
+        allowUndo = false;
+        // }
 
         // Abort any pending request
         if (request) {
@@ -651,12 +712,17 @@
         //$inputs.prop("disabled", true);                
 
         // Fire off the request to /form.php
+        console.log(allData.length);
         request = $.ajax({
             url: "<?php echo (base_url()); ?>Admin/addPolygon",
             type: "post",
             data: {
                 data: allData
             },
+
+            // success: function(data) {
+            //     alert(data);
+            // }
             success: function(data) {
                 swal({
                     icon: "success",
@@ -700,13 +766,16 @@
 
     function getAllData() {
         let l = test.length;
+        console.log(test);
         for (let i = 0; i < l; i++) {
+            if (test[i].id == null) {
+                i++;
+            }
             dataPolygon = {
                 id: test[i].id,
                 nama: test[i].nama,
                 jenis: test[i].jenis,
                 coordinate: test[i].cord,
-
             };
             allData[i] = dataPolygon;
         }
