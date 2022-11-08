@@ -682,8 +682,6 @@
     //set detail polygon
 
     $("#detailPolygon").submit(function(e) {
-
-
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
         var form = $(this);
@@ -702,6 +700,7 @@
         // Prevent default posting of form - put here to work in case of errors
         event.preventDefault();
         getAllData();
+        showAllPolygon();
         // if (!isEdit) {
         hidePolyline();
         //line = null;
