@@ -571,9 +571,16 @@
                 <p class="card-text">` + test[index].jenis + `</p>               
             </div>
             <div class="card-footer text-muted">
-               
+            <button type="button" class="btn btn-primary btn-sm" id="editDetail` + index + `">Edit Detail</button>
             </div>
         </div>`;
+        var tooltip = L.tooltip({
+            direction: 'center',
+            interactive: true,
+            noWrap: true,
+            opacity: 0.9
+        });
+        tooltip.setContent(content);
         let polygon = polygon1;
         if (polygon == null) {
             polygon = L.polygon([
@@ -583,7 +590,7 @@
                 fillColor: 'blue',
                 fillOpacity: 0.2
             }).addTo(map)
-            polygon.bindTooltip(content);
+            polygon.bindTooltip(tooltip);
             console.log("berhasil menampilkan polygon");
         } else {
             polygon.remove();
@@ -594,10 +601,36 @@
                 fillColor: 'blue',
                 fillOpacity: 0.2
             }).addTo(map)
-            polygon.bindTooltip(content);
+            polygon.bindTooltip(tooltip);
             console.log("berhasil menampilkan polygon");
         }
         test[index].polygon = polygon;
+        test[index].polygon.on('tooltipopen', function() {
+            let link = document.getElementById("editDetail" + index);
+            link.addEventListener('click', e => {
+                $('#modalEdit').modal('show'); //or  $('#IDModal').modal('hide');
+                $('#editNama').val(test[index].nama);
+                let x = test[index].jenis;
+                switch (x) {
+                    case "Kawasan RTH":
+                        $("#ekrth").prop("checked", true);
+                        break;
+                    case "Kawasan Sepadan Pantai":
+                        $("#eksp").prop("checked", true);
+                        break;
+                    case "Kawasan Sepadan Sungai":
+                        $("#ekss").prop("checked", true);
+                        break;
+                    case "Kawasan Cagar Budaya":
+                        $("#ekcb").prop("checked", true);
+                        break;
+                    case "Kawasan Rawan Ancaman Bencana":
+                        $("#ekrab").prop("checked", true);
+                        break;
+                }
+            });
+        });
+
     }
     //show all polygon
     function showAllPolygon() {
@@ -689,8 +722,20 @@
         $('#exampleModal').modal('toggle'); //or  $('#IDModal').modal('hide');
 
         namaPolygon = $('#nama').val();
-        jenisPolygon = $("input[name='jenis']:checked").val();;
+        jenisPolygon = $("input[name='jenis']:checked").val();
         tambah();
+    });
+
+    $("#editDetailPolygon").submit(function(e) {
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $(this);
+        //close modal
+        $('#modalEdit').modal('toggle'); //or  $('#IDModal').modal('hide');
+        test[polyOnClick].nama = $('#editNama').val();
+        test[polyOnClick].jenis = $("input[name='editJenis']:checked").val();;
+        showAllPolygon();
+
     });
 
 
