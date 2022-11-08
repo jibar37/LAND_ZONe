@@ -271,6 +271,75 @@ class Admin extends CI_Controller
         $this->MMap->add_polygon();
         echo "tambah polygon";
     }
+    public function editProfile()
+    {
+        $data['data'] = $this->MUser->getAll_user();
+        $data['tittle'] = 'ADMIN';
+        $user['nama'] = $this->session->userdata('nama');
+        $user['username'] = $this->session->userdata('username');
+        $user['level'] = $this->session->userdata('level');
+
+
+        $username = $this->session->userdata('username');
+
+
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|alpha_numeric_spaces');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'matches[password]');
+        $this->form_validation->set_rules('level', 'Level', 'required');
+
+        $dt = $this->MUser->get_user($username);
+        $user['password'] = $dt['password'];
+
+        $data['menu'] = "Edit Profile";
+        $data['user'] = $user;
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('navbar\header', $data);
+            $this->load->view('navbar\admin\__navbar', $data);
+            $this->load->view('admin\editProfile', $data);
+            $this->load->view('navbar\footer');
+        } else {
+            $newUsername = $this->input->post('username');
+            $newPassword = $this->input->post('password');
+            $newNama = $this->input->post('nama');
+            $newLevel = $this->input->post('level');
+            $d = [
+                "username" => $newUsername,
+                "password" => $newPassword,
+                "nama" => $newNama,
+                "level" => $newLevel,
+            ];
+            $this->MUser->update_user($username, $d);
+
+            $this->session->set_flashdata('flash', 'berhasil');
+            $this->session->set_userdata('nama', $newNama);
+            $this->session->set_userdata('username', $newUsername);
+            $this->session->set_userdata('level', $newLevel);
+            redirect(base_url('admin/editProfile'));
+        }
+    }
+    public function deleteProfile()
+    {
+        $data['data'] = $this->MUser->getAll_user();
+        $data['tittle'] = 'ADMIN';
+
+        $username = $this->session->userdata('username');
+        $data['menu'] = 'Hapus Profile';
+
+        $this->load->view('navbar\header', $data);
+        $this->load->view('navbar\admin\__navbar', $data);
+        $this->load->view('admin\deleteProfile', $data);
+        $this->load->view('navbar\footer');
+    }
+    public function delete()
+    {
+        $username = $this->session->userdata('username');
+        $this->MUser->delete_user($username);
+        $this->session->sess_destroy();
+        redirect(base_url());
+    }
     public function signOut()
     {
         $username = $this->session->userdata('username');

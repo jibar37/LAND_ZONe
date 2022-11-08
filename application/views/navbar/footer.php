@@ -2,6 +2,20 @@
     ================================================== -->
  <!-- Placed at the end of the document so the pages load faster -->
  <script>
+     function delProfile() {
+         swal({
+                 title: "Are you sure?",
+                 icon: "warning",
+                 buttons: true,
+                 dangerMode: true,
+             })
+             .then((willDelete) => {
+                 if (willDelete) {
+                     location.href = "<?php echo (base_url("admin/delete")) ?>";
+                 }
+             });
+     }
+
      function sweet() {
          swal({
                  title: "Are you sure?",

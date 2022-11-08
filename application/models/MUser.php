@@ -76,26 +76,4 @@ class MUser extends CI_model
         $a = $fb->delete('/user/' . $username);
         return $a;
     }
-    public function add_polygon()
-    {
-        $fb = Firebase::initialize($this->url, $this->secret);
-
-        $d = [
-            "name" => $this->input->post('username'),
-            "password" => $this->input->post('password'),
-            "nama" => $this->input->post('nama'),
-            "level" => $this->input->post('level'),
-            "status" => "1",
-            "login" => "0",
-        ];
-        $a = $fb->set('/map/' . $this->input->post('username'), $d);
-        var_dump($a);
-    }
-    public function getAll_polygon()
-    {
-        $fb = Firebase::initialize($this->url, $this->secret);
-        $a = $fb->get('/map/polygon');
-        return $a;
-        var_dump($a);
-    }
 }

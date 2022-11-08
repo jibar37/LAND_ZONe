@@ -10,6 +10,7 @@ class Dashboard extends CI_Controller
 			redirect(base_url('admin'));
 		} else {
 			$this->load->model('MUser');
+			$this->load->model('MMap');
 		}
 	}
 	public function index()
@@ -17,23 +18,42 @@ class Dashboard extends CI_Controller
 		$data['username'] = "";
 		$data['password'] = "";
 		$data['status'] = "";
-		$this->load->model('MMap');
 		$dt = $this->MMap->getAll_polygon();
-		foreach ($dt as $d => $value) {
-			$d = $value['coordinate'];
+		$dtLength = count($dt);
+		for ($i = 0; $i < $dtLength; $i++) {
 		}
-		$data['d'] = $d;
+		$i = 0;
+		$polygon = array();
+		foreach ($dt as $d => $value) {
+			// $final[$d][$i] = [$value['coordinate']];
+			$polygon[$i] = $value;
+			$i++;
+		}
+
+		$data['d'] = $polygon;
 		$data['tittle'] = 'LAND ZONe';
 		$this->load->view('navbar\header', $data);
 		$this->load->view('dashboard', $data);
-		$this->load->view('map\map', $data);
+		$this->load->view('map\dashboardMap', $data);
 		$this->load->view('navbar\footer');
 	}
 	function signIn()
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
+		$dt = $this->MMap->getAll_polygon();
+		$dtLength = count($dt);
+		for ($i = 0; $i < $dtLength; $i++) {
+		}
+		$i = 0;
+		$polygon = array();
+		foreach ($dt as $d => $value) {
+			// $final[$d][$i] = [$value['coordinate']];
+			$polygon[$i] = $value;
+			$i++;
+		}
 
+		$data['d'] = $polygon;
 		$d = $this->MUser->login($username, $password);
 		if ($d != null) {
 			if ($d['status'] == "1") {
@@ -61,7 +81,7 @@ class Dashboard extends CI_Controller
 				$data['tittle'] = 'LAND ZONe';
 				$this->load->view('navbar\header', $data);
 				$this->load->view('dashboard', $data);
-				$this->load->view('map\map', $data);
+				$this->load->view('map\dashboardMap', $data);
 				$this->load->view('navbar\footer');
 			}
 		} else {
@@ -71,7 +91,7 @@ class Dashboard extends CI_Controller
 			$data['tittle'] = 'LAND ZONe';
 			$this->load->view('navbar\header', $data);
 			$this->load->view('dashboard', $data);
-			$this->load->view('map\map', $data);
+			$this->load->view('map\dashboardMap', $data);
 			$this->load->view('navbar\footer');
 		}
 
