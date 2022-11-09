@@ -33,41 +33,8 @@
             <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm Password" value=<?php echo ($user['password']) ?>>
         </div>
     </div>
-    <fieldset class="form-group">
-        <div class="row">
-            <legend class="col-form-label col-sm-2 pt-0">Level</legend>
-            <div class="col-sm-10">
-                <?php if ($user['level'] == 1 || $user['level'] == null) { ?>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="level" id="level1" value="1" checked="checked">
-                        <label class="form-check-label" for="gridRadios1">
-                            Level 1
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="level" id="level2" value="2">
-                        <label class="form-check-label" for="gridRadios1">
-                            Level 2
-                        </label>
-                    </div>
-                <?php } elseif ($user['level'] == 2) { ?>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="level" id="level1" value="1">
-                        <label class="form-check-label" for="gridRadios1">
-                            Level 1
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="level" id="level2" value="2" checked="checked">
-                        <label class="form-check-label" for="gridRadios1">
-                            Level 2
-                        </label>
-                    </div>
-                <?php } ?>
+    <input type="hidden" class="form-control" id="level" name="level" placeholder="Password" value=<?php echo ($user['level']) ?>>
 
-            </div>
-        </div>
-    </fieldset>
 
     <div class="form-group row">
         <div class="col-sm-10">

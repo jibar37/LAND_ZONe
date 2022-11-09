@@ -74,6 +74,16 @@ class Admin extends CI_Controller
     public function tambahUser()
     {
         if ($this->session->userdata('level') == 2) {
+            $list_username = $this->MUser->getAll_user();
+            $data['username'] = $this->input->post('username');
+            foreach ($list_username as $list => $value) {
+                if ($data['username'] == $value['username']) {
+                    $data['is_unique'] = false;
+                    break;
+                } else {
+                    $data['is_unique'] = true;
+                }
+            }
             $this->form_validation->set_rules('username', 'Username', 'required');
             $this->form_validation->set_rules('nama', 'Nama', 'required|alpha_numeric_spaces');
             $this->form_validation->set_rules('password', 'Password', 'required');
@@ -83,11 +93,13 @@ class Admin extends CI_Controller
             $data['tittle'] = 'ADMIN';
             $data['menu'] = 'Tambah User';
 
-            if ($this->form_validation->run() == FALSE) {
+            if ($this->form_validation->run() == FALSE || $data['is_unique'] == FALSE) {
+
                 $data['username'] = $this->input->post('username');
                 $data['password'] = $this->input->post('password');
                 $data['nama'] = $this->input->post('nama');
                 $data['level'] = $this->input->post('level');
+
                 $this->load->view('navbar\header', $data);
                 $this->load->view('navbar\admin\__navbar', $data);
                 $this->load->view('admin\tambahUser', $data);
@@ -251,12 +263,21 @@ class Admin extends CI_Controller
     }
     public function test()
     {
-        // $d = $this->MUser->delete_user('q');
-        $d = $this->input->post('nama');
-        $this->session->set_userdata('namaPolygon', $d);
-        $d = $this->input->post('jenis');
-        $this->session->set_userdata('jenisPolygon', $d);
-        var_dump($d);
+        $list_username = $this->MUser->getAll_user();
+        $data['username'] = $this->input->post('username');
+        foreach ($list_username as $list => $value) {
+            if ($data['username'] == $value['username']) {
+                $data['is_unique'] = false;
+                break;
+            } else {
+                $data['is_unique'] = true;
+            }
+            echo ($value['username']);
+            echo (" ");
+        }
+        //var_dump($list_username);
+        var_dump($data['username']);
+        var_dump($data['is_unique']);
     }
     public function getAllPolygon()
     {

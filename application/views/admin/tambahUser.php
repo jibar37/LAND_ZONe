@@ -1,8 +1,11 @@
 </div>
 <form class="text-primary" action="" method="post">
-    <?php if (validation_errors()) : ?>
+    <?php if (validation_errors() || $is_unique == false) : ?>
         <div class="alert alert-danger" role="alert">
             <?php echo (validation_errors()); ?>
+            <?php if ($is_unique == false) : ?>
+                <p>Username yang digunakan tidak tersedia.</p>
+            <?php endif ?>
         </div>
     <?php endif ?>
     <?php if ($this->session->flashdata('flash')) : ?>
