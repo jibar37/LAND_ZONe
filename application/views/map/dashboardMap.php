@@ -66,7 +66,8 @@
             // fillOpacity: 0,
             fillColor: 'white'
         }).addTo(map);
-
+    //activate onclick
+    onClick();
     //show all polygon
     function showAll(data) {
         let l;
@@ -117,7 +118,7 @@
 
     //polygon click event
     function polygonOnClick(l) {
-        let a = test[l].polygon.on('click', function() {
+        let a = test[l].polygon.on('click', function(e) {
 
             // line = null;
             console.log("ini polygon ke ", l);
@@ -126,7 +127,6 @@
             console.log("jenis ", test[l].jenis);
 
             polyOnClick = l;
-
         });
 
     }
@@ -134,75 +134,98 @@
     //coordinate
     function onClick() {
         map.on('click', function(e) {
-            let cord;
-            let lat;
-            let long;
-            let head;
-            let index;
-            if (test.length != 0) {
-                cord = e.latlng;
-                lat = cord.lat;
-                long = cord.lng;
-                head;
-                console.log("You clicked the map at latitude: " + lat + " and longitude: " + long);
-                if (isAddAfter) {
-                    test[polyOnClick].addAfter(indexAddAfter, [lat, long]);
-                    console.log(indexAddAfter)
-                    console.log(test[polyOnClick].cord);
-                    delAllMarker();
-                    addAllMarker(polyOnClick);
-                    hidePolyline();
-                    map.off('mouse');
-                    mapStatus = false;
-                    //polygonOnClick(polyOnClick);
-                    map.off('click');
-                    isAddAfter = false;
-                } else {
-                    test[polyOnClick].input(lat, long);
-                    index = test[polyOnClick].cord.length - 1;
-                    if (!isTambah) {
-                        addMarker(index, [lat, long]);
-                    }
-                }
-
-                head = test[polyOnClick].head;
-                console.log(head.lat);
-                console.log(test[polyOnClick].cord[0]);
-                let latlng1 = [lat, long];
-                console.log(test[polyOnClick].cord);
-
-                showPolygon(test[polyOnClick].cord, test[polyOnClick].polygon, polyOnClick);
-                if (line == null) {
-                    polyline();
-                    showPolyline();
-                }
-                makeLine(indexAddAfter);
-
-                if (!isEdit) {
-                    // polygonOnClick(polyOnClick);
-                }
-            }
-
+            let cord = e.latlng;
+            addMarker(cord);
         });
     }
 
     //add marker
-    function addMarker(i, latlng) {
+    function addMarker(latlng) {
         let isNull = null;
-        isNull = marker[i];
-        if (isNull == null) {
-            marker[i] = L.marker(
-                latlng, {
-                    index: i,
-                    id: "is",
-                    tittle: 'test',
-                });
+        let i = null;
+        let content = null;
 
-            //add marker
-            showMarker(i);
+        if (marker == null) {
+            i = 0;
+        } else {
+            i = marker.length;
         }
+
+
+        marker[i] = L.marker(
+            latlng, {
+                index: i,
+                id: "is",
+                tittle: 'test',
+            });
+        //add marker
+        showMarker(i);
+        let l = test.length;
+        let hasil;
+        for (let x = 0; x < l; x++) {
+            hasil = isMarkerInsidePolygon(marker[i], test[x].polygon);
+            if (hasil == true) {
+                break;
+            }
+        }
+        if (hasil) {
+            content =
+                `<div class="card text-center">           
+                <div class="card-body">            
+                    <p class="card-text"> Lokasi ini berada di kawasan lindung.</p>               
+                </div>
+                <div class="card-footer text-muted">
+                <button type="button" class="btn btn-danger btn-sm" id="delMarker` + i + `">Hapus</button>
+                </div>
+            </div>`;
+        } else {
+            content =
+                `<div class="card text-center">           
+                <div class="card-body">            
+                    <p class="card-text"> Lokasi ini tidak berada di kawasan lindung.</p>               
+                </div>
+                <div class="card-footer text-muted">
+                <button type="button" class="btn btn-danger btn-sm" id="delMarker` + i + `">Hapus</button>
+                </div>
+            </div>`;
+
+        }
+
+        marker[i].on('popupopen', function() {
+            let link = document.getElementById("delMarker" + i);
+            link.addEventListener('click', function(e) {
+                hideMarker(i);
+            });
+
+        });
+        marker[i].on('popupclose', function() {
+            console.log('pop up close');
+        });
+        marker[i].bindPopup(content).openPopup();
+        console.log(marker.length);
     };
 
+    //check if marker inside polygon or not
+    function isMarkerInsidePolygon(marker, poly) {
+        var inside = false;
+        var x = marker.getLatLng().lat,
+            y = marker.getLatLng().lng;
+        for (var ii = 0; ii < poly.getLatLngs().length; ii++) {
+            var polyPoints = poly.getLatLngs()[ii];
+            for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+                var xi = polyPoints[i].lat,
+                    yi = polyPoints[i].lng;
+                var xj = polyPoints[j].lat,
+                    yj = polyPoints[j].lng;
+
+                var intersect = ((yi > y) != (yj > y)) &&
+                    (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                if (intersect) inside = !inside;
+            }
+        }
+
+        return inside;
+    };
 
 
 
