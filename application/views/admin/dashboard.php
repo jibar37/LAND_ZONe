@@ -133,15 +133,15 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="editJenis" id="eksp" value="Kawasan Sepadan Pantai">
+                                    <input class="form-check-input" type="radio" name="editJenis" id="eksp" value="Kawasan Sempadan Pantai">
                                     <label class="form-check-label">
-                                        Kawasan Sepadan Pantai
+                                        Kawasan Sempadan Pantai
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="editJenis" id="ekss" value="Kawasan Sepadan Sungai">
+                                    <input class="form-check-input" type="radio" name="editJenis" id="ekss" value="Kawasan Sempadan Sungai">
                                     <label class="form-check-label">
-                                        Kawasan Sepadan Sungai
+                                        Kawasan Sempadan Sungai
                                     </label>
                                 </div>
                                 <div class="form-check">
