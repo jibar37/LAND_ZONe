@@ -162,9 +162,13 @@
         showMarker(i);
         let l = test.length;
         let hasil;
+        let nama;
+        let jenis;
         for (let x = 0; x < l; x++) {
             hasil = isMarkerInsidePolygon(marker[i], test[x].polygon);
             if (hasil == true) {
+                nama = test[x].nama;
+                jenis = test[x].jenis;
                 break;
             }
         }
@@ -172,20 +176,23 @@
             content =
                 `<div class="card text-center">           
                 <div class="card-body">            
-                    <p class="card-text"> Lokasi ini berada di kawasan lindung.</p>               
+                    <p class="card-text text-danger"> <b>Lokasi ini berada di kawasan tidak layak permukiman</b></p>
+                    <p class="card-text text-danger"> <b>Karena berada di kawasan lindung.</b></p>
+                    <p class="card-text text-left"> Nama Kawasan : ` + nama + `</p>
+                    <p class="card-text text-left"> Jenis Kawasan : ` + jenis + `</p>  
                 </div>
                 <div class="card-footer text-muted">
-                <button type="button" class="btn btn-danger btn-sm" id="delMarker` + i + `">Hapus</button>
+                <button type="button" class="btn btn-danger btn-sm" id="delMarker` + i + `">Hapus Tanda</button>
                 </div>
             </div>`;
         } else {
             content =
                 `<div class="card text-center">           
                 <div class="card-body">            
-                    <p class="card-text"> Lokasi ini tidak berada di kawasan lindung.</p>               
+                    <p class="card-text text-success"> <b>Lokasi ini berada di kawasan layak permukiman.</b></p>               
                 </div>
                 <div class="card-footer text-muted">
-                <button type="button" class="btn btn-danger btn-sm" id="delMarker` + i + `">Hapus</button>
+                <button type="button" class="btn btn-danger btn-sm" id="delMarker` + i + `">Hapus Tanda</button>
                 </div>
             </div>`;
 
