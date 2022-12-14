@@ -32,10 +32,10 @@ class Dashboard extends CI_Controller
 
 		$data['d'] = $polygon;
 		$data['tittle'] = 'LAND ZONe';
-		$this->load->view('navbar\header', $data);
+		$this->load->view('navbar/header', $data);
 		$this->load->view('dashboard', $data);
-		$this->load->view('map\dashboardMap', $data);
-		$this->load->view('navbar\footer');
+		$this->load->view('map/dashboardMap', $data);
+		$this->load->view('navbar/footer');
 	}
 	function signIn()
 	{
@@ -79,20 +79,20 @@ class Dashboard extends CI_Controller
 				$data['password'] = $password;
 				$data['status'] = $d['status'];
 				$data['tittle'] = 'LAND ZONe';
-				$this->load->view('navbar\header', $data);
+				$this->load->view('navbar/header', $data);
 				$this->load->view('dashboard', $data);
-				$this->load->view('map\dashboardMap', $data);
-				$this->load->view('navbar\footer');
+				$this->load->view('map/dashboardMap', $data);
+				$this->load->view('navbar/footer');
 			}
 		} else {
 			$data['username'] = $username;
 			$data['password'] = $password;
 			$data['status'] = "";
 			$data['tittle'] = 'LAND ZONe';
-			$this->load->view('navbar\header', $data);
+			$this->load->view('navbar/header', $data);
 			$this->load->view('dashboard', $data);
-			$this->load->view('map\dashboardMap', $data);
-			$this->load->view('navbar\footer');
+			$this->load->view('map/dashboardMap', $data);
+			$this->load->view('navbar/footer');
 		}
 
 

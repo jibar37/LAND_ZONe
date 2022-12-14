@@ -263,6 +263,7 @@
 
     //add polygon to map
     function showPolygon(cord1, polygon1, index) {
+        let polyColor = null;
         let content =
             `<div class="card text-center">           
             <div class="card-body">
@@ -272,6 +273,26 @@
             <div class="card-footer text-muted">            
             </div>
         </div>`;
+        switch (test[index].jenis) {
+            case "Kawasan RTH":
+                polyColor = 'green';
+                break;
+            case "Kawasan Sempadan Sungai":
+                polyColor = 'blue';
+                break;
+            case "Kawasan Sempadan Pantai":
+                polyColor = 'blue';
+                break;
+            case "Kawasan Cagar Budaya":
+                polyColor = '777480';
+                break;
+            case "Kawasan Rawan Ancaman Bencana":
+                polyColor = 'red';
+                break;
+            default:
+                polyColor = 'black';
+                break;
+        }
         var tooltip = L.tooltip({
             direction: 'center',
             interactive: true,
@@ -284,9 +305,9 @@
             polygon = L.polygon([
                 cord1
             ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
+                color: null,
+                fillColor: polyColor,
+                fillOpacity: 0.3
             }).addTo(map)
             polygon.bindTooltip(tooltip);
             test[index].polygon = polygon;
@@ -298,9 +319,9 @@
             polygon = L.polygon([
                 cord1
             ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
+                color: null,
+                fillColor: polyColor,
+                fillOpacity: 0.3
             }).addTo(map)
             polygon.bindTooltip(tooltip);
             polygonOnClick(index);

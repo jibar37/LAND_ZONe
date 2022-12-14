@@ -126,7 +126,8 @@
  </script>
  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
  <script>
-     window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.6.1.min.js"><\/script>')
+     window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.6.1.min.js">
+ </script>')
  </script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.7/holder.min.js"></script>
 

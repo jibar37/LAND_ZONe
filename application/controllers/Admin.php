@@ -64,11 +64,11 @@ class Admin extends CI_Controller
         $data['d'] = $polygon;
         $data['nama'] = $this->session->userdata('nama');
 
-        $this->load->view('navbar\header', $data);
-        $this->load->view('navbar\admin\__navbar', $data);
-        $this->load->view('admin\dashboard');
-        $this->load->view('map\map', $data);
-        $this->load->view('navbar\footer');
+        $this->load->view('navbar/header', $data);
+        $this->load->view('navbar/admin/__navbar', $data);
+        $this->load->view('admin/dashboard');
+        $this->load->view('map/map', $data);
+        $this->load->view('navbar/footer');
     }
 
     public function tambahUser()
@@ -100,10 +100,10 @@ class Admin extends CI_Controller
                 $data['nama'] = $this->input->post('nama');
                 $data['level'] = $this->input->post('level');
 
-                $this->load->view('navbar\header', $data);
-                $this->load->view('navbar\admin\__navbar', $data);
-                $this->load->view('admin\tambahUser', $data);
-                $this->load->view('navbar\footer');
+                $this->load->view('navbar/header', $data);
+                $this->load->view('navbar/admin/__navbar', $data);
+                $this->load->view('admin/tambahUser', $data);
+                $this->load->view('navbar/footer');
             } else {
                 $data = $this->MUser->add_user();
                 $this->session->set_flashdata('flash', 'berhasil');
@@ -123,10 +123,10 @@ class Admin extends CI_Controller
             if ($username == "") {
                 $data['menu'] = 'Edit User';
 
-                $this->load->view('navbar\header', $data);
-                $this->load->view('navbar\admin\__navbar', $data);
-                $this->load->view('admin\editUser', $data);
-                $this->load->view('navbar\footer');
+                $this->load->view('navbar/header', $data);
+                $this->load->view('navbar/admin/__navbar', $data);
+                $this->load->view('admin/editUser', $data);
+                $this->load->view('navbar/footer');
             } else {
                 $this->form_validation->set_rules('username', 'Username', 'required');
                 $this->form_validation->set_rules('nama', 'Nama', 'required|alpha_numeric_spaces');
@@ -139,10 +139,10 @@ class Admin extends CI_Controller
                 $data['user'] = $user;
 
                 if ($this->form_validation->run() == FALSE) {
-                    $this->load->view('navbar\header', $data);
-                    $this->load->view('navbar\admin\__navbar', $data);
-                    $this->load->view('admin\edit', $data);
-                    $this->load->view('navbar\footer');
+                    $this->load->view('navbar/header', $data);
+                    $this->load->view('navbar/admin/__navbar', $data);
+                    $this->load->view('admin/edit', $data);
+                    $this->load->view('navbar/footer');
                 } else {
                     $d = [
                         "username" => $this->input->post('username'),
@@ -170,10 +170,10 @@ class Admin extends CI_Controller
             if ($username == "") {
                 $data['menu'] = 'Hapus User';
 
-                $this->load->view('navbar\header', $data);
-                $this->load->view('navbar\admin\__navbar', $data);
-                $this->load->view('admin\deleteUser', $data);
-                $this->load->view('navbar\footer');
+                $this->load->view('navbar/header', $data);
+                $this->load->view('navbar/admin/__navbar', $data);
+                $this->load->view('admin/deleteUser', $data);
+                $this->load->view('navbar/footer');
             } else {
                 $d = $this->MUser->delete_user($username);
                 $this->session->set_flashdata('flash', 'berhasil');
@@ -193,10 +193,10 @@ class Admin extends CI_Controller
             if ($username == "") {
                 $data['menu'] = 'Force Logout';
 
-                $this->load->view('navbar\header', $data);
-                $this->load->view('navbar\admin\__navbar', $data);
-                $this->load->view('admin\forceLogout', $data);
-                $this->load->view('navbar\footer');
+                $this->load->view('navbar/header', $data);
+                $this->load->view('navbar/admin/__navbar', $data);
+                $this->load->view('admin/forceLogout', $data);
+                $this->load->view('navbar/footer');
             } else {
                 $d = [
                     "login" => "0",
@@ -219,10 +219,10 @@ class Admin extends CI_Controller
             if ($username == "") {
                 $data['menu'] = 'BAN USER';
 
-                $this->load->view('navbar\header', $data);
-                $this->load->view('navbar\admin\__navbar', $data);
-                $this->load->view('admin\banUser', $data);
-                $this->load->view('navbar\footer');
+                $this->load->view('navbar/header', $data);
+                $this->load->view('navbar/admin/__navbar', $data);
+                $this->load->view('admin/banUser', $data);
+                $this->load->view('navbar/footer');
             } else {
                 $d = [
                     "status" => "0",
@@ -245,10 +245,10 @@ class Admin extends CI_Controller
             if ($username == "") {
                 $data['menu'] = 'UNBAN USER';
 
-                $this->load->view('navbar\header', $data);
-                $this->load->view('navbar\admin\__navbar', $data);
-                $this->load->view('admin\unbanUser', $data);
-                $this->load->view('navbar\footer');
+                $this->load->view('navbar/header', $data);
+                $this->load->view('navbar/admin/__navbar', $data);
+                $this->load->view('admin/unbanUser', $data);
+                $this->load->view('navbar/footer');
             } else {
                 $d = [
                     "status" => "1",
@@ -304,11 +304,9 @@ class Admin extends CI_Controller
         $username = $this->session->userdata('username');
 
 
-        $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('nama', 'Nama', 'required|alpha_numeric_spaces');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('passconf', 'Password Confirmation', 'matches[password]');
-        $this->form_validation->set_rules('level', 'Level', 'required');
 
         $dt = $this->MUser->get_user($username);
         $user['password'] = $dt['password'];
@@ -317,27 +315,21 @@ class Admin extends CI_Controller
         $data['user'] = $user;
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('navbar\header', $data);
-            $this->load->view('navbar\admin\__navbar', $data);
-            $this->load->view('admin\editProfile', $data);
-            $this->load->view('navbar\footer');
+            $this->load->view('navbar/header', $data);
+            $this->load->view('navbar/admin/__navbar', $data);
+            $this->load->view('admin/editProfile', $data);
+            $this->load->view('navbar/footer');
         } else {
-            $newUsername = $this->input->post('username');
             $newPassword = $this->input->post('password');
             $newNama = $this->input->post('nama');
-            $newLevel = $this->input->post('level');
             $d = [
-                "username" => $newUsername,
                 "password" => $newPassword,
                 "nama" => $newNama,
-                "level" => $newLevel,
             ];
             $this->MUser->update_user($username, $d);
 
             $this->session->set_flashdata('flash', 'berhasil');
             $this->session->set_userdata('nama', $newNama);
-            $this->session->set_userdata('username', $newUsername);
-            $this->session->set_userdata('level', $newLevel);
             redirect(base_url('admin/editProfile'));
         }
     }
@@ -349,10 +341,10 @@ class Admin extends CI_Controller
         $username = $this->session->userdata('username');
         $data['menu'] = 'Hapus Profile';
 
-        $this->load->view('navbar\header', $data);
-        $this->load->view('navbar\admin\__navbar', $data);
-        $this->load->view('admin\deleteProfile', $data);
-        $this->load->view('navbar\footer');
+        $this->load->view('navbar/header', $data);
+        $this->load->view('navbar/admin/__navbar', $data);
+        $this->load->view('admin/deleteProfile', $data);
+        $this->load->view('navbar/footer');
     }
     public function delete()
     {

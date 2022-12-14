@@ -564,6 +564,7 @@
 
     //add polygon to map
     function showPolygon(cord1, polygon1, index) {
+        let polyColor = null;
         let content =
             `<div class="card text-center">           
             <div class="card-body">
@@ -574,6 +575,26 @@
             <button type="button" class="btn btn-primary btn-sm" id="editDetail` + index + `">Edit Detail</button>
             </div>
         </div>`;
+        switch (test[index].jenis) {
+            case "Kawasan RTH":
+                polyColor = 'green';
+                break;
+            case "Kawasan Sempadan Sungai":
+                polyColor = 'blue';
+                break;
+            case "Kawasan Sempadan Pantai":
+                polyColor = 'blue';
+                break;
+            case "Kawasan Cagar Budaya":
+                polyColor = '777480';
+                break;
+            case "Kawasan Rawan Ancaman Bencana":
+                polyColor = 'red';
+                break;
+            default:
+                polyColor = 'black';
+                break;
+        }
         var tooltip = L.tooltip({
             direction: 'center',
             interactive: true,
@@ -586,9 +607,9 @@
             polygon = L.polygon([
                 cord1
             ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
+                color: null,
+                fillColor: polyColor,
+                fillOpacity: 0.3
             }).addTo(map)
             polygon.bindTooltip(tooltip);
             console.log("berhasil menampilkan polygon");
@@ -597,9 +618,9 @@
             polygon = L.polygon([
                 cord1
             ], {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
+                color: null,
+                fillColor: polyColor,
+                fillOpacity: 0.3
             }).addTo(map)
             polygon.bindTooltip(tooltip);
             console.log("berhasil menampilkan polygon");
@@ -615,10 +636,10 @@
                     case "Kawasan RTH":
                         $("#ekrth").prop("checked", true);
                         break;
-                    case "Kawasan Sepadan Pantai":
+                    case "Kawasan Sempadan Pantai":
                         $("#eksp").prop("checked", true);
                         break;
-                    case "Kawasan Sepadan Sungai":
+                    case "Kawasan Sempadan Sungai":
                         $("#ekss").prop("checked", true);
                         break;
                     case "Kawasan Cagar Budaya":

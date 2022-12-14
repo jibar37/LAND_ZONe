@@ -29,8 +29,14 @@
     <div class="form-group row">
         <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" value=<?php echo ($user['password']) ?>>
-            <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm Password" value=<?php echo ($user['password']) ?>>
+            <input type="password" class="form-control" id="password" name="passwordLama" placeholder="Old Password" value=<?php echo ($user['password']) ?>>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="password" name="password" placeholder="New Password" value=<?php echo ($user['password']) ?>>
+            <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm New Password" value=<?php echo ($user['password']) ?>>
         </div>
     </div>
     <input type="hidden" class="form-control" id="level" name="level" placeholder="Password" value=<?php echo ($user['level']) ?>>
