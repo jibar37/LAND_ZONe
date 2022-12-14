@@ -62,7 +62,7 @@
     L.geoJson(
         coba, {
             dashArray: 10,
-            color: 'red',
+            color: 'yellow',
             // fillOpacity: 0,
             fillColor: 'white'
         }).addTo(map);
