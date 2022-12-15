@@ -18,16 +18,17 @@ class Dashboard extends CI_Controller
 		$data['username'] = "";
 		$data['password'] = "";
 		$data['status'] = "";
-		$dt = $this->MMap->getAll_polygon();
-		$dtLength = count($dt);
-		for ($i = 0; $i < $dtLength; $i++) {
-		}
 		$i = 0;
 		$polygon = array();
-		foreach ($dt as $d => $value) {
-			// $final[$d][$i] = [$value['coordinate']];
-			$polygon[$i] = $value;
-			$i++;
+		$dt = $this->MMap->getAll_polygon();
+		if ($dt !== null) {
+			foreach ($dt as $d => $value) {
+				// $final[$d][$i] = [$value['coordinate']];
+				$polygon[$i] = $value;
+				$i++;
+			}
+		} else {
+			$polygon = NULL;
 		}
 
 		$data['d'] = $polygon;
@@ -41,16 +42,17 @@ class Dashboard extends CI_Controller
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$dt = $this->MMap->getAll_polygon();
-		$dtLength = count($dt);
-		for ($i = 0; $i < $dtLength; $i++) {
-		}
 		$i = 0;
 		$polygon = array();
-		foreach ($dt as $d => $value) {
-			// $final[$d][$i] = [$value['coordinate']];
-			$polygon[$i] = $value;
-			$i++;
+		$dt = $this->MMap->getAll_polygon();
+		if ($dt !== null) {
+			foreach ($dt as $d => $value) {
+				// $final[$d][$i] = [$value['coordinate']];
+				$polygon[$i] = $value;
+				$i++;
+			}
+		} else {
+			$polygon = NULL;
 		}
 
 		$data['d'] = $polygon;

@@ -50,15 +50,16 @@ class Admin extends CI_Controller
         $data['tittle'] = 'ADMIN';
         $data['menu'] = 'Dashboard';
         $dt = $this->MMap->getAll_polygon();
-        $dtLength = count($dt);
-        for ($i = 0; $i < $dtLength; $i++) {
-        }
         $i = 0;
         $polygon = array();
-        foreach ($dt as $d => $value) {
-            // $final[$d][$i] = [$value['coordinate']];
-            $polygon[$i] = $value;
-            $i++;
+        if ($dt !== null) {
+            foreach ($dt as $d => $value) {
+                // $final[$d][$i] = [$value['coordinate']];
+                $polygon[$i] = $value;
+                $i++;
+            }
+        } else {
+            $polygon = NULL;
         }
 
         $data['d'] = $polygon;

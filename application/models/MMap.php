@@ -23,11 +23,15 @@ class MMap extends CI_model
     {
         $fb = Firebase::initialize($this->url, $this->secret);
         $a = $fb->get('/map/polygon');
-        function myFilter($var)
-        {
-            return ($var !== NULL && $var !== FALSE && $var !== "");
+
+        if ($a != null) {
+            function myFilter($var)
+            {
+                return ($var !== NULL && $var !== FALSE && $var !== "");
+            }
+            $a = array_filter($a, "myFilter");
         }
-        $a = array_filter($a, "myFilter");
+
         return $a;
     }
 }
