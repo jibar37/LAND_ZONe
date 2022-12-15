@@ -23,6 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+// $config['base_url'] = 'https://land-zone.000webhostapp.com/';
 $config['base_url'] = 'http://localhost/LAND_ZONe/';
 
 /*
@@ -137,7 +138,7 @@ $config['subclass_prefix'] = 'MY_';
 |	autoloading (application/config/autoload.php)
 */
 $config['composer_autoload'] = TRUE;
-require_once APPPATH . 'vendor\autoload.php';
+require_once APPPATH . 'vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------

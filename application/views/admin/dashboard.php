@@ -172,10 +172,8 @@
 <?php echo ($this->input->post('jenis')) ?>
 
 </div>
-<div id="map">
-
-    <div class="card" style="height: 100vh;">
-    </div>
+<div id="map" class="card" style="height:90%">
+    <!-- <div> -->
 </div>
 </main>
 </div>
