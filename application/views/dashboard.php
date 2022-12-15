@@ -63,7 +63,8 @@
 	</nav>
 </div>
 
-<div id="map">
+<div id="map" class="card" style="height:90%">
+	<!-- <div> -->
 </div>
 
 
