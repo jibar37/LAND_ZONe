@@ -125,10 +125,10 @@
      });
  </script>
  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
- <script>
-     window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.6.1.min.js"');
- </script>
- </script>
+ <!-- <script>
+     window.jQuery || document.write(`<script src="https://code.jquery.com/jquery-3.6.1.min.js">
+ </script>`);
+ </script> -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.7/holder.min.js"></script>
 
  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
