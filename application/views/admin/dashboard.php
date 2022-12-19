@@ -36,7 +36,7 @@
     </div>
 
 </div>
-<!-- Modal -->
+<!-- Modal for tambah polygon-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -60,9 +60,21 @@
                             <legend class="col-form-label col-sm-2 pt-0">Jenis</legend>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="jenis" id="rth" value="Kawasan RTH" checked>
+                                    <input class="form-check-input" type="radio" name="jenis" id="ht" value="Hutan Kota" checked>
                                     <label class="form-check-label">
-                                        Kawasan RTH
+                                        Hutan Kota
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="jenis" id="tkllmj" value="Taman Kota/Lingkungan/Lapangan/Makam/Jalan">
+                                    <label class="form-check-label">
+                                        Taman Kota/Lingkungan/Lapangan/Makam/Jalan
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="jenis" id="sh" value="Sabuk Hijau">
+                                    <label class="form-check-label">
+                                        Sabuk Hijau
                                     </label>
                                 </div>
                                 <div class="form-check">
@@ -84,9 +96,15 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="jenis" id="krab" value="Kawasan Rawan Ancaman Bencana">
+                                    <input class="form-check-input" type="radio" name="jenis" id="krabb" value="Kawasan Rawan Bencana Banjir">
                                     <label class="form-check-label">
-                                        Kawasan Rawan Ancaman Bencana
+                                        Kawasan Rawan Ancaman Bencana Banjir
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="jenis" id="krgp" value="Kawasan Rawan Gelombang Pasang, Abrasi, dan Tsunami">
+                                    <label class="form-check-label">
+                                        Kawasan Rawan Gelombang Pasang, Abrasi, dan Tsunami
                                     </label>
                                 </div>
                             </div>
@@ -127,9 +145,21 @@
                             <legend class="col-form-label col-sm-2 pt-0">Jenis</legend>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="editJenis" id="ekrth" value="Kawasan RTH" checked>
+                                    <input class="form-check-input" type="radio" name="editJenis" id="eht" value="Hutan Kota">
                                     <label class="form-check-label">
-                                        Kawasan RTH
+                                        Hutan Kota
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="editJenis" id="etkllmj" value="Taman Kota/Lingkungan/Lapangan/Makam/Jalan">
+                                    <label class="form-check-label">
+                                        Taman Kota/Lingkungan/Lapangan/Makam/Jalan
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="editJenis" id="esh" value="Sabuk Hijau">
+                                    <label class="form-check-label">
+                                        Sabuk Hijau
                                     </label>
                                 </div>
                                 <div class="form-check">
@@ -151,9 +181,15 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="editJenis" id="ekrab" value="Kawasan Rawan Ancaman Bencana">
+                                    <input class="form-check-input" type="radio" name="editJenis" id="ekrabb" value="Kawasan Rawan Bencana Banjir">
                                     <label class="form-check-label">
-                                        Kawasan Rawan Ancaman Bencana
+                                        Kawasan Rawan Ancaman Bencana Banjir
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="editJenis" id="ekrgp" value="Kawasan Rawan Gelombang Pasang, Abrasi, dan Tsunami">
+                                    <label class="form-check-label">
+                                        Kawasan Rawan Gelombang Pasang, Abrasi, dan Tsunami
                                     </label>
                                 </div>
                             </div>

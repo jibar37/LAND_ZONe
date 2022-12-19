@@ -576,8 +576,14 @@
             </div>
         </div>`;
         switch (test[index].jenis) {
-            case "Kawasan RTH":
-                polyColor = 'green';
+            case "Hutan Kota":
+                polyColor = '#3fe004';
+                break;
+            case "Taman Kota/Lingkungan/Lapangan/Makam/Jalan":
+                polyColor = '#46b721'
+                break;
+            case "Sabuk Hijau":
+                polyColor = '#91d34a';
                 break;
             case "Kawasan Sempadan Sungai":
                 polyColor = 'blue';
@@ -586,10 +592,13 @@
                 polyColor = 'blue';
                 break;
             case "Kawasan Cagar Budaya":
-                polyColor = '777480';
+                polyColor = '#777777';
                 break;
-            case "Kawasan Rawan Ancaman Bencana":
-                polyColor = 'red';
+            case "Kawasan Rawan Bencana Banjir":
+                polyColor = '#d61a0c';
+                break;
+            case "Kawasan Rawan Gelombang Pasang, Abrasi, dan Tsunami":
+                polyColor = '#ef75a0';
                 break;
             default:
                 polyColor = 'black';
@@ -633,8 +642,14 @@
                 $('#editNama').val(test[index].nama);
                 let x = test[index].jenis;
                 switch (x) {
-                    case "Kawasan RTH":
-                        $("#ekrth").prop("checked", true);
+                    case "Hutan Kota":
+                        $("#eht").prop("checked", true);
+                        break;
+                    case "Taman Kota/Lingkungan/Lapangan/Makam/Jalan":
+                        $("#etkllmj").prop("checked", true);
+                        break;
+                    case "Sabuk Hijau":
+                        $("#esh").prop("checked", true);
                         break;
                     case "Kawasan Sempadan Pantai":
                         $("#eksp").prop("checked", true);
@@ -645,8 +660,11 @@
                     case "Kawasan Cagar Budaya":
                         $("#ekcb").prop("checked", true);
                         break;
-                    case "Kawasan Rawan Ancaman Bencana":
-                        $("#ekrab").prop("checked", true);
+                    case "Kawasan Rawan Bencana Banjir":
+                        $("#ekrabb").prop("checked", true);
+                        break;
+                    case "Kawasan Rawan Gelombang Pasang, Abrasi, dan Tsunami":
+                        $("#ekrgp").prop("checked", true);
                         break;
                 }
             });
