@@ -5,6 +5,11 @@
             <?php echo (validation_errors()); ?>
         </div>
     <?php endif ?>
+    <?php if ($passwordSalah) : ?>
+        <div class="alert alert-danger" role="alert">
+            Password Salah
+        </div>
+    <?php endif ?>
     <?php if ($this->session->flashdata('flash')) : ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             Data Profile <?php echo ($this->session->flashdata('flash')) ?> Di Update.
@@ -27,16 +32,16 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+        <label for="inputPassword3" class="col-sm-2 col-form-label">Password Lama</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="password" name="passwordLama" placeholder="Old Password" value=<?php echo ($user['password']) ?>>
+            <input type="password" class="form-control" id="passwordLama" name="passwordLama" placeholder="Old Password">
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+        <label for="inputPassword3" class="col-sm-2 col-form-label">Password Baru</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="password" name="password" placeholder="New Password" value=<?php echo ($user['password']) ?>>
-            <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm New Password" value=<?php echo ($user['password']) ?>>
+            <input type="password" class="form-control" id="passwordBaru" name="passwordBaru" placeholder="New Password">
+            <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm New Password">
         </div>
     </div>
     <input type="hidden" class="form-control" id="level" name="level" placeholder="Password" value=<?php echo ($user['level']) ?>>

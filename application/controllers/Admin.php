@@ -49,9 +49,9 @@ class Admin extends CI_Controller
         ];
         $data['tittle'] = 'ADMIN';
         $data['menu'] = 'Dashboard';
-        $dt = $this->MMap->getAll_polygon();
         $i = 0;
         $polygon = array();
+        $dt = $this->MMap->getAll_polygon();
         if ($dt !== null) {
             foreach ($dt as $d => $value) {
                 // $final[$d][$i] = [$value['coordinate']];
@@ -68,7 +68,7 @@ class Admin extends CI_Controller
         $this->load->view('navbar/header', $data);
         $this->load->view('navbar/admin/__navbar', $data);
         $this->load->view('admin/dashboard');
-        $this->load->view('map/map', $data);
+        $this->load->view('map/dashboardMap', $data);
         $this->load->view('navbar/footer');
     }
 
@@ -300,38 +300,54 @@ class Admin extends CI_Controller
         $user['nama'] = $this->session->userdata('nama');
         $user['username'] = $this->session->userdata('username');
         $user['level'] = $this->session->userdata('level');
-
-
         $username = $this->session->userdata('username');
 
 
         $this->form_validation->set_rules('nama', 'Nama', 'required|alpha_numeric_spaces');
-        $this->form_validation->set_rules('password', 'Password', 'required');
-        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'matches[password]');
+        $this->form_validation->set_rules('passwordBaru', 'Password Baru', 'required');
+        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'matches[passwordBaru]');
 
         $dt = $this->MUser->get_user($username);
         $user['password'] = $dt['password'];
 
         $data['menu'] = "Edit Profile";
         $data['user'] = $user;
+        $data['passwordSalah'] = false;
+
 
         if ($this->form_validation->run() == FALSE) {
+            $oldPassword = $this->input->post('passwordLama');
+            if ($user['password'] != $oldPassword) {
+                $data['passwordSalah'] = true;
+            } else {
+                $data['passwordSalah'] = false;
+            }
             $this->load->view('navbar/header', $data);
             $this->load->view('navbar/admin/__navbar', $data);
             $this->load->view('admin/editProfile', $data);
             $this->load->view('navbar/footer');
         } else {
-            $newPassword = $this->input->post('password');
-            $newNama = $this->input->post('nama');
-            $d = [
-                "password" => $newPassword,
-                "nama" => $newNama,
-            ];
-            $this->MUser->update_user($username, $d);
+            $oldPassword = $this->input->post('passwordLama');
+            if ($user['password'] != $oldPassword) {
+                $data['passwordSalah'] = true;
 
-            $this->session->set_flashdata('flash', 'berhasil');
-            $this->session->set_userdata('nama', $newNama);
-            redirect(base_url('admin/editProfile'));
+                $this->load->view('navbar/header', $data);
+                $this->load->view('navbar/admin/__navbar', $data);
+                $this->load->view('admin/editProfile', $data);
+                $this->load->view('navbar/footer');
+            } else {
+                $newPassword = $this->input->post('passwordBaru');
+                $newNama = $this->input->post('nama');
+                $d = [
+                    "password" => $newPassword,
+                    "nama" => $newNama,
+                ];
+                $this->MUser->update_user($username, $d);
+
+                $this->session->set_flashdata('flash', 'berhasil');
+                $this->session->set_userdata('nama', $newNama);
+                redirect(base_url('admin/editProfile'));
+            }
         }
     }
     public function deleteProfile()
@@ -353,6 +369,36 @@ class Admin extends CI_Controller
         $this->MUser->delete_user($username);
         $this->session->sess_destroy();
         redirect(base_url());
+    }
+    public function olahKawasan()
+    {
+        if ($this->session->userdata('level') == 3) {
+            redirect(base_url());
+        }
+
+        $data['tittle'] = 'ADMIN';
+        $data['menu'] = 'Dashboard';
+        $dt = $this->MMap->getAll_polygon();
+        $i = 0;
+        $polygon = array();
+        if ($dt !== null) {
+            foreach ($dt as $d => $value) {
+                // $final[$d][$i] = [$value['coordinate']];
+                $polygon[$i] = $value;
+                $i++;
+            }
+        } else {
+            $polygon = NULL;
+        }
+
+        $data['d'] = $polygon;
+        $data['nama'] = $this->session->userdata('nama');
+
+        $this->load->view('navbar/header', $data);
+        $this->load->view('navbar/admin/__navbar', $data);
+        $this->load->view('admin/olahKawasan');
+        $this->load->view('map/map', $data);
+        $this->load->view('navbar/footer');
     }
     public function signOut()
     {

@@ -282,13 +282,13 @@
         </div>`;
         switch (test[index].jenis) {
             case "Hutan Kota":
-                polyColor = '4b6043';
+                polyColor = '#3fe004';
                 break;
             case "Taman Kota/Lingkungan/Lapangan/Makam/Jalan":
-                polyColor = '95bb72'
+                polyColor = '#46b721'
                 break;
             case "Sabuk Hijau":
-                polyColor = 'c7ddb5';
+                polyColor = '#91d34a';
                 break;
             case "Kawasan Sempadan Sungai":
                 polyColor = 'blue';
@@ -297,13 +297,13 @@
                 polyColor = 'blue';
                 break;
             case "Kawasan Cagar Budaya":
-                polyColor = '777480';
+                polyColor = '#777777';
                 break;
             case "Kawasan Rawan Bencana Banjir":
-                polyColor = 'c61a09';
+                polyColor = '#d61a0c';
                 break;
             case "Kawasan Rawan Gelombang Pasang, Abrasi, dan Tsunami":
-                polyColor = 'ff6242';
+                polyColor = '#ef75a0';
                 break;
             default:
                 polyColor = 'black';
