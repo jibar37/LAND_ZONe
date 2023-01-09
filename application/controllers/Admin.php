@@ -264,21 +264,37 @@ class Admin extends CI_Controller
     }
     public function test()
     {
-        $list_username = $this->MUser->getAll_user();
-        $data['username'] = $this->input->post('username');
-        foreach ($list_username as $list => $value) {
-            if ($data['username'] == $value['username']) {
-                $data['is_unique'] = false;
-                break;
+        //     $list_username = $this->MUser->getAll_user();
+        //     $data['username'] = $this->input->post('username');
+        //     foreach ($list_username as $list => $value) {
+        //         if ($data['username'] == $value['username']) {
+        //             $data['is_unique'] = false;
+        //             break;
+        //         } else {
+        //             $data['is_unique'] = true;
+        //         }
+        //         echo ($value['username']);
+        //         echo (" ");
+        //     }
+        //     //var_dump($list_username);
+        //     var_dump($data['username']);
+        //     var_dump($data['is_unique']);
+        $username = $this->session->userdata('username');
+        $dt = $this->MUser->get_user($username);
+        $user['password'] = $dt['password'];
+        $oldPassword = $this->input->get('passwordLama');
+        if (empty($oldPassword)) {
+            echo ($user['password']);
+            echo " kosong";
+        } else {
+            if ($user['password'] == $oldPassword) {
+                echo ($user['password']);
+                echo " berhasil";
             } else {
-                $data['is_unique'] = true;
+                echo ($user['password']);
+                echo "password salah";
             }
-            echo ($value['username']);
-            echo (" ");
         }
-        //var_dump($list_username);
-        var_dump($data['username']);
-        var_dump($data['is_unique']);
     }
     public function getAllPolygon()
     {
@@ -312,25 +328,23 @@ class Admin extends CI_Controller
 
         $data['menu'] = "Edit Profile";
         $data['user'] = $user;
-        $data['passwordSalah'] = false;
-
-
-        if ($this->form_validation->run() == FALSE) {
-            $oldPassword = $this->input->post('passwordLama');
-            if ($user['password'] != $oldPassword) {
-                $data['passwordSalah'] = true;
-            } else {
+        $oldPassword = $this->input->post('passwordLama');
+        if (empty($oldPassword)) {
+            $data['passwordSalah'] = false;
+        } else {
+            if ($user['password'] == $oldPassword) {
                 $data['passwordSalah'] = false;
+            } else {
+                $data['passwordSalah'] = true;
             }
+        }
+        if ($this->form_validation->run() == FALSE) {
             $this->load->view('navbar/header', $data);
             $this->load->view('navbar/admin/__navbar', $data);
             $this->load->view('admin/editProfile', $data);
             $this->load->view('navbar/footer');
         } else {
-            $oldPassword = $this->input->post('passwordLama');
-            if ($user['password'] != $oldPassword) {
-                $data['passwordSalah'] = true;
-
+            if ($data['passwordSalah'] == true) {
                 $this->load->view('navbar/header', $data);
                 $this->load->view('navbar/admin/__navbar', $data);
                 $this->load->view('admin/editProfile', $data);
