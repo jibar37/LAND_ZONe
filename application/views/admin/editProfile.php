@@ -2,10 +2,12 @@
 <form class="text-primary" action="" method="post">
     <?php if (validation_errors()) : ?>
         <div class="alert alert-danger" role="alert">
+            <?php if ($passwordSalah) : ?>
+                Password Salah
+            <?php endif ?>
             <?php echo (validation_errors()); ?>
         </div>
-    <?php endif ?>
-    <?php if ($passwordSalah) : ?>
+    <?php elseif ($passwordSalah) : ?>
         <div class="alert alert-danger" role="alert">
             Password Salah
         </div>
